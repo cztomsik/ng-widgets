@@ -1,3 +1,3 @@
 # ngWidgets
 
-[Read the docs](http://rawgithub.com/cztomsik/ngWidgets/tree/master/docs/index.html)
+[Read the docs](https://rawgithub.com/cztomsik/ngWidgets/master/docs/index.html)

@@ -1,0 +1,17 @@
+{
+  "name": "ngWidgets",
+  "version": "0.0.0",
+  "description": "Collection of reusable angularjs components",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify index.js -o ngWidgets.js",
+    "watch": "watchify index.js -o ngWidgets.js --debug"
+  },
+  "author": "cztomsik",
+  "license": "ISC",
+  "devDependencies": {
+    "watchify": "~0.5.0",
+    "browserify": "~3.19.1"
+  }
+}

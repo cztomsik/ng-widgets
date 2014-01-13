@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html ng-app="docs" ng-controller=" Docs ">
+<head>
+  <title></title>
+
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.css">
+</head>
+<body class="container">
+  <h1 class="page-header">ngWidgets</h1>
+  <p class="lead">Collection of reusable angularjs widgets</p>
+
+  <iframe src="http://ghbtns.com/github-btn.html?user=cztomsik&amp;repo=ngWidgets&amp;type=watch&amp;count=true&amp;size=large" allowtransparency="true" frameborder="0" scrolling="0" width="170" height="30"></iframe>
+
+  <br><br>
+
+  <h2>Quickstart</h2>
+  <ul>
+    <li>include <code>&lt;script src="ngWidgets.js"</code></li>
+    <li>define angularjs dependency <code>ngWidgets</code></li>
+  </ul>
+
+  <h2 class="page-header">&lt;a-list</h2>
+  <nw-list items=" users " ng-model=" user " list-class=" nav " active-class=" open " autoselect></nw-list>
+
+  <h2 class="page-header">&lt;nw-field</h2>
+  <nw-field label="Name">
+    <input ng-model=" user.name " required>
+  </nw-field>
+  <nw-field label="Email">
+    <input type="email" ng-model=" user.email " required>
+  </nw-field>
+
+  <h2 class="page-header">&lt;nw-panel</h2>
+  <nw-panel heading="Panel">
+    User contents: {{ user }}
+  </nw-panel>
+
+  <h2 class="page-header">&lt;nw-grid</h2>
+  <nw-grid items=" users " ng-model=" user ">
+    <nw-grid-col name="Name"></nw-grid-col>
+    <nw-grid-col name="Actions"></nw-grid-col>
+  </nw-grid>
+
+
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
+  <script src="../ngWidgets.js"></script>
+  <script>
+    function Docs($scope){
+      $scope.users = [
+        {name: 'Admin', email: 'admin@site.com'},
+        {name: 'User', email: 'user@site.com'}
+      ];
+    }
+
+    angular
+      .module('docs', ['ngWidgets'])
+
+  </script>
+</body>
+</html>

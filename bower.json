@@ -1,0 +1,18 @@
+{
+  "name": "ngWidgets",
+  "main": "ngWidgets.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/cztomsik/ngWidgets",
+  "authors": [
+    "Kamil Tomsik <info@tomsik.cz>"
+  ],
+  "description": "Collection of reusable angularjs widgets",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

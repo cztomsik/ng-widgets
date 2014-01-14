@@ -1,28 +1,32 @@
 'use strict';
 
-module.exports = {
-  restrict: 'E',
-  template:
-    '<ul ng-show=" items " class="{{listClass}}">' +
-    '  <li ng-repeat=" it in items " ng-class=" { {{activeClass}}: ngModel.$modelValue == it} ">' +
-    '    <a href="javascript:void()" ng-click=" ngModel.$setViewValue(it) ">{{ it.name }}</a>' +
-    '  </li>' +
-    '</ul>',
-  scope: {
-    emptyText: '@',
-    listClass: '@',
-    activeClass: '@'
-  },
-  controller: function($scope, $attrs, $element){
-    $scope.emptyText = $scope.emptyText || 'No items found';
-    $scope.listClass = $scope.listClass || 'list-unstyled';
-    $scope.activeClass = $scope.activeClass || 'active';
-    $scope.items = [];
+module.exports = function(ngWidget){
+  return ngWidget({
+    template:
+      '<ul ng-show=" items " class="{{listClass}}">' +
+      '  <li ng-repeat=" it in items " ng-class=" { {{activeClass}}: ngModel.$modelValue == it} ">' +
+      '    <a href="javascript:void(0)" ng-click=" ngModel.$setViewValue(it) ">{{ it.name }}</a>' +
+      '  </li>' +
+      '</ul>',
 
-    $scope.ngModel = $element.controller('ngModel');
+    items: [],
+    emptyText: '',
+    listClass: 'list-unstyled',
+    activeClass: 'active',
 
-    $scope.$parent.$watchCollection($attrs.items, function(items){
-      $scope.items = items;
-    });
-  }
+    autoselect: false,
+
+    init: function($scope, $element){
+      $scope.ngModel = $element.controller('ngModel');
+
+      //TODO: mixin? dependent on ng-options?
+      if (this.autoselect){
+        this.$watch('items', this.autoselectFirst.bind(this));
+      }
+    },
+
+    autoselectFirst: function(){
+      return this.ngModel && ( ! this.ngModel.$modelValue ) && this.ngModel.$setViewValue(this.items[ Object.keys(this.items)[0] ]);
+    }
+  });
 };

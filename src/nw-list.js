@@ -5,9 +5,10 @@ module.exports = function(ngWidget){
     template:
       '<ul ng-show=" items " class="{{listClass}}">' +
       '  <li ng-repeat=" it in items " ng-class=" { {{activeClass}}: ngModel.$modelValue == it} ">' +
-      '    <a href="javascript:void(0)" ng-click=" ngModel.$setViewValue(it) ">{{ it.name }}</a>' +
+      '    <a href="" ng-click=" ngModel.$setViewValue(it) ">{{ it.name }}</a>' +
       '  </li>' +
-      '</ul>',
+      '</ul>' +
+      '<p ng-hide=" items " class="empty-text">{{ emptyText }}</p>',
 
     items: [],
     emptyText: '',
@@ -19,14 +20,14 @@ module.exports = function(ngWidget){
     init: function($scope, $element){
       $scope.ngModel = $element.controller('ngModel');
 
-      //TODO: mixin? dependent on ng-options?
-      if (this.autoselect){
-        this.$watch('items', this.autoselectFirst.bind(this));
-      }
+      //TODO: mixin?
+      $scope.$watch('autoselect && items && ( ! ngModel.$modelValue)', function(result){
+        return result && $scope.ngModel.$setViewValue($scope.firstItem());
+      });
     },
 
-    autoselectFirst: function(){
-      return this.ngModel && ( ! this.ngModel.$modelValue ) && this.ngModel.$setViewValue(this.items[ Object.keys(this.items)[0] ]);
+    firstItem: function(){
+      return this.items[ Object.keys(this.items)[0] ];
     }
   });
 };

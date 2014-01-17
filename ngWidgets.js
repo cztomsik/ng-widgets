@@ -255,8 +255,8 @@ module.exports = function(ngWidget){
       '    <tr>' +
       '    <th' +
       '      ng-repeat=" col in cols " ' +
-      '      ng-class=" {active: col == sortCol} " ' +
-      '      ng-click=" $parent.reverse = ((col == sortCol) && !reverse); $parent.sortCol = col " ' +
+      '      ng-class=" {active: col.index == sortIndex} " ' +
+      '      ng-click=" $parent.reverse = ((col.index == sortIndex) && !reverse); $parent.sortIndex = col.index " ' +
       '    >' +
       '      {{ col.name }} ' +
       '      <i class="fa fa-caret-{{ reverse ?\'down\' :\'up\' }} pull-right"></i>' +
@@ -270,8 +270,9 @@ module.exports = function(ngWidget){
 
     items: [],
     cols: [],
-    sortCol: null,
+    sortIndex: null,
     reverse: false,
+    autosort: true,
 
     init: function($scope, $element, $timeout, $compile, $transclude){
       var
@@ -288,10 +289,12 @@ module.exports = function(ngWidget){
 
       //grid-col names not resolved yet (TODO: invoke ctrl after binding setup?)
       $timeout(function(){
-        $scope.sortCol = $scope.sortCol || $scope.cols[0];
+        if ($scope.autosort){
+          $scope.sortIndex = $scope.sortIndex || $scope.cols[0].index;
+        }
 
         //init repeater
-        tr.attr('ng-repeat', ' it in items | orderBy:sortCol.index:reverse ');
+        tr.attr('ng-repeat', ' it in items | orderBy:sortIndex:reverse ');
 
         $scope.cols.forEach(function(col){
           trHtml += '<td>' + col.template() + '</td>';

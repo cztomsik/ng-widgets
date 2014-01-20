@@ -94,13 +94,15 @@ module.exports = function(widgetDef){
     angular.element(document.body).append(angular.element('<style></style>').html(widgetDef.style));
   }
 
-  //TODO: publish widgetDef itself under SOME name (directives can be injected, so we can override defaults)
   return {
     restrict: 'E',
     template: widgetDef.template || '',
     transclude: true,
     scope: {},
-    controller: widgetCtrl(widgetDef)
+    controller: widgetCtrl(widgetDef),
+
+    //TODO: consider extending directiveDefinitionObject & separating from defaults
+    widgetDef: widgetDef
   };
 };
 
@@ -185,9 +187,15 @@ module.exports = function(ngWidget){
       '  </p>' +
 
       '  <ul class="help-block" ng-show=" ngModel.$dirty " style=" font-weight: bold ">' +
-      '    <li ng-repeat=" (k, e) in ngModel.$error " ng-show=" e ">This field is {{ k }}</li>' +
+      '    <li ng-repeat=" (k, e) in ngModel.$error " ng-show=" e ">{{ messages[k] || k }}</li>' +
       '  </ul>' +
       '</div>',
+
+    messages: {
+      'required': 'This field is required',
+      'minlength': 'Too short',
+      'maxlength': 'Too long'
+    },
 
     label: '',
     help: '',

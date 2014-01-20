@@ -12,9 +12,15 @@ module.exports = function(ngWidget){
       '  </p>' +
 
       '  <ul class="help-block" ng-show=" ngModel.$dirty " style=" font-weight: bold ">' +
-      '    <li ng-repeat=" (k, e) in ngModel.$error " ng-show=" e ">This field is {{ k }}</li>' +
+      '    <li ng-repeat=" (k, e) in ngModel.$error " ng-show=" e ">{{ messages[k] || k }}</li>' +
       '  </ul>' +
       '</div>',
+
+    messages: {
+      'required': 'This field is required',
+      'minlength': 'Too short',
+      'maxlength': 'Too long'
+    },
 
     label: '',
     help: '',

@@ -7,13 +7,15 @@ module.exports = function(widgetDef){
     angular.element(document.body).append(angular.element('<style></style>').html(widgetDef.style));
   }
 
-  //TODO: publish widgetDef itself under SOME name (directives can be injected, so we can override defaults)
   return {
     restrict: 'E',
     template: widgetDef.template || '',
     transclude: true,
     scope: {},
-    controller: widgetCtrl(widgetDef)
+    controller: widgetCtrl(widgetDef),
+
+    //TODO: consider extending directiveDefinitionObject & separating from defaults
+    widgetDef: widgetDef
   };
 };
 

@@ -3,7 +3,11 @@
 var angular = require('angular');
 
 module.exports = function(selector){
-  return angular.element([].map.call(this, function(el){
-    return el.querySelectorAll(selector);
-  }));
+  var res = [];
+
+  [].forEach.call(this, function(el){
+    res.push.apply(res, el.querySelectorAll(selector));
+  });
+
+  return angular.element(res);
 };

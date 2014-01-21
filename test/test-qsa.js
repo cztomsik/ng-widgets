@@ -17,4 +17,8 @@ describe('angular.element().qsa()', function(){
   it('resolves even classes', function(){
     assert(el.qsa('.test').length === 1, 'no div.test found');
   });
+
+  it('works with hasClass()', function(){
+    assert(el.qsa('.test').hasClass('test') === true, '.test does not know about its class');
+  });
 });

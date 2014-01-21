@@ -2,22 +2,26 @@
 
 var
   assert = require('assert'),
-  angular = require('angular'),
-  ngWidgets = require('..'),
-
-  $injector = angular.injector(['ng', 'ngWidgets']),
-  $scope = $injector.get('$rootScope').$new(true),
-  $compile = $injector.get('$compile')
+  example = require('./runner/example')
 ;
 
 describe('nw-panel', function(){
-  var element = angular.element(
-    '<nw-panel>Test</nw-panel>'
-  );
-
-  $compile(element)($scope);
+  var
+    el = example('<nw-panel name="{{ name }}">Hello world</nw-panel>')
+  ;
 
   it('represents bootstrap panel', function(){
-    assert(element.qsa('nw-panel .panel').length, 'no .panel was found');
+    assert(el.qsa('.panel').length, 'no .panel was found');
+  });
+
+  it('does not show heading by default', function(){
+    assert(el.qsa('.panel-heading').hasClass('ng-hide'), 'heading not hidden');
+  });
+
+  it('shows its name in heading', function(){
+    el.scope().name = 'not empty';
+    el.scope().$apply();
+
+    assert( ! el.find('.panel-heading').hasClass('ng-hide'), 'heading not shown');
   });
 });

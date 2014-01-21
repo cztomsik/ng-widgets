@@ -2,16 +2,18 @@
 
 var
   angular = require('angular'),
+  ngWidgets = require('../..'),
 
-  testCaseElement
+  $injector = angular.injector(['ng', 'ngWidgets']),
+  $compile = $injector.get('$compile'),
+  $rootScope = $injector.get('$rootScope')
 ;
 
-module.exports = {
-  html: function(html){
-    testCaseElement = angular.element(html);
-  },
+module.exports = function(html){
+  var
+    element = angular.element(html),
+    scope = $rootScope.$new(true)
+  ;
 
-  find: function(){
-    return testCaseElement.find.apply(testCaseElement, arguments);
-  }
+  return $compile(element)(scope) && element;
 };

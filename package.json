@@ -1,6 +1,6 @@
 {
   "name": "ngWidgets",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Collection of reusable angularjs components",
   "main": "index.js",
   "scripts": {

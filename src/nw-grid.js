@@ -63,6 +63,8 @@ module.exports = function(ngWidget){
 
       //grid-col names not resolved yet (TODO: invoke ctrl after binding setup?)
       $timeout(function(){
+        //mozna by bylo lepsi:
+        //  $scope.$watch('autosort && ( ! sortCol)')
         if ($scope.autosort){
           $scope.sortCol = $scope.sortCol || $scope.cols[0];
         }

@@ -1,10 +1,11 @@
 'use strict';
 
-/* global angular */
+var angular = require('angular');
+
 module.exports = function(widgetDef){
   //TODO: make it overridable (timeout?)
   if (widgetDef.style){
-    angular.element(document.body).append(angular.element('<style></style>').html(widgetDef.style));
+    angular.element('head').append(angular.element('<style></style>').html(widgetDef.style));
   }
 
   return {
@@ -66,6 +67,7 @@ function setupWatches($scope, $attrs, widgetDef){
       }
 
       //expression otherwise
+      //TODO: trim
       return $scope.$watch('$parent.' + $attrs[k], function(val){
         $scope[k] = (!! val) && k;
       });

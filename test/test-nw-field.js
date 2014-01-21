@@ -11,7 +11,7 @@ describe('nw-field', function(){
   ;
 
   it('represents bootstrap form-group', function(){
-    assert(el.qsa('.form-group').length, 'no .form-gorup was found');
+    assert(el.qsa('.form-group').length, 'no .form-group was found');
   });
 
   it('set label proper element', function(){

@@ -7,7 +7,7 @@ var
 module.exports = function(widgetDef){
   //TODO: make it overridable (timeout?)
   if (widgetDef.style){
-    angular.element(global.document || []).append(angular.element('<style></style>').html(widgetDef.style));
+    angular.element((global.document && global.document.head) || []).append(angular.element('<style></style>').html(widgetDef.style));
   }
 
   return {

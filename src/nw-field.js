@@ -27,7 +27,8 @@ module.exports = function(ngWidget){
 
     init: function($scope, $element, $timeout){
       $timeout(function(){
-        $scope.ngModel = $element.find('content').children().addClass('form-control').controller('ngModel');
+        var control = $element.find('select, input, textarea').not('[type=checkbox], [type=radio]');
+        $scope.ngModel = control.addClass('form-control').controller('ngModel');
       });
     }
   });

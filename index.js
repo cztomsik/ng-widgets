@@ -7,7 +7,7 @@ var
   ngWidgets = angular.module('ngWidgets', [])
 ;
 
-angular.element.prototype.qsa = require('./src/qsa.js');
+angular.element.prototype.find = require('./src/qsa.js');
 
 ngWidgets
   .value('ngWidget', require('./src/ngWidget.js'))

@@ -3,22 +3,25 @@
 var
   assert = require('assert'),
   angular = require('angular'),
-  qsa = require('../src/qsa')
+  ngWidgets = require('..')
 ;
 
-describe('angular.element().qsa()', function(){
-  var el = angular.element('<div><div class="test"><span>test</span></div></div>');
+describe('angular.element().find()', function(){
+  var el = angular.element('<test><div class="test"><span>test</span></div></test>');
 
-  it('resolves what .find() does', function(){
-    assert(el.find('span').length === 1, 'no span found');
-    assert(el.qsa('span').length === 1, 'no span found');
+  it('resolves by tagName', function(){
+    assert(el.find('div').length, 'no span found');
+    assert(el.find('span').length, 'no span found');
+
+    assert(el.find('div, span').length === 2, '2 elements expected');
   });
 
-  it('resolves even classes', function(){
-    assert(el.qsa('.test').length === 1, 'no div.test found');
+  it('resolves by classes, attributes, etc.', function(){
+    assert(el.find('.test').length, 'no .test found');
+    assert(el.find('[class=test]').length, 'no [class=test] found');
   });
 
-  it('works with hasClass()', function(){
-    assert(el.qsa('.test').hasClass('test') === true, '.test does not know about its class');
+  it('is still chainable', function(){
+    assert(el.find('.test').hasClass('test'));
   });
 });

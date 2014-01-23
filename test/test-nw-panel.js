@@ -7,21 +7,24 @@ var
 
 describe('nw-panel', function(){
   var
-    el = example('<nw-panel name="{{ name }}">Hello world</nw-panel>')
+    el = example('<nw-panel name="Hello">Hello world!</nw-panel>'),
+    panel = el.find('.panel'),
+    panelHeading = el.find('.panel-heading')
   ;
 
-  it('represents bootstrap panel', function(){
-    assert(el.qsa('.panel').length, 'no .panel was found');
+  it('renders .panel', function(){
+    assert(panel.length);
   });
 
-  it('does not show heading by default', function(){
-    assert(el.qsa('.panel-heading').hasClass('ng-hide'), 'heading not hidden');
+  it('shows [name] in .panel-heading', function(){
+    assert( ! panelHeading.hasClass('ng-hide'));
+    assert(panelHeading.text() === 'Hello');
   });
 
-  it('shows its name in heading', function(){
-    el.scope().name = 'not empty';
-    el.scope().$apply();
+  it('.panel-heading hidden when empty', function(){
+    el.isolateScope().name = '';
+    el.isolateScope().$apply();
 
-    assert( ! el.find('.panel-heading').hasClass('ng-hide'), 'heading not shown');
+    assert(panelHeading.hasClass('ng-hide'));
   });
 });

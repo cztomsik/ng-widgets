@@ -15,6 +15,7 @@ ngWidgets
   .directive('content', require('./src/content'))
   .directive('nwList', require('./src/nw-list'))
   .directive('nwField', require('./src/nw-field'))
+  .directive('nwRow', require('./src/nw-row'))
   .directive('nwPanel', require('./src/nw-panel'))
   .directive('nwModal', require('./src/nw-modal'))
 

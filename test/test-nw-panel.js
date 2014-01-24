@@ -18,15 +18,16 @@ describe('nw-panel', function(){
   });
 
   it('shows [name] in .panel-heading', function(){
-    assert( ! panelHeading.hasClass('ng-hide'));
-    assert(panelHeading.text() === 'Hello');
+    assert.equal(panelHeading.text(), 'Hello');
   });
 
   it('shows content in .panel-body', function(){
-    assert(panelBody.text().trim() === 'Hello world!');
+    assert.equal(panelBody.text().trim(), 'Hello world!');
   });
 
   it('.panel-heading hidden when empty', function(){
+    assert( ! panelHeading.hasClass('ng-hide'));
+
     el.isolateScope().name = '';
     el.isolateScope().$apply();
 

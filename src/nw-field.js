@@ -8,10 +8,6 @@ module.exports = function(ngWidget){
       '  <content></content>' +
       '</div>',
 
-    scope: {
-      label: '@'
-    },
-
     link: function($scope, $element){
       var control = $element.find('textarea, select, input:not([type="radio"]):not([type="checkbox"])');
 

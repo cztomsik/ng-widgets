@@ -8,10 +8,6 @@ module.exports = function(ngWidget){
       '  <div class="panel-body">' +
       '    <content></content>' +
       '  </div>' +
-      '</div>',
-
-    scope: {
-      name: '@'
-    }
+      '</div>'
   });
 };

@@ -13,7 +13,7 @@ module.exports = function(ngWidget){
 
     template:
       '<div class="modal" role="dialog"><div class="modal-dialog"><div class="modal-content">' +
-      '  <div class="modal-header" ng-show=" header "><h3 class="modal-title">{{ header }}</h3></div>' +
+      '  <div class="modal-header" ng-show=" name "><h3 class="modal-title">{{ name }}</h3></div>' +
       '  <div class="modal-body">' +
       '    <content></content>' +
       '  </div>' +

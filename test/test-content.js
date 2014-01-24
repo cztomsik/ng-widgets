@@ -9,17 +9,18 @@ var
 
 describe('content', function(){
   var
-    $injector = angular.bootstrap('<test><div ng-init=" changed = true ">Hello</div></test>', [ngWidgets.name, withTestDirective]),
-    $rootScope = $injector.get('$rootScope'),
+    html = '<test><div ng-init=" changed = true ">Hello</div></test>',
+    $injector = angular.bootstrap(html, [ngWidgets.name, withTestDirective]),
+    $scope = $injector.get('$rootScope'),
     el = $injector.get('$rootElement')
   ;
 
   it('transcludes content', function(){
-    assert(el.text() === 'Hello world');
+    assert.equal(el.text(), 'Hello world');
   });
 
   it('uses parent scope', function(){
-    assert($rootScope.changed);
+    assert($scope.changed);
   });
 
   function withTestDirective($compileProvider){

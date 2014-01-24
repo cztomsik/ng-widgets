@@ -6,30 +6,18 @@ module.exports = function(ngWidget){
       '<div class="form-group" ng-class=" {\'has-error\': ngModel.$dirty && ngModel.$invalid} ">' +
       '  <label ng-show=" label " class="control-label">{{ label }}</label>' +
       '  <content></content>' +
-
-      '  <p class="help-block">' +
-      '    {{ help }}' +
-      '  </p>' +
-
-      '  <ul class="help-block" ng-show=" ngModel.$dirty " style=" font-weight: bold ">' +
-      '    <li ng-repeat=" (k, e) in ngModel.$error " ng-show=" e ">{{ messages[k] || k }}</li>' +
-      '  </ul>' +
       '</div>',
 
-    messages: {
-      'required': 'This field is required',
-      'minlength': 'Too short',
-      'maxlength': 'Too long'
+    scope: {
+      label: '@'
     },
 
-    label: '',
-    help: '',
+    link: function($scope, $element){
+      var control = $element.find('textarea, select, input:not([type="radio"]):not([type="checkbox"])');
 
-    init: function($scope, $element, $timeout){
-      $timeout(function(){
-        var control = $element.find('select, input, textarea').not('[type=checkbox], [type=radio]');
-        $scope.ngModel = control.addClass('form-control').controller('ngModel');
-      });
+      $scope.ngModel = control.controller('ngModel');
+
+      control.addClass('form-control');
     }
   });
 };

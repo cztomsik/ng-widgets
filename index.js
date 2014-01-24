@@ -1,11 +1,11 @@
 'use strict';
 
-module.exports = ngWidgets;
-
 var
   angular = require('angular'),
   ngWidgets = angular.module('ngWidgets', [])
 ;
+
+module.exports = ngWidgets;
 
 angular.element.prototype.find = require('./src/qsa.js');
 
@@ -19,8 +19,8 @@ ngWidgets
   .directive('nwModal', require('./src/nw-modal'))
 
   .directive('nwGrid', require('./src/nw-grid'))
-  .directive('nwGridCol', require('./src/nw-grid-col'))
+//  .directive('nwGridCol', require('./src/nw-grid-col'))
 
   .directive('nwTabs', require('./src/nw-tabs'))
-  .directive('nwTab', require('./src/nw-tab'))
+//  .directive('nwTab', require('./src/nw-tab'))
 ;

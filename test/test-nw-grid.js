@@ -6,7 +6,7 @@ var
 ;
 
 describe('nw-grid', function(){
-  var
+/*  var
     el = example(
       '<nw-grid items=" users ">' +
       '  <nw-grid-col name="Name" index="name"></nw-grid-col>' +
@@ -15,21 +15,24 @@ describe('nw-grid', function(){
       '  </nw-grid-col>' +
       '</nw-grid>'
     ),
-    table = el.find('.table'),
-    rows = el.find('tbody tr')
+    table = el.find('.table')
   ;
 
-  el.isolateScope().users = [
+  el.scope().users = [
     {name: 'Admin'},
     {name: 'Joe Bloggs'},
     {name: 'John Doe'}
   ];
+  el.scope().$apply();
 
-  /*
-  TODO: $timeout transclude
-  it('renders .table with 3 rows', function(){
+  it('renders .table with 2 cols & 3 rows', function(){
+    var
+      cols = el.find('thead th'),
+      rows = el.find('tbody tr')
+    ;
+
     assert(table.length);
+    assert(cols.length === 2);
     assert(rows.length === 3);
-  });
-  */
+  });*/
 });

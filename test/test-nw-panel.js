@@ -9,7 +9,8 @@ describe('nw-panel', function(){
   var
     el = example('<nw-panel name="Hello">Hello world!</nw-panel>'),
     panel = el.find('.panel'),
-    panelHeading = el.find('.panel-heading')
+    panelHeading = el.find('.panel-heading'),
+    panelBody = el.find('.panel-body')
   ;
 
   it('renders .panel', function(){
@@ -19,6 +20,10 @@ describe('nw-panel', function(){
   it('shows [name] in .panel-heading', function(){
     assert( ! panelHeading.hasClass('ng-hide'));
     assert(panelHeading.text() === 'Hello');
+  });
+
+  it('shows content in .panel-body', function(){
+    assert(panelBody.text().trim() === 'Hello world!');
   });
 
   it('.panel-heading hidden when empty', function(){

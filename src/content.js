@@ -3,7 +3,7 @@
 module.exports = function(){
   return {
     restrict: 'E',
-    controller: function($scope, $element, $transclude){
+    link: function($scope, $element, $attrs, ctrls, $transclude){
       $transclude($scope.$parent, $element.append.bind($element));
     }
   };

@@ -9,7 +9,8 @@
     "verify": "npm test && npm run lint",
     "test": "mocha",
     "lint": "jshint index.js src/*.js",
-    "watch": "watchify index.js -o ngWidgets.js --debug"
+    "watch": "watchify index.js -o ngWidgets.js --debug",
+    "watch-test": "mocha --check-leaks --reporter spec --watch --growl"
   },
   "author": "cztomsik",
   "license": "ISC",

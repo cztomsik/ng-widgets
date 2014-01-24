@@ -22,10 +22,9 @@ describe('nw-field', function(){
     assert(controlLabel.text() === 'Name');
   });
 
-  //TODO: cant be tested before $timeout
-  /*it('adds .form-control class to inputs', function(){
+  it('adds .form-control class to inputs', function(){
     assert(input.hasClass('form-control'));
-  });*/
+  });
 
   it('.control-label hidden when empty', function(){
     el.isolateScope().label = '';

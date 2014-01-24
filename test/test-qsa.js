@@ -24,4 +24,12 @@ describe('angular.element().find()', function(){
   it('is still chainable', function(){
     assert(el.find('.test').hasClass('test'));
   });
+
+  it('degrades gracefully with empty result', function(){
+    var ghost = el.find('not-found');
+
+    assert(ghost.length === 0);
+    assert(ghost.text() === '');
+    assert( ! ghost.hasClass('test'));
+  });
 });

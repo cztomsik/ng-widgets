@@ -10,6 +10,8 @@ module.exports = function(ngWidget){
       '  </div>' +
       '</div>',
 
-    name: ''
+    scope: {
+      name: '@'
+    }
   });
 };

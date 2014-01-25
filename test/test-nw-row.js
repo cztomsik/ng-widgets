@@ -8,14 +8,18 @@ var
 describe('<nw-row', function(){
   var
     el = example(
-      '<nw-row item-class="col-md-4">' +
-      '  <nw-field label="First name"><input></nw-field>' +
-      '  <nw-field label="Last name"><input></nw-field>' +
+      '<nw-row item-class="col-sm-4">' +
+      '  <nw-field label="First name">' +
+      '    <input>' +
+      '  </nw-field>' +
+      '  <nw-field label="Last name">' +
+      '    <input>' +
+      '  </nw-field>' +
       '</nw-row>'
     ),
     row = el.find('.row'),
     fields = el.find('nw-field'),
-    cols = el.find('.col-md-4')
+    cols = el.find('.col-sm-4')
   ;
 
   it('renders .row with transcluded contents', function(){

@@ -7,7 +7,12 @@
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 
   <style>
-    example{display: block; padding: 1em 0}
+    section{margin-bottom: 4em}
+
+    dl, example{display: block; position: relative; padding: 1em 0}
+    pre{opacity: 0; position: absolute; right: 4em; bottom: 0; font-size: 0.8em; padding: 1em; box-shadow: 3px 5px 20px #666}
+
+    dt:hover + dd pre, example:hover pre{opacity: 1; transition: opacity 0.3s;}
   </style>
 </head>
 <body class="container">
@@ -15,7 +20,7 @@
   <p class="lead">Collection of reusable angularjs widgets</p>
 
   <div class="alert alert-info">
-    Docs are on their way. Please come back next week.
+    Docs are in a very early stage, it will get better soon.
   </div>
 
   <iframe src="https://ghbtns.com/github-btn.html?user=cztomsik&amp;repo=ngWidgets&amp;type=watch&amp;count=true&amp;size=large" allowtransparency="true" frameborder="0" scrolling="0" width="170" height="30"></iframe>

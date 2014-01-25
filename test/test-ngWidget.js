@@ -27,6 +27,11 @@ describe('ngWidget()', function(){
     assert.equal(definition.restrict, 'EA');
   });
 
+//  it('appends styles to head', function(){
+//    global.document = {head}
+//    ngWidget({style: ''});
+//  });
+
   it('link() is called', function(done){
     var definition = ngWidget({link: done});
 

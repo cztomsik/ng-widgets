@@ -1,0 +1,203 @@
+    <section class="suite">
+      <h1>content</h1>
+      <dl>
+        <dt>transcludes content</dt>
+        <dd><pre><code>assert.equal(el.text(), 'Hello world');</code></pre></dd>
+        <dt>uses parent scope</dt>
+        <dd><pre><code>assert($scope.changed);</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>ngWidget()</h1>
+      <dl>
+        <dt>returns preinitialized directive definition</dt>
+        <dd><pre><code>var definition = ngWidget();
+assert.equal(definition.restrict, 'E');
+assert.strictEqual(definition.template, '');
+assert.strictEqual(definition.transclude, true);
+assert.deepEqual(definition.scope, {});
+//do the magic
+assert(definition.compile);</code></pre></dd>
+        <dt>defaults can be overridden</dt>
+        <dd><pre><code>var definition = ngWidget({
+  restrict: 'EA'
+});
+assert.equal(definition.restrict, 'EA');</code></pre></dd>
+        <dt>link() is called</dt>
+        <dd><pre><code>var definition = ngWidget({link: done});
+definition.compile().post();</code></pre></dd>
+        <dt>binds text attributes to scope</dt>
+        <dd><pre><code>var
+  html = '&lt;test hello=&quot;Hello&quot; world=&quot;{{ world }}&quot;&gt;&lt;/test&gt;',
+  definition = ngWidget({template: '{{ hello }} {{ world }}'}),
+  $injector = angular.bootstrap(html, [withTestDirective]),
+  $scope = $injector.get('$rootScope'),
+  $element = $injector.get('$rootElement')
+;
+$scope.world = 'world';
+$scope.$apply();
+assert.equal($element.text(), 'Hello world');
+
+function withTestDirective($compileProvider){
+  $compileProvider.directive('test', function(){
+    return definition;
+  });
+}</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>ngWidgets</h1>
+      <dl>
+<example> <nw-panel name="{{ panelName }}">  <nw-field label="Panel name">    <input ng-model=" panelName ">  </nw-field></nw-panel> <pre ng-non-bindable>&lt;nw-panel name="{{ panelName }}"&gt;
+  &lt;nw-field label="Panel name"&gt;
+    &lt;input ng-model=" panelName "&gt;
+  &lt;/nw-field&gt;
+&lt;/nw-panel&gt;
+</pre> </example>
+        <dt>complex example</dt>
+        <dd><pre><code>assert(panelHeading.hasClass('ng-hide'));
+el.scope().panelName = 'Test';
+el.scope().$apply();
+assert( ! panelHeading.hasClass('ng-hide'));
+assert.equal(panelHeading.text(), el.scope().panelName);</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>&lt;nw-field</h1>
+      <dl>
+<example> <nw-field label="Email"><input type="email" ng-model=" email "></nw-field> <pre ng-non-bindable>&lt;nw-field label="Email"&gt;&lt;input type="email" ng-model=" email "&gt;&lt;/nw-field&gt;</pre> </example>
+        <dt>renders .form-group</dt>
+        <dd><pre><code>assert(formGroup.length);</code></pre></dd>
+        <dt>shows [label] in .control-label</dt>
+        <dd><pre><code>assert( ! controlLabel.hasClass('ng-hide'));
+assert.equal(controlLabel.text(), 'Email');</code></pre></dd>
+        <dt>.control-label hidden when empty</dt>
+        <dd><pre><code>el.isolateScope().label = '';
+el.isolateScope().$apply();
+assert(controlLabel.hasClass('ng-hide'));</code></pre></dd>
+        <dt>at first no error is shown</dt>
+        <dd><pre><code>assert( ! formGroup.hasClass('has-error'));</code></pre></dd>
+        <dt>when dirty, invalid field gets .has-error</dt>
+        <dd><pre><code>ngModel.$setViewValue('test');
+el.scope().$apply();
+assert(formGroup.hasClass('has-error'));</code></pre></dd>
+        <dt>adds .form-control to textarea, select, and inputs</dt>
+        <dd><pre><code>var
+  el = example(
+    '&lt;nw-field&gt;' +
+    '  &lt;input&gt;' +
+    '  &lt;select&gt;' +
+    '  &lt;textarea&gt;&lt;/textarea&gt;' +
+    '&lt;/nw-field&gt;'
+  ),
+  formControls = el.find('.form-control')
+;
+assert.equal(formControls.length, 3);</code></pre></dd>
+        <dt>ommits adding .form-control for radios and checkboxes</dt>
+        <dd><pre><code>var
+  el = example(
+    '&lt;nw-field&gt;' +
+    '  &lt;input type=&quot;radio&quot;&gt;' +
+    '  &lt;input type=&quot;checkbox&quot;&gt;' +
+    '&lt;/nw-field&gt;'
+  ),
+  formControls = el.find('.form-control')
+;
+assert( ! formControls.length);</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>&lt;nw-list</h1>
+      <dl>
+<example> <nw-list items=" users " list-class="nav" empty-text="No items">  <template>{{ it.name }}</template></nw-list> <pre ng-non-bindable>&lt;nw-list items=" users " list-class="nav" empty-text="No items"&gt;
+  &lt;template&gt;
+{{ it.name }}&lt;/template&gt;
+&lt;/nw-list&gt;
+</pre> </example>
+        <dt>renders unordered list, with 2 items</dt>
+        <dd><pre><code>var listItems = list.find('li');
+assert(list.length);
+assert.equal(listItems.length, 2);</code></pre></dd>
+        <dt>emptyText is shown instead of empty list</dt>
+        <dd><pre><code>el.scope().users = [];
+el.scope().$apply();
+assert(list.hasClass('ng-hide'));
+assert.equal(el.text().trim(), 'No items');</code></pre></dd>
+        <dt>adds [list-class] to list</dt>
+        <dd><pre><code>assert(list.hasClass('nav'));</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>&lt;nw-modal</h1>
+      <dl>
+<example> <nw-modal name="Hello">Hello World</nw-modal> <pre ng-non-bindable>&lt;nw-modal name="Hello"&gt;Hello World&lt;/nw-modal&gt;</pre> </example>
+        <dt>renders .modal&gt;.modal-dialog&gt;.modal-content</dt>
+        <dd><pre><code>assert(modal.length);
+assert(modalDialog.length);
+assert(modalContent.length);</code></pre></dd>
+        <dt>shows [name] in .modal-title</dt>
+        <dd><pre><code>assert.equal(modalTitle.text(), 'Hello');</code></pre></dd>
+        <dt>shows content in .modal-body</dt>
+        <dd><pre><code>assert.equal(modalBody.text().trim(), 'Hello World');</code></pre></dd>
+        <dt>.modal-header hidden when empty</dt>
+        <dd><pre><code>assert( ! modalHeader.hasClass('ng-hide'));
+el.isolateScope().name = '';
+el.isolateScope().$apply();
+assert(modalHeader.hasClass('ng-hide'));</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>&lt;nw-panel</h1>
+      <dl>
+<example> <nw-panel name="Hello">Hello world!</nw-panel> <pre ng-non-bindable>&lt;nw-panel name="Hello"&gt;Hello world!&lt;/nw-panel&gt;</pre> </example>
+        <dt>renders .panel</dt>
+        <dd><pre><code>assert(panel.length);</code></pre></dd>
+        <dt>shows [name] in .panel-heading</dt>
+        <dd><pre><code>assert.equal(panelHeading.text(), 'Hello');</code></pre></dd>
+        <dt>shows content in .panel-body</dt>
+        <dd><pre><code>assert.equal(panelBody.text().trim(), 'Hello world!');</code></pre></dd>
+        <dt>.panel-heading hidden when empty</dt>
+        <dd><pre><code>assert( ! panelHeading.hasClass('ng-hide'));
+el.isolateScope().name = '';
+el.isolateScope().$apply();
+assert(panelHeading.hasClass('ng-hide'));</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>&lt;nw-row</h1>
+      <dl>
+<example> <nw-row item-class="col-sm-4">  <nw-field label="First name">    <input>  </nw-field>  <nw-field label="Last name">    <input>  </nw-field></nw-row> <pre ng-non-bindable>&lt;nw-row item-class="col-sm-4"&gt;
+  &lt;nw-field label="First name"&gt;
+    &lt;input&gt;
+  &lt;/nw-field&gt;
+  &lt;nw-field label="Last name"&gt;
+    &lt;input&gt;
+  &lt;/nw-field&gt;
+&lt;/nw-row&gt;
+</pre> </example>
+        <dt>renders .row with transcluded contents</dt>
+        <dd><pre><code>assert(row.length);
+assert(fields.length === 2);</code></pre></dd>
+        <dt>appends itemClass to all children</dt>
+        <dd><pre><code>assert(cols.length == 2);</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>angular.element().find()</h1>
+      <dl>
+        <dt>resolves by tagName</dt>
+        <dd><pre><code>assert(el.find('div').length, 'no span found');
+assert(el.find('span').length, 'no span found');
+assert(el.find('div, span').length === 2, '2 elements expected');</code></pre></dd>
+        <dt>resolves by classes, attributes, etc.</dt>
+        <dd><pre><code>assert(el.find('.test').length, 'no .test found');
+assert(el.find('[class=test]').length, 'no [class=test] found');</code></pre></dd>
+        <dt>is still chainable</dt>
+        <dd><pre><code>assert(el.find('.test').hasClass('test'));</code></pre></dd>
+        <dt>degrades gracefully with empty result</dt>
+        <dd><pre><code>var ghost = el.find('not-found');
+assert(ghost.length === 0);
+assert(ghost.text() === '');
+assert( ! ghost.hasClass('test'));</code></pre></dd>
+      </dl>
+    </section>

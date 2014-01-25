@@ -5,7 +5,7 @@ var
   example = require('./runner/example')
 ;
 
-describe('nw-field', function(){
+describe('<nw-field', function(){
   var
     el = example('<nw-field label="Email"><input type="email" ng-model=" email "></nw-field>'),
     formGroup = el.find('.form-group'),

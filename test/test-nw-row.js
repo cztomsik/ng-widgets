@@ -5,7 +5,7 @@ var
   example = require('./runner/example')
 ;
 
-describe('nw-row', function(){
+describe('<nw-row', function(){
   var
     el = example(
       '<nw-row item-class="col-md-4">' +

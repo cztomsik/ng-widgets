@@ -5,7 +5,7 @@ var
   example = require('./runner/example')
 ;
 
-describe('nw-tabs', function(){
+describe('<nw-tabs', function(){
   var
     el = example(
       '<nw-tabs>' +

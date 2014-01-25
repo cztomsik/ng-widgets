@@ -5,7 +5,7 @@ var
   example = require('./runner/example')
 ;
 
-describe('nw-modal', function(){
+describe('<nw-modal', function(){
   var
     el = example('<nw-modal name="Hello">Hello World</nw-modal>'),
     modal = el.find('.modal'),

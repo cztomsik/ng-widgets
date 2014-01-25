@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html ng-app="docs" ng-controller=" Docs ">
 <head>
-  <title></title>
+  <title>ngWidgets, collection of reusable angularjs widgets</title>
 
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.css">
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+
+  <style>
+    example{display: block; padding: 1em 0}
+  </style>
 </head>
 <body class="container">
   <h1 class="page-header">ngWidgets</h1>
@@ -24,41 +28,17 @@
     <li>define angularjs dependency <code>ngWidgets</code></li>
   </ul>
 
-  <h2 class="page-header">&lt;nw-list</h2>
-  <nw-list items=" users " ng-model=" user " list-class=" nav " active-class=" open " autoselect></nw-list>
+  <br><br>
 
-  <h2 class="page-header">&lt;nw-field</h2>
-  <nw-field label="Name">
-    <input ng-model=" user.name " required>
-  </nw-field>
-  <nw-field label="Email">
-    <input type="email" ng-model=" user.email " required>
-  </nw-field>
-
-  <h2 class="page-header">&lt;nw-panel</h2>
-  <nw-panel name="User data {{ user.name }}">
-    {{ user || 'Please select user' }}
-  </nw-panel>
-
-  <h2 class="page-header">&lt;nw-grid</h2>
-  <nw-grid items=" users " ng-model=" user ">
-    <nw-grid-col name="Name" index=" name "></nw-grid-col>
-    <nw-grid-col name="Actions">
-      <template>
-        <a href="">Edit</a>
-      </template>
-    </nw-grid-col>
-  </nw-grid>
-
-  <h2 class="page-header">&lt;nw-tabs</h2>
-  <nw-tabs>
-    <nw-tab name="First">Content: First</nw-tab>
-    <nw-tab name="Second">Content: Second</nw-tab>
-  </nw-tabs>
+  <div class="alert alert-info" ng-hide=" spec ">
+    <h5><i class="fa fa-spin fa-spinner"></i> Loading spec...</h5>
+    If it doesn't show up in seconds, you may ned to generate spec using <code>npm run doc</code>.
+  </div>
+  <div ng-include=" 'spec.html' " onload=" spec = true "></div>
 
   <br><br><br><br>
 
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.8/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.min.js"></script>
   <script src="../ngWidgets.js"></script>
   <script>
     function Docs($scope){

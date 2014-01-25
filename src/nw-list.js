@@ -10,10 +10,6 @@ module.exports = function(ngWidget){
       '</ul>' +
       '<p ng-hide=" items ">{{ emptyText }}</p>',
 
-    scope: {
-      emptyText: '@?'
-    },
-
     controller: function($scope){
       $scope.emptyText = 'No items found';
     }

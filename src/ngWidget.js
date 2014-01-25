@@ -23,9 +23,17 @@ module.exports = function(widgetDef){
     prelink: function($scope, $element, $attrs){
       for (var k in $attrs.$attr){
         $scope[k] = $attrs[k];
-      }
 
-      console.log($scope);
+        if ($attrs.$$observers && $attrs.$$observers[k]){
+          $attrs.$observe(k, dotSet($scope, k));
+        }
+      }
     }
   }, widgetDef);
 };
+
+function dotSet(obj, prop){
+  return function(val){
+    obj[prop] = val;
+  };
+}

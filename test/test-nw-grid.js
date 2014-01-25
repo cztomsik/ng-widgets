@@ -5,7 +5,7 @@ var
   example = require('./runner/example')
 ;
 
-describe('nw-grid', function(){
+describe('<nw-grid', function(){
   // var
   //   el = example(
   //     '<nw-grid items=" users ">' +

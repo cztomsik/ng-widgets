@@ -5,7 +5,7 @@ var
   example = require('./runner/example')
 ;
 
-describe('nw-list', function(){
+describe('<nw-list', function(){
   var
     el = example(
       '<nw-list items=" users " empty-text="No items">' +

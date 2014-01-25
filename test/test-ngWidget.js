@@ -2,7 +2,8 @@
 
 var
   assert = require('assert'),
-  ngWidget = require('../src/ngWidget')
+  ngWidget = require('../src/ngWidget'),
+  angular = require('angular')
 ;
 
 describe('ngWidget()', function(){
@@ -26,23 +27,31 @@ describe('ngWidget()', function(){
     assert.equal(definition.restrict, 'EA');
   });
 
-  //so we can unit test prelink
-  it('references prelink() & link() methods from compile', function(){
-    //TODO:
+  it('link() is called', function(done){
+    var definition = ngWidget({link: done});
+
+    definition.compile().post();
   });
 
-  it('binds all attributes to scope', function(){
+  it('binds text attributes to scope', function(){
     var
-      definition = ngWidget({
-        template: '{{ hello }}'
-      }),
-      $element = null,
-      $attrs = {hello: 'test', $attr: {hello: 'hello'}},
-      $scope = {}
+      html = '<test hello="Hello" world="{{ world }}"></test>',
+      definition = ngWidget({template: '{{ hello }} {{ world }}'}),
+      $injector = angular.bootstrap(html, [withTestDirective]),
+      $scope = $injector.get('$rootScope'),
+      $element = $injector.get('$rootElement')
     ;
 
-    definition.prelink($scope, $element, $attrs);
+    $scope.world = 'world';
+    $scope.$apply();
 
-    assert.equal($scope.hello, 'test');
+    assert.equal($element.text(), 'Hello world');
+
+
+    function withTestDirective($compileProvider){
+      $compileProvider.directive('test', function(){
+        return definition;
+      });
+    }
   });
 });

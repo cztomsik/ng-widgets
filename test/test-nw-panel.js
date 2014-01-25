@@ -5,7 +5,7 @@ var
   example = require('./runner/example')
 ;
 
-describe('nw-panel', function(){
+describe('<nw-panel', function(){
   var
     el = example('<nw-panel name="Hello">Hello world!</nw-panel>'),
     panel = el.find('.panel'),

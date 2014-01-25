@@ -6,6 +6,7 @@
   "scripts": {
     "patch": "npm run build && npm version patch",
     "build": "npm run verify && browserify index.js | uglifyjs --no-mangle > ngWidgets.js",
+    "doc": "mocha --reporter doc --require test/runner/example-doc > docs/spec.html",
     "verify": "npm test && npm run lint",
     "test": "mocha",
     "lint": "jshint index.js src/*.js",

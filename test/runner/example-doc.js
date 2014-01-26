@@ -7,7 +7,7 @@ var
 
 exampleModule.exports = function(html){
   global.before(function(){
-    console.log('<example>', html, '<pre ng-non-bindable>' + format(html) + '</pre>', '</example>');
+    console.log('<example><div>', html, '</div><pre ng-non-bindable>' + format(html) + '</pre>', '</example>');
   });
 
   return example(html);

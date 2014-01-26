@@ -17,6 +17,9 @@ module.exports = function(ngWidget){
       'nw-grid tr.active td{background: #68c !important; color: #fff !important}',
 
     template:
+      //transclude columns (TODO: make ngWidget() automatically transclude everything)
+      '<content></content>' +
+
       '<table class="table table-striped table-hover table-bordered">' +
       '  <thead>' +
       '    <tr>' +
@@ -33,6 +36,47 @@ module.exports = function(ngWidget){
       '  <tbody>' +
       '    <tr><td>Value</td></tr>' +
       '  </tbody>' +
-      '</table>'
+      '</table>',
+
+    controller: function($scope){
+      $scope.cols = [];
+      $scope.autosort = true;
+
+      $scope.$watch('cols', function(){
+        if ($scope.autosort){
+          $scope.sortCol = $scope.cols[0];
+        }
+      });
+    },
+
+    link: function($scope, $element){
+      //initialize using elements
+      var
+        colEls = $element.find('nw-grid-col'),
+        tr = $element.find('tbody tr'),
+        trHtml = ''
+      ;
+
+      //TODO: this should be in controller, but its too early (attributes are not bound)
+      //  [] support might solve this
+      $scope.$parent.$watchCollection($scope.items, function(itemsColl){
+        $scope.itemsColl = itemsColl || [];
+      });
+
+      //TODO: this is nasty, would be much better to get all hostElement scopes in array
+      angular.forEach(colEls, function(colEl){
+        $scope.cols.push(angular.element(colEl).isolateScope());
+      });
+
+      //init repeater
+      tr.attr('ng-repeat', ' it in itemsColl | orderBy:sortCol.index:reverse ');
+
+      $scope.cols.forEach(function(col){
+        trHtml += '<td>' + col.template() + '</td>';
+      });
+
+      //TODO: find better way to compile new elements in link phase
+      $element.injector().get('$compile')(tr.html(trHtml))($scope);
+    }
   });
 };

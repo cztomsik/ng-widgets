@@ -19,9 +19,11 @@ ngWidgets
   .directive('nwPanel', require('./src/nw-panel'))
   .directive('nwModal', require('./src/nw-modal'))
 
+  .directive('nwLipsum', require('./src/nw-lipsum'))
+
   .directive('nwGrid', require('./src/nw-grid'))
-//  .directive('nwGridCol', require('./src/nw-grid-col'))
+  .directive('nwGridCol', require('./src/nw-grid-col'))
 
   .directive('nwTabs', require('./src/nw-tabs'))
-//  .directive('nwTab', require('./src/nw-tab'))
+  .directive('nwTab', require('./src/nw-tab'))
 ;

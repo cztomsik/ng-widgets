@@ -7,41 +7,56 @@
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
 
   <style>
-    section{margin-bottom: 4em}
+    section{background: #fff; padding: 6em 4em}
+    section:nth-child(2n){background: #eef}
 
     dl, example{display: block; position: relative; padding: 1em 0}
     pre{opacity: 0; position: absolute; right: 4em; bottom: 0; font-size: 0.8em; padding: 1em; box-shadow: 3px 5px 20px #666}
+    example div{max-width: 40em}
 
     dt:hover + dd pre, example:hover pre{opacity: 1; transition: opacity 0.3s;}
+
+    dl{list-style: disc inside}
+    dt{display: list-item}
+
+    .list-unstyled .active{font-weight: bold}
   </style>
 </head>
-<body class="container">
-  <h1 class="page-header">ngWidgets</h1>
-  <p class="lead">Collection of reusable angularjs widgets</p>
+<body>
+  <section>
+    <div class="alert alert-info">
+      <h4>Heads up!</h4>
+      Docs are in a very early stage, <strong>it will get better soon</strong>.
+    </div>
 
-  <div class="alert alert-info">
-    Docs are in a very early stage, it will get better soon.
-  </div>
+    <br><br>
 
-  <iframe src="https://ghbtns.com/github-btn.html?user=cztomsik&amp;repo=ngWidgets&amp;type=watch&amp;count=true&amp;size=large" allowtransparency="true" frameborder="0" scrolling="0" width="170" height="30"></iframe>
+    <h1>
+      ngWidgets
+      <iframe src="https://ghbtns.com/github-btn.html?user=cztomsik&amp;repo=ngWidgets&amp;type=watch&amp;count=true&amp;size=large" allowtransparency="true" frameborder="0" scrolling="0" width="170" height="30"></iframe>
+    </h1>
+    <p class="lead">Collection of reusable angularjs widgets</p>
 
-  <br><br>
+    <p>
+      <a href="https://github.com/cztomsik/ngWidgets/blob/master/index.js" class="btn btn-primary btn-lg">See source code</a>
+      <a href="https://twitter.com/share?url=https://github.com/cztomsik/ngWidgets" class="btn btn-default btn-lg">Share</a>
+    </p>
 
-  <h2>Quickstart</h2>
-  <ul>
-    <li>include <code>&lt;script src="ngWidgets.js"</code></li>
-    <li>define angularjs dependency <code>ngWidgets</code></li>
-  </ul>
+    <div class="alert alert-info" ng-hide=" spec ">
+      <h5><i class="fa fa-spin fa-spinner"></i> Loading spec...</h5>
+      If it doesn't show up in seconds, you may ned to generate spec using <code>npm run doc</code>.
+    </div>
+  </section>
 
-  <br><br>
+  <section>
+    <h1>Quickstart</h1>
+    <ul>
+      <li>include <code>&lt;script src="ngWidgets.js"</code></li>
+      <li>define angularjs dependency <code>ngWidgets</code></li>
+    </ul>
+  </section>
 
-  <div class="alert alert-info" ng-hide=" spec ">
-    <h5><i class="fa fa-spin fa-spinner"></i> Loading spec...</h5>
-    If it doesn't show up in seconds, you may ned to generate spec using <code>npm run doc</code>.
-  </div>
   <div ng-include=" 'spec.html' " onload=" spec = true "></div>
-
-  <br><br><br><br>
 
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.min.js"></script>
   <script src="../ngWidgets.js"></script>

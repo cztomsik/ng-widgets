@@ -8,6 +8,23 @@
       </dl>
     </section>
     <section class="suite">
+      <h1>ngWidgets</h1>
+      <dl>
+<example><div> <nw-panel name="{{ panelName }}">  <nw-field label="Panel name">    <input ng-model=" panelName ">  </nw-field></nw-panel> </div><pre ng-non-bindable>&lt;nw-panel name="{{ panelName }}"&gt;
+  &lt;nw-field label="Panel name"&gt;
+    &lt;input ng-model=" panelName "&gt;
+  &lt;/nw-field&gt;
+&lt;/nw-panel&gt;
+</pre> </example>
+        <dt>complex example</dt>
+        <dd><pre><code>assert(panelHeading.hasClass('ng-hide'));
+el.scope().panelName = 'Test';
+el.scope().$apply();
+assert( ! panelHeading.hasClass('ng-hide'));
+assert.equal(panelHeading.text(), el.scope().panelName);</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
       <h1>ngWidget()</h1>
       <dl>
         <dt>returns preinitialized directive definition</dt>
@@ -46,26 +63,9 @@ function withTestDirective($compileProvider){
       </dl>
     </section>
     <section class="suite">
-      <h1>ngWidgets</h1>
-      <dl>
-<example> <nw-panel name="{{ panelName }}">  <nw-field label="Panel name">    <input ng-model=" panelName ">  </nw-field></nw-panel> <pre ng-non-bindable>&lt;nw-panel name="{{ panelName }}"&gt;
-  &lt;nw-field label="Panel name"&gt;
-    &lt;input ng-model=" panelName "&gt;
-  &lt;/nw-field&gt;
-&lt;/nw-panel&gt;
-</pre> </example>
-        <dt>complex example</dt>
-        <dd><pre><code>assert(panelHeading.hasClass('ng-hide'));
-el.scope().panelName = 'Test';
-el.scope().$apply();
-assert( ! panelHeading.hasClass('ng-hide'));
-assert.equal(panelHeading.text(), el.scope().panelName);</code></pre></dd>
-      </dl>
-    </section>
-    <section class="suite">
       <h1>&lt;nw-field</h1>
       <dl>
-<example> <nw-field label="Email"><input type="email" ng-model=" email "></nw-field> <pre ng-non-bindable>&lt;nw-field label="Email"&gt;&lt;input type="email" ng-model=" email "&gt;&lt;/nw-field&gt;</pre> </example>
+<example><div> <nw-field label="Email"><input type="email" ng-model=" email "></nw-field> </div><pre ng-non-bindable>&lt;nw-field label="Email"&gt;&lt;input type="email" ng-model=" email "&gt;&lt;/nw-field&gt;</pre> </example>
         <dt>renders .form-group</dt>
         <dd><pre><code>assert(formGroup.length);</code></pre></dd>
         <dt>shows [label] in .control-label</dt>
@@ -107,30 +107,72 @@ assert( ! formControls.length);</code></pre></dd>
       </dl>
     </section>
     <section class="suite">
+      <h1>&lt;nw-grid</h1>
+      <dl>
+<example><div> <nw-grid items=" users ">  <nw-grid-col name="Name" index="name"></nw-grid-col>  <nw-grid-col name="Actions">    <template><a href="">Edit</a></template>  </nw-grid-col></nw-grid> </div><pre ng-non-bindable>&lt;nw-grid items=" users "&gt;
+  &lt;nw-grid-col name="Name" index="name"&gt;
+&lt;/nw-grid-col&gt;
+  &lt;nw-grid-col name="Actions"&gt;
+    &lt;template&gt;
+&lt;a href=""&gt;
+Edit&lt;/a&gt;
+&lt;/template&gt;
+  &lt;/nw-grid-col&gt;
+&lt;/nw-grid&gt;
+</pre> </example>
+        <dt>renders .table with defined cols for all items</dt>
+        <dd><pre><code>var
+  cols = el.find('thead th'),
+  rows = el.find('tbody tr')
+;
+assert(table.length);
+assert.equal(cols.length, 2);
+assert.equal(rows.length, 3);</code></pre></dd>
+        <dt>TODO: test autosort, sortCol, reverse</dt>
+        <dd><pre><code></code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>&lt;nw-lipsum</h1>
+      <dl>
+<example><div> <nw-lipsum></nw-lipsum> </div><pre ng-non-bindable>&lt;nw-lipsum&gt;&lt;/nw-lipsum&gt;</pre> </example>
+        <dt>shows paragraph of lorem ipsum</dt>
+        <dd><pre><code>assert(paragraph.length);
+assert.equal(el.text().slice(0, 11), 'Lorem ipsum');</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
       <h1>&lt;nw-list</h1>
       <dl>
-<example> <nw-list items=" users " list-class="nav" empty-text="No items">  <template>{{ it.name }}</template></nw-list> <pre ng-non-bindable>&lt;nw-list items=" users " list-class="nav" empty-text="No items"&gt;
-  &lt;template&gt;
-{{ it.name }}&lt;/template&gt;
-&lt;/nw-list&gt;
-</pre> </example>
-        <dt>renders unordered list, with 2 items</dt>
+<example><div> <nw-list items=" users " list-class="list-unstyled" empty-text="No items" ng-model=" selectedUser "></nw-list> </div><pre ng-non-bindable>&lt;nw-list items=" users " list-class="list-unstyled" empty-text="No items" ng-model=" selectedUser "&gt;&lt;/nw-list&gt;</pre> </example>
+        <dt>renders unordered list, with item names</dt>
         <dd><pre><code>var listItems = list.find('li');
 assert(list.length);
-assert.equal(listItems.length, 2);</code></pre></dd>
+assert.equal(listItems.length, 2);
+assert.equal(listItems.eq(0).text().trim(), 'Admin');
+assert.equal(listItems.eq(1).text().trim(), 'Test');</code></pre></dd>
+        <dt>clicking sets item to ng-model</dt>
+        <dd><pre><code>var handles = list.find('li a');
+handles.eq(0).triggerHandler('click');
+assert.strictEqual($scope.selectedUser, users[0]);
+handles.eq(1).triggerHandler('click');
+assert.strictEqual($scope.selectedUser, users[1]);</code></pre></dd>
+        <dt>adds [list-class] to list</dt>
+        <dd><pre><code>assert(list.hasClass('list-unstyled'));</code></pre></dd>
+        <dt>adds [activeClass] to active list item</dt>
+        <dd><pre><code>var items = list.find('li');
+assert(items.eq(1).hasClass('active'));</code></pre></dd>
         <dt>emptyText is shown instead of empty list</dt>
-        <dd><pre><code>el.scope().users = [];
-el.scope().$apply();
+        <dd><pre><code>$scope.users = [];
+$scope.$apply();
 assert(list.hasClass('ng-hide'));
 assert.equal(el.text().trim(), 'No items');</code></pre></dd>
-        <dt>adds [list-class] to list</dt>
-        <dd><pre><code>assert(list.hasClass('nav'));</code></pre></dd>
       </dl>
     </section>
     <section class="suite">
       <h1>&lt;nw-modal</h1>
       <dl>
-<example> <nw-modal name="Hello">Hello World</nw-modal> <pre ng-non-bindable>&lt;nw-modal name="Hello"&gt;Hello World&lt;/nw-modal&gt;</pre> </example>
+<example><div> <nw-modal name="Hello">Hello World</nw-modal> </div><pre ng-non-bindable>&lt;nw-modal name="Hello"&gt;Hello World&lt;/nw-modal&gt;</pre> </example>
         <dt>renders .modal&gt;.modal-dialog&gt;.modal-content</dt>
         <dd><pre><code>assert(modal.length);
 assert(modalDialog.length);
@@ -149,7 +191,7 @@ assert(modalHeader.hasClass('ng-hide'));</code></pre></dd>
     <section class="suite">
       <h1>&lt;nw-panel</h1>
       <dl>
-<example> <nw-panel name="Hello">Hello world!</nw-panel> <pre ng-non-bindable>&lt;nw-panel name="Hello"&gt;Hello world!&lt;/nw-panel&gt;</pre> </example>
+<example><div> <nw-panel name="Hello">Hello world!</nw-panel> </div><pre ng-non-bindable>&lt;nw-panel name="Hello"&gt;Hello world!&lt;/nw-panel&gt;</pre> </example>
         <dt>renders .panel</dt>
         <dd><pre><code>assert(panel.length);</code></pre></dd>
         <dt>shows [name] in .panel-heading</dt>
@@ -166,7 +208,7 @@ assert(panelHeading.hasClass('ng-hide'));</code></pre></dd>
     <section class="suite">
       <h1>&lt;nw-row</h1>
       <dl>
-<example> <nw-row item-class="col-sm-4">  <nw-field label="First name">    <input>  </nw-field>  <nw-field label="Last name">    <input>  </nw-field></nw-row> <pre ng-non-bindable>&lt;nw-row item-class="col-sm-4"&gt;
+<example><div> <nw-row item-class="col-sm-4">  <nw-field label="First name">    <input>  </nw-field>  <nw-field label="Last name">    <input>  </nw-field></nw-row> </div><pre ng-non-bindable>&lt;nw-row item-class="col-sm-4"&gt;
   &lt;nw-field label="First name"&gt;
     &lt;input&gt;
   &lt;/nw-field&gt;
@@ -180,6 +222,42 @@ assert(panelHeading.hasClass('ng-hide'));</code></pre></dd>
 assert(fields.length === 2);</code></pre></dd>
         <dt>appends itemClass to all children</dt>
         <dd><pre><code>assert(cols.length == 2);</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>&lt;nw-tabs</h1>
+      <dl>
+<example><div> <nw-tabs>  <nw-tab name="General">    <p>General stuff</p>    <nw-lipsum></nw-lipsum>  </nw-tab>  <nw-tab name="Other">    <p>Other stuff</p>  </nw-tab></nw-tabs> </div><pre ng-non-bindable>&lt;nw-tabs&gt;
+  &lt;nw-tab name="General"&gt;
+    &lt;p&gt;
+General stuff&lt;/p&gt;
+    &lt;nw-lipsum&gt;
+&lt;/nw-lipsum&gt;
+  &lt;/nw-tab&gt;
+  &lt;nw-tab name="Other"&gt;
+    &lt;p&gt;
+Other stuff&lt;/p&gt;
+  &lt;/nw-tab&gt;
+&lt;/nw-tabs&gt;
+</pre> </example>
+        <dt>renders .nav.nav-tabs</dt>
+        <dd><pre><code>assert(tabs.length);
+assert.equal(tabHandles.length, 2);</code></pre></dd>
+        <dt>shows tab names in handles</dt>
+        <dd><pre><code>assert.equal(tabHandles.eq(0).text(), 'General');
+assert.equal(tabHandles.eq(1).text(), 'Other');</code></pre></dd>
+        <dt>clicking on handles will show respective tabs</dt>
+        <dd><pre><code>//check default
+assert( ! first.children().hasClass('ng-hide'));
+assert( second.children().hasClass('ng-hide'));
+//click second
+tabHandles.eq(1).triggerHandler('click');
+assert(first.children().hasClass('ng-hide'));
+assert( ! second.children().hasClass('ng-hide'));
+//click first
+tabHandles.eq(0).triggerHandler('click');
+assert( ! first.children().hasClass('ng-hide'));
+assert(second.children().hasClass('ng-hide'));</code></pre></dd>
       </dl>
     </section>
     <section class="suite">

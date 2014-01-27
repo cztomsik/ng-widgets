@@ -5,7 +5,7 @@ module.exports = function(ngWidget){
     controller: function($scope){
       $scope.template = function(){
         return this.html || ('{{ it["' + this.index + '"] }}');
-      }
+      };
     },
 
     link: function($scope, $element, $attrs, ctrls, $transclude){

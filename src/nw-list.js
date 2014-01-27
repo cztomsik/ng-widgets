@@ -10,9 +10,9 @@ module.exports = function(ngWidget){
       '</ul>' +
       '<p ng-hide=" itemsColl ">{{ emptyText }}</p>',
 
-    controller: function($scope){
-      $scope.emptyText = 'No items found';
-      $scope.activeClass = 'active';
+    defaults: {
+      emptyText: 'No items found',
+      activeClass: 'active'
     },
 
     link: function($scope, $element){

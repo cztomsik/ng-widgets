@@ -10,9 +10,11 @@ module.exports = function(ngWidget){
       '<nw-list items=" tabs " list-class="nav nav-tabs" ng-model=" activeTab "></nw-list>' +
       '<content></content>',
 
-    controller: function($scope){
-      $scope.tabs = [];
+    defaults: {
+      tabs: []
+    },
 
+    controller: function($scope){
       $scope.$watch('activeTab', function(activeTab){
         $scope.tabs.forEach(function(tab){
           tab.active = (tab === activeTab);

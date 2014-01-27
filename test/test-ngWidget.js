@@ -19,7 +19,7 @@ describe('ngWidget()', function(){
     assert(definition.compile);
   });
 
-  it('defaults can be overridden', function(){
+  it('definition defaults can be overridden', function(){
     var definition = ngWidget({
       restrict: 'EA'
     });
@@ -58,5 +58,24 @@ describe('ngWidget()', function(){
         return definition;
       });
     }
+  });
+
+  it('$scope is initialized with copy of definition.defaults during prelink phase', function(){
+    var
+      arrInstance = [],
+      definition = ngWidget({
+        defaults: {
+          items: arrInstance,
+          emptyText: 'No items'
+        }
+      }),
+      $scope = {}
+    ;
+
+    definition.prelink($scope, null, {});
+
+    assert.equal($scope.emptyText, 'No items');
+    assert.deepEqual($scope.items, []);
+    assert($scope.items !== arrInstance, 'array copy expected');
   });
 });

@@ -11,6 +11,7 @@ module.exports = function(widgetDef){
     template: '',
     transclude: true,
     scope: {},
+    defaults: {},
 
     //actual stuff
     compile: function(){
@@ -21,6 +22,8 @@ module.exports = function(widgetDef){
     },
 
     prelink: function($scope, $element, $attrs){
+      angular.extend($scope, angular.copy(this.defaults));
+
       for (var k in $attrs.$attr){
         $scope[k] = $attrs[k];
 

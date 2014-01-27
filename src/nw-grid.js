@@ -38,10 +38,12 @@ module.exports = function(ngWidget){
       '  </tbody>' +
       '</table>',
 
-    controller: function($scope){
-      $scope.cols = [];
-      $scope.autosort = true;
+    defaults: {
+      cols: [],
+      autosort: true
+    },
 
+    controller: function($scope){
       $scope.$watch('cols', function(){
         if ($scope.autosort){
           $scope.sortCol = $scope.cols[0];

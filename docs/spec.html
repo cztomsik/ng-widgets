@@ -35,7 +35,7 @@ assert.strictEqual(definition.transclude, true);
 assert.deepEqual(definition.scope, {});
 //do the magic
 assert(definition.compile);</code></pre></dd>
-        <dt>defaults can be overridden</dt>
+        <dt>definition defaults can be overridden</dt>
         <dd><pre><code>var definition = ngWidget({
   restrict: 'EA'
 });
@@ -60,6 +60,21 @@ function withTestDirective($compileProvider){
     return definition;
   });
 }</code></pre></dd>
+        <dt>$scope is initialized with copy of definition.defaults during prelink phase</dt>
+        <dd><pre><code>var
+  arrInstance = [],
+  definition = ngWidget({
+    defaults: {
+      items: arrInstance,
+      emptyText: 'No items'
+    }
+  }),
+  $scope = {}
+;
+definition.prelink($scope, null, {});
+assert.equal($scope.emptyText, 'No items');
+assert.deepEqual($scope.items, []);
+assert($scope.items !== arrInstance, 'array copy expected');</code></pre></dd>
       </dl>
     </section>
     <section class="suite">
@@ -194,6 +209,11 @@ assert(modalHeader.hasClass('ng-hide'));</code></pre></dd>
 <example><div> <nw-panel name="Hello">Hello world!</nw-panel> </div><pre ng-non-bindable>&lt;nw-panel name="Hello"&gt;Hello world!&lt;/nw-panel&gt;</pre> </example>
         <dt>renders .panel</dt>
         <dd><pre><code>assert(panel.length);</code></pre></dd>
+        <dt>supports .panel type</dt>
+        <dd><pre><code>assert(panel.hasClass('panel-default'));
+el.isolateScope().type = 'primary';
+el.isolateScope().$apply();
+assert(panel.hasClass('panel-primary'));</code></pre></dd>
         <dt>shows [name] in .panel-heading</dt>
         <dd><pre><code>assert.equal(panelHeading.text(), 'Hello');</code></pre></dd>
         <dt>shows content in .panel-body</dt>

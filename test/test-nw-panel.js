@@ -17,6 +17,15 @@ describe('<nw-panel', function(){
     assert(panel.length);
   });
 
+  it('supports .panel type', function(){
+    assert(panel.hasClass('panel-default'));
+
+    el.isolateScope().type = 'primary';
+    el.isolateScope().$apply();
+
+    assert(panel.hasClass('panel-primary'));
+  });
+
   it('shows [name] in .panel-heading', function(){
     assert.equal(panelHeading.text(), 'Hello');
   });

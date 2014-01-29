@@ -247,7 +247,7 @@ assert(fields.length === 2);</code></pre></dd>
     <section class="suite">
       <h1>&lt;nw-tabs</h1>
       <dl>
-<example><div> <nw-tabs>  <nw-tab name="General">    <p>General stuff</p>    <nw-lipsum></nw-lipsum>  </nw-tab>  <nw-tab name="Other">    <p>Other stuff</p>  </nw-tab></nw-tabs> </div><pre ng-non-bindable>&lt;nw-tabs&gt;
+<example><div> <nw-tabs>  <nw-tab name="General">    <p>General stuff</p>    <nw-lipsum></nw-lipsum>  </nw-tab>  <nw-tab name="Other">    <p>Other stuff</p>  </nw-tab>  <nw-tab ng-repeat=" it in items " name="{{ it.name }}">    {{ it.name }}  </nw-tab></nw-tabs> </div><pre ng-non-bindable>&lt;nw-tabs&gt;
   &lt;nw-tab name="General"&gt;
     &lt;p&gt;
 General stuff&lt;/p&gt;
@@ -258,6 +258,8 @@ General stuff&lt;/p&gt;
     &lt;p&gt;
 Other stuff&lt;/p&gt;
   &lt;/nw-tab&gt;
+  &lt;nw-tab ng-repeat=" it in items " name="{{ it.name }}"&gt;
+    {{ it.name }}  &lt;/nw-tab&gt;
 &lt;/nw-tabs&gt;
 </pre> </example>
         <dt>renders .nav.nav-tabs</dt>
@@ -278,6 +280,10 @@ assert( ! second.children().hasClass('ng-hide'));
 tabHandles.eq(0).triggerHandler('click');
 assert( ! first.children().hasClass('ng-hide'));
 assert(second.children().hasClass('ng-hide'));</code></pre></dd>
+        <dt>supports [ng-repeat]</dt>
+        <dd><pre><code>$scope.items = [{name: 'Test1'}, {name: 'Test2'}];
+$scope.$apply();
+assert.equal(tabs.find('li').length, 4);</code></pre></dd>
       </dl>
     </section>
     <section class="suite">

@@ -16,8 +16,13 @@ describe('<nw-tabs', function(){
       '  <nw-tab name="Other">' +
       '    <p>Other stuff</p>' +
       '  </nw-tab>' +
+      '  <nw-tab ng-repeat=" it in items " name="{{ it.name }}">' +
+      '    {{ it.name }}' +
+      '  </nw-tab>' +
       '</nw-tabs>'
     ),
+
+    $scope = el.scope(),
 
     tabs = el.find('.nav-tabs'),
     tabHandles = tabs.find('li a'),
@@ -50,5 +55,12 @@ describe('<nw-tabs', function(){
     tabHandles.eq(0).triggerHandler('click');
     assert( ! first.children().hasClass('ng-hide'));
     assert(second.children().hasClass('ng-hide'));
+  });
+
+  it('supports [ng-repeat]', function(){
+    $scope.items = [{name: 'Test1'}, {name: 'Test2'}];
+    $scope.$apply();
+
+    assert.equal(tabs.find('li').length, 4);
   });
 });

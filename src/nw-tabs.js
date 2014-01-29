@@ -1,7 +1,5 @@
 'use strict';
 
-var angular = require('angular');
-
 module.exports = function(ngWidget){
   return ngWidget({
     style: 'nw-tabs nw-list{display: block; margin-bottom: 1em}',
@@ -15,23 +13,15 @@ module.exports = function(ngWidget){
     },
 
     controller: function($scope){
+      $scope.$watchCollection('tabs', function(tabs){
+        $scope.activeTab = $scope.activeTab || tabs[0];
+      });
+
       $scope.$watch('activeTab', function(activeTab){
         $scope.tabs.forEach(function(tab){
           tab.active = (tab === activeTab);
         });
       });
-    },
-
-    link: function($scope, $element){
-      //initialize using elements
-      var tabEls = $element.find('nw-tab');
-
-      //TODO: this is nasty, would be much better to get all hostElement scopes in array
-      angular.forEach(tabEls, function(tabEl){
-        $scope.tabs.push(angular.element(tabEl).isolateScope());
-      });
-
-      $scope.activeTab = $scope.tabs[0];
     }
   });
 };

@@ -2,12 +2,17 @@
 
 var
   angular = require('angular'),
-  ngWidgets = angular.module('ngWidgets', [])
+  ngWidgets = angular.module('ngWidgets', []),
+
+  jQuery = global.jQuery
 ;
 
 module.exports = ngWidgets;
 
-angular.element.prototype.find = require('./src/qsa.js');
+//quick and dirty
+if ( ! jQuery){
+  angular.element.prototype.find = require('./src/qsa.js');
+}
 
 ngWidgets
   .value('ngWidget', require('./src/ngWidget.js'))

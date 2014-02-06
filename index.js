@@ -9,6 +9,7 @@ var
 
 module.exports = ngWidgets;
 
+//TODO: test
 //quick and dirty
 if ( ! jQuery){
   angular.element.prototype.find = require('./src/qsa.js');
@@ -16,6 +17,9 @@ if ( ! jQuery){
 
 ngWidgets
   .value('ngWidget', require('./src/ngWidget.js'))
+
+  //TODO: test
+  .filter('markdown', require('./src/markdown.js'))
 
   .directive('content', require('./src/content'))
   .directive('nwList', require('./src/nw-list'))

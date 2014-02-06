@@ -16,7 +16,8 @@
   "author": "cztomsik",
   "license": "ISC",
   "dependencies": {
-    "angular": "~1.2.7"
+    "angular": "~1.2.7",
+    "showdown": "~0.3.1"
   },
   "devDependencies": {
     "watchify": "~0.5.0",
@@ -28,6 +29,7 @@
     "jshint": "~2.4.1"
   },
   "browser": {
-    "angular": "./shims/angular.js"
+    "angular": "./shims/angular.js",
+    "showdown": "./shims/showdown.js"
   }
 }

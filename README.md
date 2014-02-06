@@ -4,7 +4,7 @@
     Docs are in a very early stage, <strong>it will get better soon</strong>.
   </div>
   <br><br>
-  <h3 class="doc-link"><a href="https://rawgithub.com/cztomsik/ngWidgets/master/docs/index.html">Browse full documentation</a></h3>
+  <h3 class="doc-link"><a href="http://tomsik.cz/ngWidgets/docs/">Browse full documentation</a></h3>
   <h1>
     ngWidgets
     <iframe src="https://ghbtns.com/github-btn.html?user=cztomsik&amp;repo=ngWidgets&amp;type=watch&amp;count=true&amp;size=large" allowtransparency="true" frameborder="0" scrolling="0" width="170" height="30"></iframe>

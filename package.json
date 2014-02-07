@@ -5,13 +5,10 @@
   "main": "index.js",
   "scripts": {
     "patch": "npm run build && npm version patch",
-    "build": "npm run verify && browserify index.js | uglifyjs --no-mangle > ngWidgets.js",
-    "doc": "mocha --reporter doc --require test/runner/example-doc > docs/spec.html",
-    "verify": "npm test && npm run lint",
+    "build": "gulp",
+    "watch": "gulp watch",
     "test": "mocha",
-    "lint": "jshint index.js src/*.js",
-    "watch": "watchify index.js -o ngWidgets.js --debug",
-    "watch-test": "mocha --check-leaks --reporter spec --watch --growl"
+    "doc": "mocha --reporter doc --require test/runner/example-doc > docs/spec.html"
   },
   "author": "cztomsik",
   "license": "ISC",
@@ -20,13 +17,12 @@
     "showdown": "~0.3.1"
   },
   "devDependencies": {
-    "watchify": "~0.5.0",
-    "browserify": "~3.19.1",
-    "uglify-js": "2.4.8",
-    "chance": "~0.5.4",
-    "chai": "~1.8.1",
-    "mocha": "~1.17.0",
-    "jshint": "~2.4.1"
+    "gulp": "~3.5.2",
+    "gulp-browserify": "~0.4.2",
+    "gulp-concat": "~2.1.7",
+    "gulp-jshint": "~1.4.0",
+    "jshint-stylish": "~0.1.5",
+    "gulp-uglify": "~0.2.0"
   },
   "browser": {
     "angular": "./shims/angular.js",

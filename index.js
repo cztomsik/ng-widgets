@@ -18,7 +18,6 @@ if ( ! jQuery){
 ngWidgets
   .value('ngWidget', require('./src/ngWidget.js'))
 
-  //TODO: test
   .filter('markdown', require('./src/markdown.js'))
 
   .directive('content', require('./src/content'))

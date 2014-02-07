@@ -78,6 +78,19 @@ assert($scope.items !== arrInstance, 'array copy expected');</code></pre></dd>
       </dl>
     </section>
     <section class="suite">
+      <h1>&lt;nw-btn</h1>
+      <dl>
+<example><div> <nw-btn></nw-btn> </div><pre ng-non-bindable>&lt;nw-btn&gt;&lt;/nw-btn&gt;</pre> </example>
+        <dt>renders .btn</dt>
+        <dd><pre><code>assert(btn.length);</code></pre></dd>
+        <dt>supports .btn type</dt>
+        <dd><pre><code>assert(btn.hasClass('btn-default'));
+el.isolateScope().type = 'primary';
+el.isolateScope().$apply();
+assert(btn.hasClass('btn-primary'));</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
       <h1>&lt;nw-field</h1>
       <dl>
 <example><div> <nw-field label="Email"><input type="email" ng-model=" email "></nw-field> </div><pre ng-non-bindable>&lt;nw-field label="Email"&gt;&lt;input type="email" ng-model=" email "&gt;&lt;/nw-field&gt;</pre> </example>
@@ -303,5 +316,13 @@ assert(el.find('[class=test]').length, 'no [class=test] found');</code></pre></d
 assert(ghost.length === 0);
 assert(ghost.text() === '');
 assert( ! ghost.hasClass('test'));</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>showdown</h1>
+      <dl>
+<example><div> <div ng-bind-html=" str | markdown "></div> </div><pre ng-non-bindable>&lt;div ng-bind-html=" str | markdown "&gt;&lt;/div&gt;</pre> </example>
+        <dt>renders showdown markup</dt>
+        <dd><pre><code>assert.equal(el.html(), '&lt;p&gt;&lt;strong&gt;test&lt;/strong&gt;&lt;/p&gt;');</code></pre></dd>
       </dl>
     </section>

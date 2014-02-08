@@ -23,3 +23,5 @@
     <li>define angularjs dependency <code>ngWidgets</code></li>
   </ul>
 </section>
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/cztomsik/ngwidgets/trend.png)](https://bitdeli.com/free "Bitdeli Badge")

@@ -3,7 +3,8 @@
 var
   pkg = require('./package.json'),
   indexFile = require.resolve('./'),
-  allSources = ['./*.js', './src/**/*.js', '!./ngWidgets.js'],
+  bundleFile = './' + pkg.name + '.js',
+  allSources = ['./*.js', './src/**/*.js', '!' + indexFile, '!' + bundleFile],
   testFiles = ['./test/*.js'],
 
   gulp = require('gulp'),
@@ -27,7 +28,7 @@ gulp.task('minify', function(){
   gulp
     .src(indexFile)
     .pipe(browserify())
-    .pipe(concat(pkg.name + '.js'))
+    .pipe(concat(bundleFile))
     .pipe(uglify({mangle: false}))
     .pipe(gulp.dest('./'))
   ;
@@ -37,7 +38,7 @@ gulp.task('compile', function(){
   gulp
     .src(indexFile)
     .pipe(browserify())
-    .pipe(concat(pkg.name + '.js'))
+    .pipe(concat(bundleFile))
     .pipe(gulp.dest('./'))
   ;
 });

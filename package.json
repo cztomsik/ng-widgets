@@ -4,7 +4,6 @@
   "description": "Collection of reusable angularjs components",
   "main": "index.js",
   "scripts": {
-    "patch": "npm run build && npm version patch",
     "build": "gulp",
     "watch": "gulp watch",
     "test": "mocha",

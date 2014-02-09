@@ -2,21 +2,17 @@
 
 var
   assert = require('assert'),
-  angular = require('angular'),
-
-  ngWidgets = require('..')
+  example = require('./runner/example')
 ;
 
 describe('content', function(){
   var
-    html = '<test><div ng-init=" changed = true ">Hello</div></test>',
-    $injector = angular.bootstrap(html, [ngWidgets.name, withTestDirective]),
-    $scope = $injector.get('$rootScope'),
-    el = $injector.get('$rootElement')
+    $element = example('<test><div ng-init=" changed = true ">Hello</div></test>', withTestDirective),
+    $scope = $element.scope()
   ;
 
   it('transcludes content', function(){
-    assert.equal(el.text(), 'Hello world');
+    assert.equal($element.text(), 'Hello world');
   });
 
   it('uses parent scope', function(){
@@ -24,11 +20,10 @@ describe('content', function(){
   });
 
   function withTestDirective($compileProvider){
-    $compileProvider.directive('test', angular.identity.bind(null, {
-      restrict: 'E',
-      template: '<content></content> world',
-      transclude: true,
-      scope: {}
-    }));
+    $compileProvider.directive('test', function(ngWidget){
+      return ngWidget({
+        template: '<content></content> world'
+      });
+    });
   }
 });

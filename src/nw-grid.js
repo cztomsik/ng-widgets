@@ -39,6 +39,7 @@ module.exports = function(ngWidget){
       '</table>',
 
     defaults: {
+      items: [],
       cols: [],
       autosort: true
     },
@@ -59,19 +60,13 @@ module.exports = function(ngWidget){
         trHtml = ''
       ;
 
-      //TODO: this should be in controller, but its too early (attributes are not bound)
-      //  [] support might solve this
-      $scope.$parent.$watchCollection($scope.items, function(itemsColl){
-        $scope.itemsColl = itemsColl || [];
-      });
-
       //TODO: this is nasty, would be much better to get all hostElement scopes in array
       angular.forEach(colEls, function(colEl){
         $scope.cols.push(angular.element(colEl).isolateScope());
       });
 
       //init repeater
-      tr.attr('ng-repeat', ' it in itemsColl | orderBy:sortCol.index:reverse ');
+      tr.attr('ng-repeat', ' it in items | orderBy:sortCol.index:reverse ');
 
       $scope.cols.forEach(function(col){
         trHtml += '<td>' + col.template() + '</td>';

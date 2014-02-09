@@ -2,8 +2,8 @@
 
 var
   assert = require('assert'),
-  ngWidget = require('../src/ngWidget'),
-  angular = require('angular')
+  example = require('./runner/example'),
+  ngWidget = require('../src/ngWidget')
 ;
 
 describe('ngWidget()', function(){
@@ -14,8 +14,10 @@ describe('ngWidget()', function(){
     assert.strictEqual(definition.template, '');
     assert.strictEqual(definition.transclude, true);
     assert.deepEqual(definition.scope, {});
+    assert.deepEqual(definition.defaults, {});
 
     //do the magic
+    assert.strictEqual(definition.controller, undefined);
     assert(definition.compile);
   });
 
@@ -27,24 +29,30 @@ describe('ngWidget()', function(){
     assert.equal(definition.restrict, 'EA');
   });
 
+//TODO
+//  it('returns registered definition by name', function(){
+//    //return $injector.get(name + 'Directive')[0]
+//  });
+
 //  it('appends styles to head', function(){
 //    global.document = {head}
 //    ngWidget({style: ''});
 //  });
 
   it('link() is called', function(done){
-    var definition = ngWidget({link: done});
-
-    definition.compile().post();
+    example('<test></test>', function($compileProvider){
+      $compileProvider.directive('test', function(ngWidget){
+        return ngWidget({
+          link: done.bind(null, null)
+        });
+      });
+    });
   });
 
   it('binds text attributes to scope', function(){
     var
-      html = '<test hello="Hello" world="{{ world }}"></test>',
-      definition = ngWidget({template: '{{ hello }} {{ world }}'}),
-      $injector = angular.bootstrap(html, [withTestDirective]),
-      $scope = $injector.get('$rootScope'),
-      $element = $injector.get('$rootElement')
+      $element = example('<test hello="Hello" world="{{ world }}"></test>', withTestDirective),
+      $scope = $element.scope()
     ;
 
     $scope.world = 'world';
@@ -54,28 +62,56 @@ describe('ngWidget()', function(){
 
 
     function withTestDirective($compileProvider){
-      $compileProvider.directive('test', function(){
-        return definition;
+      $compileProvider.directive('test', function(ngWidget){
+        return ngWidget({
+          template: '{{ hello }} {{ world }}'
+        });
       });
     }
   });
 
-  it('$scope is initialized with copy of definition.defaults during prelink phase', function(){
+  it('$scope is initialized with copy of definition.defaults', function(){
     var
       arrInstance = [],
-      definition = ngWidget({
-        defaults: {
-          items: arrInstance,
-          emptyText: 'No items'
-        }
-      }),
-      $scope = {}
+      $innerScope
     ;
 
-    definition.prelink($scope, null, {});
+    example('<test></test>', function($compileProvider){
+      $compileProvider.directive('test', function(ngWidget){
+        return ngWidget({
+          defaults: {
+            items: arrInstance,
+            emptyText: 'No items'
+          },
 
-    assert.equal($scope.emptyText, 'No items');
-    assert.deepEqual($scope.items, []);
-    assert($scope.items !== arrInstance, 'array copy expected');
+          controller: function($scope){
+            $innerScope = $scope;
+          }
+        });
+      });
+    });
+
+    assert.equal($innerScope.emptyText, 'No items');
+    assert.deepEqual($innerScope.items, []);
+    assert($innerScope.items !== arrInstance, 'array copy expected');
+  });
+
+  it('content is transcluded even if there are no insertion points', function(){
+    var
+      wasCalled = false,
+      testDefinition = ngWidget({}),
+      paramDefinition = ngWidget({
+        controller: function(){
+          wasCalled = true;
+        }
+      })
+    ;
+
+    example('<test><param></param></test>', function($compileProvider){
+      $compileProvider.directive('test', testDefinition);
+      $compileProvider.directive('param', paramDefinition);
+    });
+
+    assert(wasCalled);
   });
 });

@@ -7,7 +7,7 @@ var
 
 describe('<nw-tabs', function(){
   var
-    el = example(
+    $element = example(
       '<nw-tabs>' +
       '  <nw-tab name="General">' +
       '    <p>General stuff</p>' +
@@ -22,17 +22,17 @@ describe('<nw-tabs', function(){
       '</nw-tabs>'
     ),
 
-    $scope = el.scope(),
+    $scope = $element.scope(),
 
-    tabs = el.find('.nav-tabs'),
+    tabs = $element.find('.nav-tabs'),
     tabHandles = tabs.find('li a'),
 
-    first = el.find('nw-tab').eq(0),
-    second = el.find('nw-tab').eq(1)
+    first = $element.find('nw-tab').eq(0),
+    second = $element.find('nw-tab').eq(1)
   ;
 
   it('renders .nav.nav-tabs', function(){
-    assert(tabs.length);
+    assert.equal(tabs.length, 1);
     assert.equal(tabHandles.length, 2);
   });
 

@@ -7,14 +7,10 @@ var
 
 describe('showdown', function(){
   var
-    el = example('<div ng-bind-html=" str | markdown "></div>'),
-    $scope = el.scope()
+    $element = example('<div ng-bind-html=" \'**test**\' | markdown "></div>')
   ;
 
-  $scope.str = '**test**';
-  $scope.$apply();
-
-  it('renders showdown markup', function(){
-    assert.equal(el.html(), '<p><strong>test</strong></p>');
+  it('converts markdown to html', function(){
+    assert.equal($element.html(), '<p><strong>test</strong></p>');
   });
 });

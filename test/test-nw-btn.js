@@ -7,20 +7,23 @@ var
 
 describe('<nw-btn', function(){
   var
-    el = example('<nw-btn></nw-btn>'),
-    btn = el.find('.btn')
+    $element = example(
+      '<nw-btn></nw-btn>' +
+      '<nw-btn type="primary"></nw-btn>'
+    ),
+
+    btn = $element.find('.btn'),
+
+    btnDefault = $element.find('.btn.btn-default'),
+    btnPrimary = $element.find('.btn.btn-primary')
   ;
 
   it('renders .btn', function(){
-    assert(btn.length);
+    assert.equal(btn.length, 2);
   });
 
-  it('supports .btn type', function(){
-    assert(btn.hasClass('btn-default'));
-
-    el.isolateScope().type = 'primary';
-    el.isolateScope().$apply();
-
-    assert(btn.hasClass('btn-primary'));
+  it('.btn-default in no [type] was given', function(){
+    assert.equal(btnDefault.length, 1);
+    assert.equal(btnPrimary.length, 1);
   });
 });

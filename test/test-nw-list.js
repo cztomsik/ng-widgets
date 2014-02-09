@@ -7,12 +7,12 @@ var
 
 describe('<nw-list', function(){
   var
-    el = example(
+    $element = example(
       '<nw-list items=" users " list-class="list-unstyled" empty-text="No items" ng-model=" selectedUser "></nw-list>'
     ),
-    list = el.find('ul'),
+    $scope = $element.scope(),
 
-    $scope = el.scope(),
+    list = $element.find('ul'),
 
     users = [
       {name: 'Admin'},
@@ -26,7 +26,7 @@ describe('<nw-list', function(){
   it('renders unordered list, with item names', function(){
     var listItems = list.find('li');
 
-    assert(list.length);
+    assert.equal(list.length, 1);
     assert.equal(listItems.length, 2);
 
     assert.equal(listItems.eq(0).text().trim(), 'Admin');
@@ -58,6 +58,6 @@ describe('<nw-list', function(){
     $scope.$apply();
 
     assert(list.hasClass('ng-hide'));
-    assert.equal(el.text().trim(), 'No items');
+    assert.equal($element.text().trim(), 'No items');
   });
 });

@@ -7,7 +7,7 @@ var
 
 describe('<nw-grid', function(){
   var
-    el = example(
+    $element = example(
       '<nw-grid items=" users ">' +
       '  <nw-grid-col name="Name" index="name"></nw-grid-col>' +
       '  <nw-grid-col name="Actions">' +
@@ -15,8 +15,8 @@ describe('<nw-grid', function(){
       '  </nw-grid-col>' +
       '</nw-grid>'
     ),
-    table = el.find('.table'),
-    $scope = el.scope()
+    table = $element.find('.table'),
+    $scope = $element.scope()
   ;
 
   $scope.users = [
@@ -28,11 +28,11 @@ describe('<nw-grid', function(){
 
   it('renders .table with defined cols for all items', function(){
     var
-      cols = el.find('thead th'),
-      rows = el.find('tbody tr')
+      cols = $element.find('thead th'),
+      rows = $element.find('tbody tr')
     ;
 
-    assert(table.length);
+    assert.equal(table.length, 1);
     assert.equal(cols.length, 2);
     assert.equal(rows.length, 3);
   });

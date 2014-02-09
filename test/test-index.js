@@ -7,23 +7,24 @@ var
 
 describe('ngWidgets', function(){
   var
-    el = example(
+    $element = example(
       '<nw-panel name="{{ panelName }}">' +
       '  <nw-field label="Panel name">' +
       '    <input ng-model=" panelName ">' +
       '  </nw-field>' +
       '</nw-panel>'
     ),
-    panelHeading = el.find('.panel-heading')
+    $scope = $element.scope(),
+    panelHeading = $element.find('.panel-heading')
   ;
 
   it('complex example', function(){
     assert(panelHeading.hasClass('ng-hide'));
 
-    el.scope().panelName = 'Test';
-    el.scope().$apply();
+    $scope.panelName = 'Test';
+    $scope.$apply();
 
     assert( ! panelHeading.hasClass('ng-hide'));
-    assert.equal(panelHeading.text(), el.scope().panelName);
+    assert.equal(panelHeading.text(), $scope.panelName);
   });
 });

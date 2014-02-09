@@ -7,9 +7,9 @@ var
 
 module.exports = function(html){
   var
-    $injector = angular.bootstrap(html, ['ng', ngWidgets.name]),
-    el = $injector.get('$rootElement')
+    $injector = angular.bootstrap(html, [ngWidgets.name]),
+    $element = $injector.get('$rootElement')
   ;
 
-  return el;
+  return $element;
 };

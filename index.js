@@ -2,7 +2,7 @@
 
 var
   angular = require('angular'),
-  ngWidgets = angular.module('ngWidgets', []),
+  ngWidgets = angular.module('ng-widgets', []),
 
   jQuery = global.jQuery
 ;

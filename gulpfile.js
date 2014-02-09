@@ -17,7 +17,7 @@ var
 
 gulp.task('default', ['build']);
 
-gulp.task('build', ['verify', 'minify']);
+gulp.task('build', ['verify', 'minify', 'doc']);
 
 gulp.task('watch', ['compile', 'verify'], function(){
   gulp.watch(allSources.concat(testFiles), ['compile', 'verify']);
@@ -55,4 +55,8 @@ gulp.task('lint', function(){
     .pipe(jshint('./.jshintrc'))
     .pipe(jshint.reporter('jshint-stylish'))
   ;
+});
+
+gulp.task('doc', function(){
+  spawn('npm', ['run', 'doc'], {stdio: 'inherit'});
 });

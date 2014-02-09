@@ -7,12 +7,12 @@ var
 
 describe('<nw-lipsum', function(){
   var
-    el = example('<nw-lipsum></nw-lipsum>'),
-    paragraph = el.find('p')
+    $element = example('<nw-lipsum></nw-lipsum>'),
+    paragraph = $element.find('p')
   ;
 
   it('shows paragraph of lorem ipsum', function(){
-    assert(paragraph.length);
-    assert.equal(el.text().slice(0, 11), 'Lorem ipsum');
+    assert.equal(paragraph.length, 1);
+    assert.equal($element.text().slice(0, 11), 'Lorem ipsum');
   });
 });

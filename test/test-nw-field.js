@@ -7,27 +7,47 @@ var
 
 describe('<nw-field', function(){
   var
-    el = example('<nw-field label="Email"><input type="email" ng-model=" email "></nw-field>'),
-    formGroup = el.find('.form-group'),
-    controlLabel = el.find('.control-label'),
-    input = el.find('input'),
-    ngModel = input.controller('ngModel')
+    $element = example(
+      '<nw-field label="Email">' +
+      '  <input type="email" ng-model=" email ">' +
+      '</nw-field>' +
+      '<br>' +
+      '<nw-field><textarea></textarea></nw-field>' +
+      '<nw-field><select></select></nw-field>' +
+      '<nw-field><input type="checkbox"></nw-field>' +
+      '<nw-field><input type="radio"></nw-field>'
+    ),
+
+    formGroup = $element.find('.form-group'),
+    emailLabel = formGroup.eq(0).find('.control-label'),
+    textareaLabel = formGroup.eq(1).find('.control-label'),
+
+    email = $element.find('input[type="email"]'),
+    textarea = $element.find('textarea'),
+    select = $element.find('select'),
+    radio = $element.find('input[type="radio"]'),
+    checkbox = $element.find('input[type="checkbox"]')
   ;
 
   it('renders .form-group', function(){
-    assert(formGroup.length);
+    assert.equal(formGroup.length, 5);
   });
 
   it('shows [label] in .control-label', function(){
-    assert( ! controlLabel.hasClass('ng-hide'));
-    assert.equal(controlLabel.text(), 'Email');
+    assert(! emailLabel.hasClass('ng-hide'));
+    assert.equal(emailLabel.text(), 'Email');
+
+    assert(textareaLabel.hasClass('ng-hide'));
+    assert.equal(textareaLabel.text(), '');
   });
 
-  it('.control-label hidden when empty', function(){
-    el.isolateScope().label = '';
-    el.isolateScope().$apply();
+  it('adds .form-control to controls, excluding radios & checkboxes', function(){
+    assert(email.hasClass('form-control'));
+    assert(textarea.hasClass('form-control'));
+    assert(select.hasClass('form-control'));
 
-    assert(controlLabel.hasClass('ng-hide'));
+    assert( ! radio.hasClass('form-control'));
+    assert( ! checkbox.hasClass('form-control'));
   });
 
   it('at first no error is shown', function(){
@@ -35,38 +55,8 @@ describe('<nw-field', function(){
   });
 
   it('when dirty, invalid field gets .has-error', function(){
-    ngModel.$setViewValue('test');
-    el.scope().$apply();
+    email.val('err').triggerHandler('change');
 
     assert(formGroup.hasClass('has-error'));
-  });
-
-  it('adds .form-control to textarea, select, and inputs', function(){
-    var
-      el = example(
-        '<nw-field>' +
-        '  <input>' +
-        '  <select>' +
-        '  <textarea></textarea>' +
-        '</nw-field>'
-      ),
-      formControls = el.find('.form-control')
-    ;
-
-    assert.equal(formControls.length, 3);
-  });
-
-  it('ommits adding .form-control for radios and checkboxes', function(){
-    var
-      el = example(
-        '<nw-field>' +
-        '  <input type="radio">' +
-        '  <input type="checkbox">' +
-        '</nw-field>'
-      ),
-      formControls = el.find('.form-control')
-    ;
-
-    assert( ! formControls.length);
   });
 });

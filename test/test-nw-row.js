@@ -7,7 +7,7 @@ var
 
 describe('<nw-row', function(){
   var
-    el = example(
+    $element = example(
       '<nw-row item-class="col-sm-4">' +
       '  <nw-field label="First name">' +
       '    <input>' +
@@ -17,17 +17,17 @@ describe('<nw-row', function(){
       '  </nw-field>' +
       '</nw-row>'
     ),
-    row = el.find('.row'),
-    fields = el.find('nw-field'),
-    cols = el.find('.col-sm-4')
+    row = $element.find('.row'),
+    fields = $element.find('nw-field'),
+    cols = $element.find('.col-sm-4')
   ;
 
   it('renders .row with transcluded contents', function(){
-    assert(row.length);
-    assert(fields.length === 2);
+    assert.equal(row.length, 1);
+    assert.equal(fields.length, 2);
   });
 
   it('appends itemClass to all children', function(){
-    assert(cols.length == 2);
+    assert.equal(cols.length, 2);
   });
 });

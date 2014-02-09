@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="docs" ng-controller=" Docs ">
 <head>
-  <title>ngWidgets, collection of reusable angularjs widgets</title>
+  <title>ng-widgets, collection of reusable angularjs widgets</title>
 
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.css">
   <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
@@ -33,7 +33,7 @@
 
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
-  <script src="../ngWidgets.js"></script>
+  <script src="../ng-widgets.js"></script>
   <script>
     function Docs($scope, $http){
       $http.get('../README.md').then(function(res){
@@ -47,7 +47,7 @@
     }
 
     angular
-      .module('docs', ['ngWidgets'])
+      .module('docs', ['ng-widgets'])
     ;
   </script>
 </body>

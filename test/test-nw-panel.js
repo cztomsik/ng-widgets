@@ -7,39 +7,46 @@ var
 
 describe('<nw-panel', function(){
   var
-    el = example('<nw-panel name="Hello">Hello world!</nw-panel>'),
-    panel = el.find('.panel'),
-    panelHeading = el.find('.panel-heading'),
-    panelBody = el.find('.panel-body')
+    $element = example(
+      '<nw-panel>' +
+      '  Nameless panel' +
+      '</nw-panel>' +
+      '<br>' +
+      '<nw-panel type="primary" name="Named panel">' +
+      '  Panel body' +
+      '</nw-panel>'
+    ),
+    panel = $element.find('.panel'),
+
+    panelDefault = $element.find('.panel.panel-default'),
+    panelPrimary = $element.find('.panel.panel-primary'),
+
+    defaultHeading = panelDefault.find('.panel-heading'),
+    primaryHeading = panelPrimary.find('.panel-heading'),
+
+    defaultBody = panelDefault.find('.panel-body'),
+    primaryBody = panelPrimary.find('.panel-body')
   ;
 
   it('renders .panel', function(){
-    assert(panel.length);
+    assert.equal(panel.length, 2);
   });
 
-  it('supports .panel type', function(){
-    assert(panel.hasClass('panel-default'));
-
-    el.isolateScope().type = 'primary';
-    el.isolateScope().$apply();
-
-    assert(panel.hasClass('panel-primary'));
+  it('.panel-default if no [type] was given', function(){
+    assert.equal(panelDefault.length, 1);
+    assert.equal(panelPrimary.length, 1);
   });
 
   it('shows [name] in .panel-heading', function(){
-    assert.equal(panelHeading.text(), 'Hello');
+    assert(defaultHeading.hasClass('ng-hide'));
+    assert.equal(defaultHeading.text(), '');
+
+    assert( ! primaryHeading.hasClass('ng-hide'));
+    assert.equal(primaryHeading.text(), 'Named panel');
   });
 
   it('shows content in .panel-body', function(){
-    assert.equal(panelBody.text().trim(), 'Hello world!');
-  });
-
-  it('.panel-heading hidden when empty', function(){
-    assert( ! panelHeading.hasClass('ng-hide'));
-
-    el.isolateScope().name = '';
-    el.isolateScope().$apply();
-
-    assert(panelHeading.hasClass('ng-hide'));
+    assert.equal(defaultBody.text().trim(), 'Nameless panel');
+    assert.equal(primaryBody.text().trim(), 'Panel body');
   });
 });

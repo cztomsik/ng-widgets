@@ -2,31 +2,38 @@
 
 var
   assert = require('assert'),
-  angular = require('angular'),
-  ngWidgets = require('..')
+  example = require('./runner/example')
 ;
 
 describe('angular.element().find()', function(){
-  var el = angular.element('<test><div class="test"><span>test</span></div></test>');
+  var
+    $element = example(
+      '<test>' +
+      '  <div class="test">' +
+      '    <span>test</span>' +
+      '  </div>' +
+      '</test>'
+    )
+  ;
 
   it('resolves by tagName', function(){
-    assert(el.find('div').length, 'no span found');
-    assert(el.find('span').length, 'no span found');
+    assert($element.find('div').length, 'no span found');
+    assert($element.find('span').length, 'no span found');
 
-    assert(el.find('div, span').length === 2, '2 elements expected');
+    assert($element.find('div, span').length === 2, '2 elements expected');
   });
 
   it('resolves by classes, attributes, etc.', function(){
-    assert(el.find('.test').length, 'no .test found');
-    assert(el.find('[class=test]').length, 'no [class=test] found');
+    assert($element.find('.test').length, 'no .test found');
+    assert($element.find('[class=test]').length, 'no [class=test] found');
   });
 
   it('is still chainable', function(){
-    assert(el.find('.test').hasClass('test'));
+    assert($element.find('.test').hasClass('test'));
   });
 
   it('degrades gracefully with empty result', function(){
-    var ghost = el.find('not-found');
+    var ghost = $element.find('not-found');
 
     assert(ghost.length === 0);
     assert(ghost.text() === '');

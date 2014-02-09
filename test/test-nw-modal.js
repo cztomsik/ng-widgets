@@ -7,35 +7,45 @@ var
 
 describe('<nw-modal', function(){
   var
-    el = example('<nw-modal name="Hello">Hello World</nw-modal>'),
-    modal = el.find('.modal'),
-    modalDialog = modal.find('.modal-dialog'),
-    modalContent = modalDialog.find('.modal-content'),
-    modalBody = modalDialog.find('.modal-body'),
-    modalHeader = modalDialog.find('.modal-header'),
-    modalTitle = modalDialog.find('.modal-title')
+    $element = example(
+      '<nw-modal>' +
+      '  Nameless modal' +
+      '</nw-modal>' +
+      '<br>' +
+      '<nw-modal name="Named modal">' +
+      '  Modal body' +
+      '</nw-modal>'
+    ),
+
+    modal = $element.find('.modal'),
+
+    namelessModal = modal.eq(0),
+    namedModal = modal.eq(1),
+
+    namelessHeader = namelessModal.find('.modal-header'),
+    namelessBody = namelessModal.find('.modal-body'),
+
+    namedHeader = namedModal.find('.modal-header'),
+    namedBody = namedModal.find('.modal-body')
   ;
 
-  it('renders .modal>.modal-dialog>.modal-content', function(){
-    assert(modal.length);
-    assert(modalDialog.length);
-    assert(modalContent.length);
+  it('renders .modal', function(){
+    assert.equal(modal.length, 2);
+    assert.equal(modal.find('.modal-dialog > .modal-content > .modal-body').length, 2);
+    assert.equal(modal.find('.modal-dialog > .modal-content > .modal-header > .modal-title').length, 2);
+
   });
 
-  it('shows [name] in .modal-title', function(){
-    assert.equal(modalTitle.text(), 'Hello');
+  it('shows [name] in .modal-header>.modal-title', function(){
+    assert(namelessHeader.hasClass('ng-hide'));
+    assert.equal(namelessHeader.text().trim(), '');
+
+    assert( ! namedHeader.hasClass('ng-hide'));
+    assert.equal(namedHeader.text().trim(), 'Named modal');
   });
 
   it('shows content in .modal-body', function(){
-    assert.equal(modalBody.text().trim(), 'Hello World');
-  });
-
-  it('.modal-header hidden when empty', function(){
-    assert( ! modalHeader.hasClass('ng-hide'));
-
-    el.isolateScope().name = '';
-    el.isolateScope().$apply();
-
-    assert(modalHeader.hasClass('ng-hide'));
+    assert.equal(namelessBody.text().trim(), 'Nameless modal');
+    assert.equal(namedBody.text().trim(), 'Modal body');
   });
 });

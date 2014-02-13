@@ -11,11 +11,11 @@ describe('content', function(){
     $scope = $element.scope()
   ;
 
-  it('transcludes content', function(){
+  it('represents insertion point for widget content', function(){
     assert.equal($element.text(), 'Hello world');
   });
 
-  it('uses parent scope', function(){
+  it('uses internal $host property, containing automatically transcluded content within **parent** scope', function(){
     assert($scope.changed);
   });
 

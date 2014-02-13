@@ -8,14 +8,15 @@ var
 describe('<nw-btn', function(){
   var
     $element = example(
-      '<nw-btn></nw-btn>' +
-      '<nw-btn type="primary"></nw-btn>'
+      '<nw-btn name="Button"></nw-btn>' +
+      '<nw-btn type="danger" icon="trash-o"></nw-btn>'
     ),
 
     btn = $element.find('.btn'),
 
     btnDefault = $element.find('.btn.btn-default'),
-    btnPrimary = $element.find('.btn.btn-primary')
+    btnDanger = $element.find('.btn.btn-danger'),
+    trashIcon = btnDanger.find('i.fa.fa-trash-o')
   ;
 
   it('renders .btn', function(){
@@ -24,6 +25,14 @@ describe('<nw-btn', function(){
 
   it('.btn-default in no [type] was given', function(){
     assert.equal(btnDefault.length, 1);
-    assert.equal(btnPrimary.length, 1);
+    assert.equal(btnDanger.length, 1);
+  });
+
+  it('shows [name] in its body', function(){
+    assert.equal(btnDefault.text().trim(), 'Button');
+  });
+
+  it('adds fa-* classes based on given [icon]', function(){
+    assert(trashIcon.length);
   });
 });

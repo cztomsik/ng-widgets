@@ -51,8 +51,8 @@ module.exports = window.Showdown;
 module.exports = function(){
   return {
     restrict: 'E',
-    link: function($scope, $element, $attrs, ctrls, $transclude){
-      $transclude($scope.$parent, $element.append.bind($element));
+    link: function($scope, $element){
+      $element.append($scope.$host.contents());
     }
   };
 };
@@ -112,24 +112,31 @@ WidgetDefinition.prototype = {
     };
   },
 
-  prelink: function($scope, $element, $attrs){
+  prelink: function($scope, $element, $attrs, ctrls, $transclude){
     angular.extend($scope, angular.copy(this.defaults));
 
     for (var k in $attrs.$attr){
       $scope[k] = $attrs[k];
 
       //TODO: test (partially covered by nw-* widgets)
-      //array-like special case
-      if (angular.isArray(this.defaults[k])){
+      //most wanted
+      if (this.defaults[k] instanceof Object){
         $scope[k] = $scope.$parent.$eval($attrs[k]);
         $scope.$parent.$watchCollection($attrs[k], dotSet($scope, k));
         continue;
       }
 
+      //string interpolation
       if ($attrs.$$observers && $attrs.$$observers[k]){
         $attrs.$observe(k, dotSet($scope, k));
       }
     }
+
+    //always transclude - this makes tracing bugs little easier
+    $transclude($scope.$parent, function(contents){
+      //scope is the least evil, in future this will get replaced by shadow DOM + polyfill
+      $scope.$host = $element.clone().html('').append(contents);
+    });
   }
 };
 
@@ -181,12 +188,10 @@ module.exports = function(ngWidget){
       };
     },
 
-    link: function($scope, $element, $attrs, ctrls, $transclude){
-      //copy contents (TODO: $host)
-      var tmp = $element.clone().html('');
-      $transclude(this, tmp.append.bind(tmp));
+    link: function($scope){
+      $scope.html = $scope.$host.find('template').html();
 
-      $scope.html = tmp.find('template').html();
+      $scope.$emit('coladd', $scope);
     }
   });
 };
@@ -370,10 +375,8 @@ module.exports = function(ngWidget){
   return ngWidget({
     template: '<content ng-show=" active "></content>',
 
-    link: function($scope, $element){
-      var nwTabsEl = $element.parent().parent();
-
-      nwTabsEl.isolateScope().tabs.push($scope);
+    link: function($scope){
+      $scope.$emit('tabadd', $scope);
     }
   });
 };

@@ -10,7 +10,7 @@ exampleModule.exports = function(html){
     console.log('<example><div>', html, '</div><pre ng-non-bindable>' + format(html) + '</pre>', '</example>');
   });
 
-  return example(html);
+  return example.apply(this, arguments);
 };
 
 function format(html){

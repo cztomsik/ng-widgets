@@ -23,7 +23,8 @@
     "gulp-concat": "~2.1.7",
     "gulp-jshint": "~1.4.0",
     "jshint-stylish": "~0.1.5",
-    "gulp-uglify": "~0.2.0"
+    "gulp-uglify": "~0.2.0",
+    "mocha": "~1.17.1"
   },
   "browser": {
     "angular": "./shims/angular.js",

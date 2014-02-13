@@ -1,7 +1,7 @@
 {
   "name": "ngWidgets",
   "main": "ngWidgets.js",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "homepage": "https://github.com/cztomsik/ngWidgets",
   "authors": [
     "Kamil Tomsik <info@tomsik.cz>"

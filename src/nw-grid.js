@@ -41,7 +41,10 @@ module.exports = function(ngWidget){
       autosort: true
     },
 
-    controller: function($scope){
+    controller: function($scope, $compile){
+      //TODO: injector during
+      $scope.$compile = $compile;
+
       $scope.$watch('cols', function(){
         if ($scope.autosort){
           $scope.sortCol = $scope.cols[0];
@@ -64,7 +67,7 @@ module.exports = function(ngWidget){
       });
 
       //TODO: find better way to compile new elements in link phase
-      $element.injector().get('$compile')(tr.html(trHtml))($scope);
+      $scope.$compile(tr.html(trHtml))($scope);
     }
   });
 };

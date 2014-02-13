@@ -8,12 +8,10 @@ module.exports = function(ngWidget){
       };
     },
 
-    link: function($scope, $element, $attrs, ctrls, $transclude){
-      //copy contents (TODO: $host)
-      var tmp = $element.clone().html('');
-      $transclude(this, tmp.append.bind(tmp));
+    link: function($scope){
+      $scope.html = $scope.$host.find('template').html();
 
-      $scope.html = tmp.find('template').html();
+      $scope.$emit('coladd', $scope);
     }
   });
 };

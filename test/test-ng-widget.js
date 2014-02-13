@@ -98,18 +98,21 @@ describe('ngWidget()', function(){
 
   it('content is transcluded even if there are no insertion points', function(){
     var
-      wasCalled = false,
-      testDefinition = ngWidget({}),
-      paramDefinition = ngWidget({
-        controller: function(){
-          wasCalled = true;
-        }
-      })
+      wasCalled = false
     ;
 
     example('<test><param></param></test>', function($compileProvider){
-      $compileProvider.directive('test', testDefinition);
-      $compileProvider.directive('param', paramDefinition);
+      $compileProvider.directive('test', function(ngWidget){
+        return ngWidget();
+      });
+
+      $compileProvider.directive('param', function(ngWidget){
+        return ngWidget({
+          controller: function(){
+            wasCalled = true;
+          }
+        });
+      });
     });
 
     assert(wasCalled);

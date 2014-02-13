@@ -18,6 +18,11 @@ module.exports = function(ngWidget){
       '    <content></content>' +
       '  </div>' +
       '  <div class="modal-footer" ng-show=" footer ">{{ footer }}</div>' +
-      '</div></div></div>'
+      '</div></div></div>',
+
+    defaults: {
+      name: '',
+      footer: ''
+    }
   });
 };

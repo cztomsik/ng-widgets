@@ -11,6 +11,7 @@ module.exports = function(ngWidget){
       '</div>',
 
     defaults: {
+      name: '',
       type: 'default'
     }
   });

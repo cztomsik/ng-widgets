@@ -1,9 +1,10 @@
     <section class="suite">
       <h1>content</h1>
       <dl>
-        <dt>transcludes content</dt>
-        <dd><pre><code>assert.equal(el.text(), 'Hello world');</code></pre></dd>
-        <dt>uses parent scope</dt>
+<example><div> <test><div ng-init=" changed = true ">Hello</div></test> </div><pre ng-non-bindable>&lt;test&gt;&lt;div ng-init=" changed = true "&gt;Hello&lt;/div&gt;&lt;/test&gt;</pre> </example>
+        <dt>represents insertion point for widget content</dt>
+        <dd><pre><code>assert.equal($element.text(), 'Hello world');</code></pre></dd>
+        <dt>uses internal $host property, containing automatically transcluded content within **parent** scope</dt>
         <dd><pre><code>assert($scope.changed);</code></pre></dd>
       </dl>
     </section>
@@ -33,7 +34,9 @@ assert.equal(definition.restrict, 'E');
 assert.strictEqual(definition.template, '');
 assert.strictEqual(definition.transclude, true);
 assert.deepEqual(definition.scope, {});
+assert.deepEqual(definition.defaults, {});
 //do the magic
+assert.strictEqual(definition.controller, undefined);
 assert(definition.compile);</code></pre></dd>
         <dt>definition defaults can be overridden</dt>
         <dd><pre><code>var definition = ngWidget({
@@ -41,57 +44,88 @@ assert(definition.compile);</code></pre></dd>
 });
 assert.equal(definition.restrict, 'EA');</code></pre></dd>
         <dt>link() is called</dt>
-        <dd><pre><code>var definition = ngWidget({link: done});
-definition.compile().post();</code></pre></dd>
+        <dd><pre><code>example('&lt;test&gt;&lt;/test&gt;', function($compileProvider){
+  $compileProvider.directive('test', function(ngWidget){
+    return ngWidget({
+      link: done.bind(null, null)
+    });
+  });
+});</code></pre></dd>
         <dt>binds text attributes to scope</dt>
         <dd><pre><code>var
-  html = '&lt;test hello=&quot;Hello&quot; world=&quot;{{ world }}&quot;&gt;&lt;/test&gt;',
-  definition = ngWidget({template: '{{ hello }} {{ world }}'}),
-  $injector = angular.bootstrap(html, [withTestDirective]),
-  $scope = $injector.get('$rootScope'),
-  $element = $injector.get('$rootElement')
+  $element = example('&lt;test hello=&quot;Hello&quot; world=&quot;{{ world }}&quot;&gt;&lt;/test&gt;', withTestDirective),
+  $scope = $element.scope()
 ;
 $scope.world = 'world';
 $scope.$apply();
 assert.equal($element.text(), 'Hello world');
 
 function withTestDirective($compileProvider){
-  $compileProvider.directive('test', function(){
-    return definition;
+  $compileProvider.directive('test', function(ngWidget){
+    return ngWidget({
+      template: '{{ hello }} {{ world }}'
+    });
   });
 }</code></pre></dd>
-        <dt>$scope is initialized with copy of definition.defaults during prelink phase</dt>
+        <dt>$scope is initialized with copy of definition.defaults</dt>
         <dd><pre><code>var
   arrInstance = [],
-  definition = ngWidget({
-    defaults: {
-      items: arrInstance,
-      emptyText: 'No items'
-    }
-  }),
-  $scope = {}
+  $innerScope
 ;
-definition.prelink($scope, null, {});
-assert.equal($scope.emptyText, 'No items');
-assert.deepEqual($scope.items, []);
-assert($scope.items !== arrInstance, 'array copy expected');</code></pre></dd>
+example('&lt;test&gt;&lt;/test&gt;', function($compileProvider){
+  $compileProvider.directive('test', function(ngWidget){
+    return ngWidget({
+      defaults: {
+        items: arrInstance,
+        emptyText: 'No items'
+      },
+      controller: function($scope){
+        $innerScope = $scope;
+      }
+    });
+  });
+});
+assert.equal($innerScope.emptyText, 'No items');
+assert.deepEqual($innerScope.items, []);
+assert($innerScope.items !== arrInstance, 'array copy expected');</code></pre></dd>
+        <dt>content is transcluded even if there are no insertion points</dt>
+        <dd><pre><code>var
+  wasCalled = false
+;
+example('&lt;test&gt;&lt;param&gt;&lt;/param&gt;&lt;/test&gt;', function($compileProvider){
+  $compileProvider.directive('test', function(ngWidget){
+    return ngWidget();
+  });
+  $compileProvider.directive('param', function(ngWidget){
+    return ngWidget({
+      controller: function(){
+        wasCalled = true;
+      }
+    });
+  });
+});
+assert(wasCalled);</code></pre></dd>
       </dl>
     </section>
     <section class="suite">
       <h1>&lt;nw-btn</h1>
       <dl>
-<example><div> <nw-btn></nw-btn><nw-btn type="primary"></nw-btn> </div><pre ng-non-bindable>&lt;nw-btn&gt;&lt;/nw-btn&gt;&lt;nw-btn type="primary"&gt;&lt;/nw-btn&gt;</pre> </example>
+<example><div> <nw-btn name="Button"></nw-btn><nw-btn type="danger" icon="trash-o"></nw-btn> </div><pre ng-non-bindable>&lt;nw-btn name="Button"&gt;&lt;/nw-btn&gt;&lt;nw-btn type="danger" icon="trash-o"&gt;&lt;/nw-btn&gt;</pre> </example>
         <dt>renders .btn</dt>
         <dd><pre><code>assert.equal(btn.length, 2);</code></pre></dd>
         <dt>.btn-default in no [type] was given</dt>
         <dd><pre><code>assert.equal(btnDefault.length, 1);
-assert.equal(btnPrimary.length, 1);</code></pre></dd>
+assert.equal(btnDanger.length, 1);</code></pre></dd>
+        <dt>shows [name] in its body</dt>
+        <dd><pre><code>assert.equal(btnDefault.text().trim(), 'Button');</code></pre></dd>
+        <dt>adds fa-* classes based on given [icon]</dt>
+        <dd><pre><code>assert(trashIcon.length);</code></pre></dd>
       </dl>
     </section>
     <section class="suite">
       <h1>&lt;nw-field</h1>
       <dl>
-<example><div> <nw-field label="Email">  <input type="email" ng-model=" email "></nw-field><br><nw-field><textarea></textarea></nw-field><nw-field><select></select></nw-field><nw-field><input type="checkbox"></nw-field><nw-field><input type="radio"></nw-field> </div><pre ng-non-bindable>&lt;nw-field label="Email"&gt;
+<example><div> <nw-field label="Email">  <input type="email" ng-model=" email "></nw-field><br><nw-field><textarea></textarea></nw-field><nw-field><select></select></nw-field><nw-field><input type="checkbox"> Checkbox</nw-field><nw-field><input type="radio"> Radio</nw-field> </div><pre ng-non-bindable>&lt;nw-field label="Email"&gt;
   &lt;input type="email" ng-model=" email "&gt;
 &lt;/nw-field&gt;
 &lt;br&gt;
@@ -105,10 +139,10 @@ assert.equal(btnPrimary.length, 1);</code></pre></dd>
 &lt;/nw-field&gt;
 &lt;nw-field&gt;
 &lt;input type="checkbox"&gt;
-&lt;/nw-field&gt;
+ Checkbox&lt;/nw-field&gt;
 &lt;nw-field&gt;
 &lt;input type="radio"&gt;
-&lt;/nw-field&gt;
+ Radio&lt;/nw-field&gt;
 </pre> </example>
         <dt>renders .form-group</dt>
         <dd><pre><code>assert.equal(formGroup.length, 5);</code></pre></dd>

@@ -14,8 +14,8 @@ describe('<nw-field', function(){
       '<br>' +
       '<nw-field><textarea></textarea></nw-field>' +
       '<nw-field><select></select></nw-field>' +
-      '<nw-field><input type="checkbox"></nw-field>' +
-      '<nw-field><input type="radio"></nw-field>'
+      '<nw-field><input type="checkbox"> Checkbox</nw-field>' +
+      '<nw-field><input type="radio"> Radio</nw-field>'
     ),
 
     formGroup = $element.find('.form-group'),

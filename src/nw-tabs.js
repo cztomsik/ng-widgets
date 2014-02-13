@@ -9,10 +9,12 @@ module.exports = function(ngWidget){
       '<content></content>',
 
     defaults: {
-      tabs: []
+      tabs: [],
+      activeTab: null
     },
 
     controller: function($scope){
+      //TODO: autoselect
       $scope.$watchCollection('tabs', function(tabs){
         $scope.activeTab = $scope.activeTab || tabs[0];
       });

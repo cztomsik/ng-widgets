@@ -17,9 +17,6 @@ module.exports = function(ngWidget){
       'nw-grid tr.active td{background: #68c !important; color: #fff !important}',
 
     template:
-      //transclude columns (TODO: make ngWidget() automatically transclude everything)
-      '<content></content>' +
-
       '<table class="table table-striped table-hover table-bordered">' +
       '  <thead>' +
       '    <tr>' +
@@ -55,15 +52,9 @@ module.exports = function(ngWidget){
     link: function($scope, $element){
       //initialize using elements
       var
-        colEls = $element.find('nw-grid-col'),
         tr = $element.find('tbody tr'),
         trHtml = ''
       ;
-
-      //TODO: this is nasty, would be much better to get all hostElement scopes in array
-      angular.forEach(colEls, function(colEl){
-        $scope.cols.push(angular.element(colEl).isolateScope());
-      });
 
       //init repeater
       tr.attr('ng-repeat', ' it in items | orderBy:sortCol.index:reverse ');

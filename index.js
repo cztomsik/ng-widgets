@@ -16,7 +16,7 @@ if ( ! jQuery){
 }
 
 ngWidgets
-  .value('ngWidget', require('./src/ngWidget.js'))
+  .value('ngWidget', require('./src/ng-widget.js'))
 
   .filter('markdown', require('./src/markdown.js'))
 

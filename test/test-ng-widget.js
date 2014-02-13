@@ -3,7 +3,7 @@
 var
   assert = require('assert'),
   example = require('./runner/example'),
-  ngWidget = require('../src/ngWidget')
+  ngWidget = require('../src/ng-widget')
 ;
 
 describe('ngWidget()', function(){

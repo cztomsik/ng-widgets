@@ -26,11 +26,11 @@ describe('<nw-list', function(){
   it('renders unordered list, with item names', function(){
     var listItems = list.find('li');
 
-    assert.equal(list.length, 1);
-    assert.equal(listItems.length, 2);
+    assert.strictEqual(list.length, 1);
+    assert.strictEqual(listItems.length, 2);
 
-    assert.equal(listItems.eq(0).text().trim(), 'Admin');
-    assert.equal(listItems.eq(1).text().trim(), 'Test');
+    assert.strictEqual(listItems.eq(0).text().trim(), 'Admin');
+    assert.strictEqual(listItems.eq(1).text().trim(), 'Test');
   });
 
   it('clicking sets item to ng-model', function(){
@@ -58,6 +58,6 @@ describe('<nw-list', function(){
     $scope.$apply();
 
     assert(list.hasClass('ng-hide'));
-    assert.equal($element.text().trim(), 'No items');
+    assert.strictEqual($element.text().trim(), 'No items');
   });
 });

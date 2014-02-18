@@ -30,22 +30,22 @@ describe('<nw-modal', function(){
   ;
 
   it('renders .modal', function(){
-    assert.equal(modal.length, 2);
-    assert.equal(modal.find('.modal-dialog > .modal-content > .modal-body').length, 2);
-    assert.equal(modal.find('.modal-dialog > .modal-content > .modal-header > .modal-title').length, 2);
+    assert.strictEqual(modal.length, 2);
+    assert.strictEqual(modal.find('.modal-dialog > .modal-content > .modal-body').length, 2);
+    assert.strictEqual(modal.find('.modal-dialog > .modal-content > .modal-header > .modal-title').length, 2);
 
   });
 
   it('shows [name] in .modal-header>.modal-title', function(){
     assert(namelessHeader.hasClass('ng-hide'));
-    assert.equal(namelessHeader.text().trim(), '');
+    assert.strictEqual(namelessHeader.text().trim(), '');
 
     assert( ! namedHeader.hasClass('ng-hide'));
-    assert.equal(namedHeader.text().trim(), 'Named modal');
+    assert.strictEqual(namedHeader.text().trim(), 'Named modal');
   });
 
   it('shows content in .modal-body', function(){
-    assert.equal(namelessBody.text().trim(), 'Nameless modal');
-    assert.equal(namedBody.text().trim(), 'Modal body');
+    assert.strictEqual(namelessBody.text().trim(), 'Nameless modal');
+    assert.strictEqual(namedBody.text().trim(), 'Modal body');
   });
 });

@@ -25,6 +25,6 @@ describe('ngWidgets', function(){
     $scope.$apply();
 
     assert( ! panelHeading.hasClass('ng-hide'));
-    assert.equal(panelHeading.text(), $scope.panelName);
+    assert.strictEqual(panelHeading.text(), $scope.panelName);
   });
 });

@@ -8,11 +8,11 @@ var
 describe('angular.element().find()', function(){
   var
     $element = example(
-      '<test>' +
+      '<main>' +
       '  <div class="test">' +
       '    <span>test</span>' +
       '  </div>' +
-      '</test>'
+      '</main>'
     )
   ;
 

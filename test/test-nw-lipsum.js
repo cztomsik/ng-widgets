@@ -12,7 +12,7 @@ describe('<nw-lipsum', function(){
   ;
 
   it('shows paragraph of lorem ipsum', function(){
-    assert.equal(paragraph.length, 1);
-    assert.equal($element.text().slice(0, 11), 'Lorem ipsum');
+    assert.strictEqual(paragraph.length, 1);
+    assert.strictEqual($element.text().slice(0, 11), 'Lorem ipsum');
   });
 });

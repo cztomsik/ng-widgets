@@ -29,24 +29,24 @@ describe('<nw-panel', function(){
   ;
 
   it('renders .panel', function(){
-    assert.equal(panel.length, 2);
+    assert.strictEqual(panel.length, 2);
   });
 
   it('.panel-default if no [type] was given', function(){
-    assert.equal(panelDefault.length, 1);
-    assert.equal(panelPrimary.length, 1);
+    assert.strictEqual(panelDefault.length, 1);
+    assert.strictEqual(panelPrimary.length, 1);
   });
 
   it('shows [name] in .panel-heading', function(){
     assert(defaultHeading.hasClass('ng-hide'));
-    assert.equal(defaultHeading.text(), '');
+    assert.strictEqual(defaultHeading.text(), '');
 
     assert( ! primaryHeading.hasClass('ng-hide'));
-    assert.equal(primaryHeading.text(), 'Named panel');
+    assert.strictEqual(primaryHeading.text(), 'Named panel');
   });
 
   it('shows content in .panel-body', function(){
-    assert.equal(defaultBody.text().trim(), 'Nameless panel');
-    assert.equal(primaryBody.text().trim(), 'Panel body');
+    assert.strictEqual(defaultBody.text().trim(), 'Nameless panel');
+    assert.strictEqual(primaryBody.text().trim(), 'Panel body');
   });
 });

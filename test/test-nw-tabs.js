@@ -32,13 +32,13 @@ describe('<nw-tabs', function(){
   ;
 
   it('renders .nav.nav-tabs', function(){
-    assert.equal(tabs.length, 1);
-    assert.equal(tabHandles.length, 2);
+    assert.strictEqual(tabs.length, 1);
+    assert.strictEqual(tabHandles.length, 2);
   });
 
   it('shows tab names in handles', function(){
-    assert.equal(tabHandles.eq(0).text(), 'General');
-    assert.equal(tabHandles.eq(1).text(), 'Other');
+    assert.strictEqual(tabHandles.eq(0).text(), 'General');
+    assert.strictEqual(tabHandles.eq(1).text(), 'Other');
   });
 
   it('clicking on handles will show respective tabs', function(){
@@ -61,6 +61,6 @@ describe('<nw-tabs', function(){
     $scope.items = [{name: 'Test1'}, {name: 'Test2'}];
     $scope.$apply();
 
-    assert.equal(tabs.find('li').length, 4);
+    assert.strictEqual(tabs.find('li').length, 4);
   });
 });

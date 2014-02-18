@@ -2,14 +2,21 @@
 
 var
   angular = require('angular'),
-  ngWidgets = require('../..')
+  $injector = require('./injector'),
+  $rootScope = $injector.get('$rootScope'),
+  $compile = $injector.get('$compile')
 ;
 
-module.exports = function(html, config){
+module.exports = function(html, scope){
   var
-    $injector = angular.bootstrap(html, [ngWidgets.name].concat(config || [])),
-    $element = $injector.get('$rootElement')
+    $element = angular.element(html),
+    $scope = $rootScope.$new(true)
   ;
+
+  $scope.$apply(function(){
+    $element.data('$injector', $injector);
+    $compile($element)(angular.extend($scope, scope));
+  });
 
   return $element;
 };

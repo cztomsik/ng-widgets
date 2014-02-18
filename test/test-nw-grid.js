@@ -32,9 +32,9 @@ describe('<nw-grid', function(){
       rows = $element.find('tbody tr')
     ;
 
-    assert.equal(table.length, 1);
-    assert.equal(cols.length, 2);
-    assert.equal(rows.length, 3);
+    assert.strictEqual(table.length, 1);
+    assert.strictEqual(cols.length, 2);
+    assert.strictEqual(rows.length, 3);
   });
 
   it('TODO: test autosort, sortCol, reverse', function(){

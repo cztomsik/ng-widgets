@@ -21,7 +21,11 @@ ngWidgets
   .filter('markdown', require('./src/markdown.js'))
 
   .directive('content', require('./src/content'))
+
   .directive('nwBtn', require('./src/nw-btn'))
+  .directive('nwSaveBtn', require('./src/nw-save-btn'))
+  .directive('nwDeleteBtn', require('./src/nw-delete-btn'))
+
   .directive('nwList', require('./src/nw-list'))
   .directive('nwField', require('./src/nw-field'))
   .directive('nwRow', require('./src/nw-row'))

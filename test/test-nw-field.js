@@ -30,15 +30,15 @@ describe('<nw-field', function(){
   ;
 
   it('renders .form-group', function(){
-    assert.equal(formGroup.length, 5);
+    assert.strictEqual(formGroup.length, 5);
   });
 
   it('shows [label] in .control-label', function(){
     assert(! emailLabel.hasClass('ng-hide'));
-    assert.equal(emailLabel.text(), 'Email');
+    assert.strictEqual(emailLabel.text(), 'Email');
 
     assert(textareaLabel.hasClass('ng-hide'));
-    assert.equal(textareaLabel.text(), '');
+    assert.strictEqual(textareaLabel.text(), '');
   });
 
   it('adds .form-control to controls, excluding radios & checkboxes', function(){

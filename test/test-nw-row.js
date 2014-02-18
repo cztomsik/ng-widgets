@@ -23,11 +23,11 @@ describe('<nw-row', function(){
   ;
 
   it('renders .row with transcluded contents', function(){
-    assert.equal(row.length, 1);
-    assert.equal(fields.length, 2);
+    assert.strictEqual(row.length, 1);
+    assert.strictEqual(fields.length, 2);
   });
 
   it('appends itemClass to all children', function(){
-    assert.equal(cols.length, 2);
+    assert.strictEqual(cols.length, 2);
   });
 });

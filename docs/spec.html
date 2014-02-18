@@ -1,9 +1,9 @@
     <section class="suite">
       <h1>content</h1>
       <dl>
-<example><div> <test><div ng-init=" changed = true ">Hello</div></test> </div><pre ng-non-bindable>&lt;test&gt;&lt;div ng-init=" changed = true "&gt;Hello&lt;/div&gt;&lt;/test&gt;</pre> </example>
+<example><div> <test-content><div ng-init=" changed = true ">Hello</div></test-content> </div><pre ng-non-bindable>&lt;test-content&gt;&lt;div ng-init=" changed = true "&gt;Hello&lt;/div&gt;&lt;/test-content&gt;</pre> </example>
         <dt>represents insertion point for widget content</dt>
-        <dd><pre><code>assert.equal($element.text(), 'Hello world');</code></pre></dd>
+        <dd><pre><code>assert.strictEqual($element.text(), 'Hello world');</code></pre></dd>
         <dt>uses internal $host property, containing automatically transcluded content within **parent** scope</dt>
         <dd><pre><code>assert($scope.changed);</code></pre></dd>
       </dl>
@@ -22,7 +22,7 @@
 $scope.panelName = 'Test';
 $scope.$apply();
 assert( ! panelHeading.hasClass('ng-hide'));
-assert.equal(panelHeading.text(), $scope.panelName);</code></pre></dd>
+assert.strictEqual(panelHeading.text(), $scope.panelName);</code></pre></dd>
       </dl>
     </section>
     <section class="suite">
@@ -30,7 +30,7 @@ assert.equal(panelHeading.text(), $scope.panelName);</code></pre></dd>
       <dl>
         <dt>returns preinitialized directive definition</dt>
         <dd><pre><code>var definition = ngWidget();
-assert.equal(definition.restrict, 'E');
+assert.strictEqual(definition.restrict, 'E');
 assert.strictEqual(definition.template, '');
 assert.strictEqual(definition.transclude, true);
 assert.deepEqual(definition.scope, {});
@@ -42,68 +42,59 @@ assert(definition.compile);</code></pre></dd>
         <dd><pre><code>var definition = ngWidget({
   restrict: 'EA'
 });
-assert.equal(definition.restrict, 'EA');</code></pre></dd>
+assert.strictEqual(definition.restrict, 'EA');</code></pre></dd>
         <dt>link() is called</dt>
-        <dd><pre><code>example('&lt;test&gt;&lt;/test&gt;', function($compileProvider){
-  $compileProvider.directive('test', function(ngWidget){
-    return ngWidget({
-      link: done.bind(null, null)
-    });
+        <dd><pre><code>$compileProvider.directive('testLink', function(ngWidget){
+  return ngWidget({
+    link: done.bind(null, null)
   });
-});</code></pre></dd>
+});
+example('&lt;test-link&gt;&lt;/test-link&gt;');</code></pre></dd>
         <dt>binds text attributes to scope</dt>
-        <dd><pre><code>var
-  $element = example('&lt;test hello=&quot;Hello&quot; world=&quot;{{ world }}&quot;&gt;&lt;/test&gt;', withTestDirective),
-  $scope = $element.scope()
-;
-$scope.world = 'world';
-$scope.$apply();
-assert.equal($element.text(), 'Hello world');
-
-function withTestDirective($compileProvider){
-  $compileProvider.directive('test', function(ngWidget){
-    return ngWidget({
-      template: '{{ hello }} {{ world }}'
-    });
+        <dd><pre><code>$compileProvider.directive('testAttrs', function(ngWidget){
+  return ngWidget({
+    template: '{{ hello }} {{ world }}'
   });
-}</code></pre></dd>
+});
+var
+  $element = example('&lt;test-attrs hello=&quot;Hello&quot; world=&quot;{{ world }}&quot;&gt;&lt;/test-attrs&gt;', {world: 'world'})
+;
+assert.strictEqual($element.text(), 'Hello world');</code></pre></dd>
         <dt>$scope is initialized with copy of definition.defaults</dt>
         <dd><pre><code>var
   arrInstance = [],
   $innerScope
 ;
-example('&lt;test&gt;&lt;/test&gt;', function($compileProvider){
-  $compileProvider.directive('test', function(ngWidget){
-    return ngWidget({
-      defaults: {
-        items: arrInstance,
-        emptyText: 'No items'
-      },
-      controller: function($scope){
-        $innerScope = $scope;
-      }
-    });
+$compileProvider.directive('testDefaults', function(ngWidget){
+  return ngWidget({
+    defaults: {
+      items: arrInstance,
+      emptyText: 'No items'
+    },
+    controller: function($scope){
+      $innerScope = $scope;
+    }
   });
 });
-assert.equal($innerScope.emptyText, 'No items');
+example('&lt;test-defaults&gt;&lt;/test-defaults&gt;');
+assert.strictEqual($innerScope.emptyText, 'No items');
 assert.deepEqual($innerScope.items, []);
 assert($innerScope.items !== arrInstance, 'array copy expected');</code></pre></dd>
         <dt>content is transcluded even if there are no insertion points</dt>
         <dd><pre><code>var
   wasCalled = false
 ;
-example('&lt;test&gt;&lt;param&gt;&lt;/param&gt;&lt;/test&gt;', function($compileProvider){
-  $compileProvider.directive('test', function(ngWidget){
-    return ngWidget();
-  });
-  $compileProvider.directive('param', function(ngWidget){
-    return ngWidget({
-      controller: function(){
-        wasCalled = true;
-      }
-    });
+$compileProvider.directive('test', function(ngWidget){
+  return ngWidget();
+});
+$compileProvider.directive('param', function(ngWidget){
+  return ngWidget({
+    controller: function(){
+      wasCalled = true;
+    }
   });
 });
+example('&lt;test&gt;&lt;param&gt;&lt;/param&gt;&lt;/test&gt;');
 assert(wasCalled);</code></pre></dd>
       </dl>
     </section>
@@ -112,14 +103,28 @@ assert(wasCalled);</code></pre></dd>
       <dl>
 <example><div> <nw-btn name="Button"></nw-btn><nw-btn type="danger" icon="trash-o"></nw-btn> </div><pre ng-non-bindable>&lt;nw-btn name="Button"&gt;&lt;/nw-btn&gt;&lt;nw-btn type="danger" icon="trash-o"&gt;&lt;/nw-btn&gt;</pre> </example>
         <dt>renders .btn</dt>
-        <dd><pre><code>assert.equal(btn.length, 2);</code></pre></dd>
+        <dd><pre><code>assert.strictEqual(btn.length, 2);</code></pre></dd>
         <dt>.btn-default in no [type] was given</dt>
-        <dd><pre><code>assert.equal(btnDefault.length, 1);
-assert.equal(btnDanger.length, 1);</code></pre></dd>
+        <dd><pre><code>assert.strictEqual(btnDefault.length, 1);
+assert.strictEqual(btnDanger.length, 1);</code></pre></dd>
         <dt>shows [name] in its body</dt>
-        <dd><pre><code>assert.equal(btnDefault.text().trim(), 'Button');</code></pre></dd>
+        <dd><pre><code>assert.strictEqual(btnDefault.text().trim(), 'Button');</code></pre></dd>
         <dt>adds fa-* classes based on given [icon]</dt>
         <dd><pre><code>assert(trashIcon.length);</code></pre></dd>
+        <dt>logs an error if no [ng-click] was given</dt>
+        <dd><pre><code>//TODO: test</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>nw-delete-btn</h1>
+      <dl>
+<example><div> <nw-delete-btn record=" user "></nw-delete-btn> </div><pre ng-non-bindable>&lt;nw-delete-btn record=" user "&gt;&lt;/nw-delete-btn&gt;</pre> </example>
+        <dt>renders empty btn with trash icon</dt>
+        <dd><pre><code>assert.strictEqual(btn.text().trim(), '');
+assert.strictEqual(btn.attr('icon'), 'trash-o');</code></pre></dd>
+        <dt>calls [record].$delete() on click</dt>
+        <dd><pre><code>btn.triggerHandler('click');
+assert(user.deleted);</code></pre></dd>
       </dl>
     </section>
     <section class="suite">
@@ -145,12 +150,12 @@ assert.equal(btnDanger.length, 1);</code></pre></dd>
  Radio&lt;/nw-field&gt;
 </pre> </example>
         <dt>renders .form-group</dt>
-        <dd><pre><code>assert.equal(formGroup.length, 5);</code></pre></dd>
+        <dd><pre><code>assert.strictEqual(formGroup.length, 5);</code></pre></dd>
         <dt>shows [label] in .control-label</dt>
         <dd><pre><code>assert(! emailLabel.hasClass('ng-hide'));
-assert.equal(emailLabel.text(), 'Email');
+assert.strictEqual(emailLabel.text(), 'Email');
 assert(textareaLabel.hasClass('ng-hide'));
-assert.equal(textareaLabel.text(), '');</code></pre></dd>
+assert.strictEqual(textareaLabel.text(), '');</code></pre></dd>
         <dt>adds .form-control to controls, excluding radios &amp; checkboxes</dt>
         <dd><pre><code>assert(email.hasClass('form-control'));
 assert(textarea.hasClass('form-control'));
@@ -183,9 +188,9 @@ Edit&lt;/a&gt;
   cols = $element.find('thead th'),
   rows = $element.find('tbody tr')
 ;
-assert.equal(table.length, 1);
-assert.equal(cols.length, 2);
-assert.equal(rows.length, 3);</code></pre></dd>
+assert.strictEqual(table.length, 1);
+assert.strictEqual(cols.length, 2);
+assert.strictEqual(rows.length, 3);</code></pre></dd>
         <dt>TODO: test autosort, sortCol, reverse</dt>
         <dd><pre><code></code></pre></dd>
       </dl>
@@ -195,8 +200,8 @@ assert.equal(rows.length, 3);</code></pre></dd>
       <dl>
 <example><div> <nw-lipsum></nw-lipsum> </div><pre ng-non-bindable>&lt;nw-lipsum&gt;&lt;/nw-lipsum&gt;</pre> </example>
         <dt>shows paragraph of lorem ipsum</dt>
-        <dd><pre><code>assert.equal(paragraph.length, 1);
-assert.equal($element.text().slice(0, 11), 'Lorem ipsum');</code></pre></dd>
+        <dd><pre><code>assert.strictEqual(paragraph.length, 1);
+assert.strictEqual($element.text().slice(0, 11), 'Lorem ipsum');</code></pre></dd>
       </dl>
     </section>
     <section class="suite">
@@ -205,10 +210,10 @@ assert.equal($element.text().slice(0, 11), 'Lorem ipsum');</code></pre></dd>
 <example><div> <nw-list items=" users " list-class="list-unstyled" empty-text="No items" ng-model=" selectedUser "></nw-list> </div><pre ng-non-bindable>&lt;nw-list items=" users " list-class="list-unstyled" empty-text="No items" ng-model=" selectedUser "&gt;&lt;/nw-list&gt;</pre> </example>
         <dt>renders unordered list, with item names</dt>
         <dd><pre><code>var listItems = list.find('li');
-assert.equal(list.length, 1);
-assert.equal(listItems.length, 2);
-assert.equal(listItems.eq(0).text().trim(), 'Admin');
-assert.equal(listItems.eq(1).text().trim(), 'Test');</code></pre></dd>
+assert.strictEqual(list.length, 1);
+assert.strictEqual(listItems.length, 2);
+assert.strictEqual(listItems.eq(0).text().trim(), 'Admin');
+assert.strictEqual(listItems.eq(1).text().trim(), 'Test');</code></pre></dd>
         <dt>clicking sets item to ng-model</dt>
         <dd><pre><code>var handles = list.find('li a');
 handles.eq(0).triggerHandler('click');
@@ -224,7 +229,7 @@ assert(items.eq(1).hasClass('active'));</code></pre></dd>
         <dd><pre><code>$scope.users = [];
 $scope.$apply();
 assert(list.hasClass('ng-hide'));
-assert.equal($element.text().trim(), 'No items');</code></pre></dd>
+assert.strictEqual($element.text().trim(), 'No items');</code></pre></dd>
       </dl>
     </section>
     <section class="suite">
@@ -237,17 +242,17 @@ assert.equal($element.text().trim(), 'No items');</code></pre></dd>
   Modal body&lt;/nw-modal&gt;
 </pre> </example>
         <dt>renders .modal</dt>
-        <dd><pre><code>assert.equal(modal.length, 2);
-assert.equal(modal.find('.modal-dialog &gt; .modal-content &gt; .modal-body').length, 2);
-assert.equal(modal.find('.modal-dialog &gt; .modal-content &gt; .modal-header &gt; .modal-title').length, 2);</code></pre></dd>
+        <dd><pre><code>assert.strictEqual(modal.length, 2);
+assert.strictEqual(modal.find('.modal-dialog &gt; .modal-content &gt; .modal-body').length, 2);
+assert.strictEqual(modal.find('.modal-dialog &gt; .modal-content &gt; .modal-header &gt; .modal-title').length, 2);</code></pre></dd>
         <dt>shows [name] in .modal-header&gt;.modal-title</dt>
         <dd><pre><code>assert(namelessHeader.hasClass('ng-hide'));
-assert.equal(namelessHeader.text().trim(), '');
+assert.strictEqual(namelessHeader.text().trim(), '');
 assert( ! namedHeader.hasClass('ng-hide'));
-assert.equal(namedHeader.text().trim(), 'Named modal');</code></pre></dd>
+assert.strictEqual(namedHeader.text().trim(), 'Named modal');</code></pre></dd>
         <dt>shows content in .modal-body</dt>
-        <dd><pre><code>assert.equal(namelessBody.text().trim(), 'Nameless modal');
-assert.equal(namedBody.text().trim(), 'Modal body');</code></pre></dd>
+        <dd><pre><code>assert.strictEqual(namelessBody.text().trim(), 'Nameless modal');
+assert.strictEqual(namedBody.text().trim(), 'Modal body');</code></pre></dd>
       </dl>
     </section>
     <section class="suite">
@@ -260,18 +265,18 @@ assert.equal(namedBody.text().trim(), 'Modal body');</code></pre></dd>
   Panel body&lt;/nw-panel&gt;
 </pre> </example>
         <dt>renders .panel</dt>
-        <dd><pre><code>assert.equal(panel.length, 2);</code></pre></dd>
+        <dd><pre><code>assert.strictEqual(panel.length, 2);</code></pre></dd>
         <dt>.panel-default if no [type] was given</dt>
-        <dd><pre><code>assert.equal(panelDefault.length, 1);
-assert.equal(panelPrimary.length, 1);</code></pre></dd>
+        <dd><pre><code>assert.strictEqual(panelDefault.length, 1);
+assert.strictEqual(panelPrimary.length, 1);</code></pre></dd>
         <dt>shows [name] in .panel-heading</dt>
         <dd><pre><code>assert(defaultHeading.hasClass('ng-hide'));
-assert.equal(defaultHeading.text(), '');
+assert.strictEqual(defaultHeading.text(), '');
 assert( ! primaryHeading.hasClass('ng-hide'));
-assert.equal(primaryHeading.text(), 'Named panel');</code></pre></dd>
+assert.strictEqual(primaryHeading.text(), 'Named panel');</code></pre></dd>
         <dt>shows content in .panel-body</dt>
-        <dd><pre><code>assert.equal(defaultBody.text().trim(), 'Nameless panel');
-assert.equal(primaryBody.text().trim(), 'Panel body');</code></pre></dd>
+        <dd><pre><code>assert.strictEqual(defaultBody.text().trim(), 'Nameless panel');
+assert.strictEqual(primaryBody.text().trim(), 'Panel body');</code></pre></dd>
       </dl>
     </section>
     <section class="suite">
@@ -287,10 +292,22 @@ assert.equal(primaryBody.text().trim(), 'Panel body');</code></pre></dd>
 &lt;/nw-row&gt;
 </pre> </example>
         <dt>renders .row with transcluded contents</dt>
-        <dd><pre><code>assert.equal(row.length, 1);
-assert.equal(fields.length, 2);</code></pre></dd>
+        <dd><pre><code>assert.strictEqual(row.length, 1);
+assert.strictEqual(fields.length, 2);</code></pre></dd>
         <dt>appends itemClass to all children</dt>
-        <dd><pre><code>assert.equal(cols.length, 2);</code></pre></dd>
+        <dd><pre><code>assert.strictEqual(cols.length, 2);</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>nw-save-btn</h1>
+      <dl>
+<example><div> <nw-save-btn record=" user "></nw-save-btn> </div><pre ng-non-bindable>&lt;nw-save-btn record=" user "&gt;&lt;/nw-save-btn&gt;</pre> </example>
+        <dt>renders empty btn with trash icon</dt>
+        <dd><pre><code>assert.strictEqual(btn.text().trim(), '');
+assert.strictEqual(btn.attr('icon'), 'save');</code></pre></dd>
+        <dt>calls [record].$save() on click</dt>
+        <dd><pre><code>btn.triggerHandler('click');
+assert(user.saved);</code></pre></dd>
       </dl>
     </section>
     <section class="suite">
@@ -312,11 +329,11 @@ Other stuff&lt;/p&gt;
 &lt;/nw-tabs&gt;
 </pre> </example>
         <dt>renders .nav.nav-tabs</dt>
-        <dd><pre><code>assert.equal(tabs.length, 1);
-assert.equal(tabHandles.length, 2);</code></pre></dd>
+        <dd><pre><code>assert.strictEqual(tabs.length, 1);
+assert.strictEqual(tabHandles.length, 2);</code></pre></dd>
         <dt>shows tab names in handles</dt>
-        <dd><pre><code>assert.equal(tabHandles.eq(0).text(), 'General');
-assert.equal(tabHandles.eq(1).text(), 'Other');</code></pre></dd>
+        <dd><pre><code>assert.strictEqual(tabHandles.eq(0).text(), 'General');
+assert.strictEqual(tabHandles.eq(1).text(), 'Other');</code></pre></dd>
         <dt>clicking on handles will show respective tabs</dt>
         <dd><pre><code>//check default
 assert( ! first.children().hasClass('ng-hide'));
@@ -332,18 +349,18 @@ assert(second.children().hasClass('ng-hide'));</code></pre></dd>
         <dt>supports [ng-repeat]</dt>
         <dd><pre><code>$scope.items = [{name: 'Test1'}, {name: 'Test2'}];
 $scope.$apply();
-assert.equal(tabs.find('li').length, 4);</code></pre></dd>
+assert.strictEqual(tabs.find('li').length, 4);</code></pre></dd>
       </dl>
     </section>
     <section class="suite">
       <h1>angular.element().find()</h1>
       <dl>
-<example><div> <test>  <div class="test">    <span>test</span>  </div></test> </div><pre ng-non-bindable>&lt;test&gt;
+<example><div> <main>  <div class="test">    <span>test</span>  </div></main> </div><pre ng-non-bindable>&lt;main&gt;
   &lt;div class="test"&gt;
     &lt;span&gt;
 test&lt;/span&gt;
   &lt;/div&gt;
-&lt;/test&gt;
+&lt;/main&gt;
 </pre> </example>
         <dt>resolves by tagName</dt>
         <dd><pre><code>assert($element.find('div').length, 'no span found');
@@ -366,6 +383,6 @@ assert( ! ghost.hasClass('test'));</code></pre></dd>
       <dl>
 <example><div> <div ng-bind-html=" '**test**' | markdown "></div> </div><pre ng-non-bindable>&lt;div ng-bind-html=" '**test**' | markdown "&gt;&lt;/div&gt;</pre> </example>
         <dt>converts markdown to html</dt>
-        <dd><pre><code>assert.equal($element.html(), '&lt;p&gt;&lt;strong&gt;test&lt;/strong&gt;&lt;/p&gt;');</code></pre></dd>
+        <dd><pre><code>assert.strictEqual($element.html(), '&lt;p&gt;&lt;strong&gt;test&lt;/strong&gt;&lt;/p&gt;');</code></pre></dd>
       </dl>
     </section>

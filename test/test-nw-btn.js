@@ -20,19 +20,23 @@ describe('<nw-btn', function(){
   ;
 
   it('renders .btn', function(){
-    assert.equal(btn.length, 2);
+    assert.strictEqual(btn.length, 2);
   });
 
   it('.btn-default in no [type] was given', function(){
-    assert.equal(btnDefault.length, 1);
-    assert.equal(btnDanger.length, 1);
+    assert.strictEqual(btnDefault.length, 1);
+    assert.strictEqual(btnDanger.length, 1);
   });
 
   it('shows [name] in its body', function(){
-    assert.equal(btnDefault.text().trim(), 'Button');
+    assert.strictEqual(btnDefault.text().trim(), 'Button');
   });
 
   it('adds fa-* classes based on given [icon]', function(){
     assert(trashIcon.length);
+  });
+
+  it('logs an error if no [ng-click] was given', function(){
+    //TODO: test
   });
 });

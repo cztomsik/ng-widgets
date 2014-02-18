@@ -11,6 +11,6 @@ describe('showdown', function(){
   ;
 
   it('converts markdown to html', function(){
-    assert.equal($element.html(), '<p><strong>test</strong></p>');
+    assert.strictEqual($element.html(), '<p><strong>test</strong></p>');
   });
 });

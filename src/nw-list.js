@@ -13,7 +13,8 @@ module.exports = function(ngWidget){
     defaults: {
       items: [],
       emptyText: 'No items found',
-      activeClass: 'active'
+      activeClass: 'active',
+      listClass: ''
     },
 
     link: function($scope, $element){

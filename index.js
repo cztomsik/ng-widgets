@@ -26,7 +26,9 @@ ngWidgets
   .directive('nwSaveBtn', require('./src/nw-save-btn'))
   .directive('nwDeleteBtn', require('./src/nw-delete-btn'))
 
+  .directive('nwNavbar', require('./src/nw-navbar'))
   .directive('nwList', require('./src/nw-list'))
+  .directive('nwItem', require('./src/nw-item'))
   .directive('nwField', require('./src/nw-field'))
   .directive('nwRow', require('./src/nw-row'))
   .directive('nwPanel', require('./src/nw-panel'))

@@ -1,6 +1,9 @@
 'use strict';
 
-var angular = require('angular');
+var
+  angular = require('angular'),
+  _ = require('./utils')
+;
 
 module.exports = function(ngWidget){
   return ngWidget({
@@ -17,6 +20,7 @@ module.exports = function(ngWidget){
       'nw-grid tr.active td{background: #68c !important; color: #fff !important}',
 
     template:
+      '<content></content>' +
       '<table class="table table-striped table-hover table-bordered">' +
       '  <thead>' +
       '    <tr>' +
@@ -42,6 +46,18 @@ module.exports = function(ngWidget){
     },
 
     controller: function($scope, $compile){
+      var
+        gridCtrl = this
+      ;
+
+      gridCtrl.addCol = function(col){
+        $scope.cols.push(col);
+      };
+
+      gridCtrl.removeCol = function(col){
+        _.pull($scope.cols, col);
+      };
+
       //TODO: injector during
       $scope.$compile = $compile;
 

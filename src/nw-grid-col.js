@@ -1,11 +1,11 @@
 'use strict';
 
-var
-  _ = require('./utils')
-;
-
 module.exports = function(ngWidget){
   return ngWidget({
+    require: ['^nwGrid'],
+
+    template: '<content></content>',
+
     defaults: {
       name: '',
       index: ''
@@ -17,14 +17,16 @@ module.exports = function(ngWidget){
       };
     },
 
-    link: function($scope){
-      $scope.$shadow.cols.push($scope);
+    link: function($scope, $element, $attrs, ctrls){
+      var
+        gridCtrl = ctrls[0]
+      ;
 
-      $scope.$on('$destroy', function(){
-        _.pull($scope.$shadow.cols, $scope);
-      });
+      gridCtrl.addCol($scope);
 
-      $scope.html = $scope.$host.find('template').html();
+      $scope.$on('$destroy', gridCtrl.removeCol.bind(gridCtrl, $scope));
+
+      $scope.html = $element.find('template').html();
     }
   });
 };

@@ -3,9 +3,8 @@
 module.exports = function(){
   return {
     restrict: 'E',
-    link: function($scope, $element){
-      $element.prop('$shadow', $scope);
-      $element.append($scope.$host.contents());
+    controller: function($scope, $element, $transclude){
+      $transclude($scope.$parent, $element.append.bind($element));
     }
   };
 };

@@ -1,25 +1,25 @@
 'use strict';
 
-var
-  _ = require('./utils')
-;
-
 //TODO: consider renaming to <nw-section
 //  (introduce & support accordion)
 module.exports = function(ngWidget){
   return ngWidget({
+    require: ['^nwTabs'],
+
     template: '<content ng-show=" active "></content>',
 
     defaults: {
       name: ''
     },
 
-    link: function($scope){
-      $scope.$shadow.tabs.push($scope);
+    link: function($scope, $element, $attrs, ctrls){
+      var
+        tabsCtrl = ctrls[0]
+      ;
 
-      $scope.$on('$destroy', function(){
-        _.pull($scope.$shadow.tabs, $scope);
-      });
+      tabsCtrl.addTab($scope);
+
+      $scope.$on('$destroy', tabsCtrl.removeTab.bind(tabsCtrl, $scope));
     }
   });
 };

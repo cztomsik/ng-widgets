@@ -23,7 +23,7 @@ describe('content', function(){
     assert.strictEqual($element.text(), 'Hello world');
   });
 
-  it('uses internal $host property, containing automatically transcluded content within **parent** scope', function(){
+  it('works within **parent** scope', function(){
     assert($scope.changed);
   });
 });

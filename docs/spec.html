@@ -4,7 +4,7 @@
 <example><div> <test-content><div ng-init=" changed = true ">Hello</div></test-content> </div><pre ng-non-bindable>&lt;test-content&gt;&lt;div ng-init=" changed = true "&gt;Hello&lt;/div&gt;&lt;/test-content&gt;</pre> </example>
         <dt>represents insertion point for widget content</dt>
         <dd><pre><code>assert.strictEqual($element.text(), 'Hello world');</code></pre></dd>
-        <dt>uses internal $host property, containing automatically transcluded content within **parent** scope</dt>
+        <dt>works within **parent** scope</dt>
         <dd><pre><code>assert($scope.changed);</code></pre></dd>
       </dl>
     </section>
@@ -80,22 +80,18 @@ example('&lt;test-defaults&gt;&lt;/test-defaults&gt;');
 assert.strictEqual($innerScope.emptyText, 'No items');
 assert.deepEqual($innerScope.items, []);
 assert($innerScope.items !== arrInstance, 'array copy expected');</code></pre></dd>
-        <dt>content is transcluded even if there are no insertion points</dt>
+        <dt>transcluded contents can still require parent controllers</dt>
         <dd><pre><code>var
-  wasCalled = false
+  $element = example(
+    '&lt;form name=&quot; testForm &quot;&gt;' +
+    '  &lt;nw-field&gt;' +
+    '    &lt;input ng-model=&quot;test&quot; required&gt;' +
+    '  &lt;/nw-field&gt;' +
+    '&lt;/form&gt;'
+  ),
+  $scope = $element.scope()
 ;
-$compileProvider.directive('test', function(ngWidget){
-  return ngWidget();
-});
-$compileProvider.directive('param', function(ngWidget){
-  return ngWidget({
-    controller: function(){
-      wasCalled = true;
-    }
-  });
-});
-example('&lt;test&gt;&lt;param&gt;&lt;/param&gt;&lt;/test&gt;');
-assert(wasCalled);</code></pre></dd>
+assert($scope.testForm.$invalid, 'field not registered');</code></pre></dd>
       </dl>
     </section>
     <section class="suite">

@@ -91,25 +91,45 @@ describe('ngWidget()', function(){
     assert($innerScope.items !== arrInstance, 'array copy expected');
   });
 
-  it('content is transcluded even if there are no insertion points', function(){
+  //TODO:
+  //  rethink once again
+  //  $log.error if content was not used anywhere
+  //  autotransclude does not work because of require: ^form in ngModel
+
+  // it('content is transcluded even if there are no insertion points', function(){
+  //   var
+  //     wasCalled = false
+  //   ;
+
+  //   $compileProvider.directive('test', function(ngWidget){
+  //     return ngWidget();
+  //   });
+
+  //   $compileProvider.directive('param', function(ngWidget){
+  //     return ngWidget({
+  //       controller: function(){
+  //         wasCalled = true;
+  //       }
+  //     });
+  //   });
+
+  //   example('<test><param></param></test>');
+
+  //   assert(wasCalled);
+  // });
+
+  it('transcluded contents can still require parent controllers', function(){
     var
-      wasCalled = false
+      $element = example(
+        '<form name=" testForm ">' +
+        '  <nw-field>' +
+        '    <input ng-model="test" required>' +
+        '  </nw-field>' +
+        '</form>'
+      ),
+      $scope = $element.scope()
     ;
 
-    $compileProvider.directive('test', function(ngWidget){
-      return ngWidget();
-    });
-
-    $compileProvider.directive('param', function(ngWidget){
-      return ngWidget({
-        controller: function(){
-          wasCalled = true;
-        }
-      });
-    });
-
-    example('<test><param></param></test>');
-
-    assert(wasCalled);
+    assert($scope.testForm.$invalid, 'field not registered');
   });
 });

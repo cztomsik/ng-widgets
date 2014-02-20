@@ -29,14 +29,10 @@ WidgetDefinition.prototype = {
     };
   },
 
-  prelink: function($scope, $element, $attrs, ctrls, $transclude){
-    //set shadow
-    $scope.$shadow = $element.parent().prop('$shadow');
-
+  prelink: function($scope, $element, $attrs){
     angular.extend($scope, angular.copy(this.defaults));
 
     bindAttributes($scope, $attrs, this.defaults);
-    transclude($scope, $transclude);
   }
 };
 
@@ -57,14 +53,6 @@ function bindAttributes($scope, $attrs, defaults){
       $attrs.$observe(k, dotSet($scope, k));
     }
   }
-}
-
-//always transclude - this makes tracing bugs little easier
-function transclude($scope, $transclude){
-  $transclude($scope.$parent, function(contents){
-    //scope is the least evil, in future this will get replaced by shadow DOM + polyfill
-    $scope.$host = angular.element('<host></host>').prop('$shadow', $scope).append(contents);
-  });
 }
 
 function dotSet(obj, prop){

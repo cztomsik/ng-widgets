@@ -6,8 +6,14 @@ module.exports = function(ngWidget){
       name: ''
     },
 
-    link: function($scope){
-      $scope.$shadow.items.push($scope);
+    link: function($scope, $element, $attrs, ctrls){
+      var
+        listCtrl = ctrls[0]
+      ;
+
+      listCtrl.addItem($scope);
+
+      $scope.$on('$destroy', listCtrl.removeItem.bind(listCtrl, $scope));
     }
   });
 };

@@ -1,5 +1,9 @@
 'use strict';
 
+var
+  _ = require('./utils')
+;
+
 module.exports = function(ngWidget){
   return ngWidget({
     style: 'nw-tabs nw-list{display: block; margin-bottom: 1em}',
@@ -14,6 +18,18 @@ module.exports = function(ngWidget){
     },
 
     controller: function($scope){
+      var
+        tabsCtrl = this
+      ;
+
+      tabsCtrl.addTab = function(tab){
+        $scope.tabs.push(tab);
+      };
+
+      tabsCtrl.removeTab = function(tab){
+        _.pull($scope.tabs, tab);
+      };
+
       //TODO: autoselect
       $scope.$watchCollection('tabs', function(tabs){
         $scope.activeTab = $scope.activeTab || tabs[0];

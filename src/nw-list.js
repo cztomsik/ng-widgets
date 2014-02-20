@@ -1,5 +1,9 @@
 'use strict';
 
+var
+  _ = require('./utils')
+;
+
 module.exports = function(ngWidget){
   return ngWidget({
     template:
@@ -15,6 +19,20 @@ module.exports = function(ngWidget){
       emptyText: 'No items found',
       activeClass: 'active',
       listClass: ''
+    },
+
+    controller: function($scope){
+      var
+        listCtrl = this
+      ;
+
+      listCtrl.addItem = function(item){
+        $scope.items.push(item);
+      };
+
+      listCtrl.removeItem = function(item){
+        _.pull($scope.items, item);
+      };
     },
 
     link: function($scope, $element){

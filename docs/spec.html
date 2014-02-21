@@ -1,11 +1,9 @@
     <section class="suite">
       <h1>content</h1>
       <dl>
-<example><div> <test-content><div ng-init=" changed = true ">Hello</div></test-content> </div><pre ng-non-bindable>&lt;test-content&gt;&lt;div ng-init=" changed = true "&gt;Hello&lt;/div&gt;&lt;/test-content&gt;</pre> </example>
+<example><div> <test-content world="world">{{ hello }}</test-content> </div><pre ng-non-bindable>&lt;test-content world="world"&gt;{{ hello }}&lt;/test-content&gt;</pre> </example>
         <dt>represents insertion point for widget content</dt>
-        <dd><pre><code>assert.strictEqual($element.text(), 'Hello world');</code></pre></dd>
-        <dt>works within **parent** scope</dt>
-        <dd><pre><code>assert($scope.changed);</code></pre></dd>
+        <dd><pre><code>assert.strictEqual($element.text().trim(), 'Hello world');</code></pre></dd>
       </dl>
     </section>
     <section class="suite">

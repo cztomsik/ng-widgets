@@ -10,20 +10,19 @@ var
 describe('content', function(){
   $compileProvider.directive('testContent', function(ngWidget){
     return ngWidget({
-      template: '<content></content> world'
+      template: '<content ng-if=" world "></content> {{ world }}',
+
+      defaults: {
+        world: ''
+      }
     });
   });
 
   var
-    $element = example('<test-content><div ng-init=" changed = true ">Hello</div></test-content>'),
-    $scope = $element.scope()
+    $element = example('<test-content world="world">{{ hello }}</test-content>', {hello: 'Hello'})
   ;
 
   it('represents insertion point for widget content', function(){
-    assert.strictEqual($element.text(), 'Hello world');
-  });
-
-  it('works within **parent** scope', function(){
-    assert($scope.changed);
+    assert.strictEqual($element.text().trim(), 'Hello world');
   });
 });

@@ -30,6 +30,7 @@ WidgetDefinition.prototype = {
   },
 
   prelink: function($scope, $element, $attrs){
+    $scope.$host = $scope.$parent;
     angular.extend($scope, angular.copy(this.defaults));
 
     bindAttributes($scope, $attrs, this.defaults);

@@ -2,7 +2,7 @@
 
 var
   angular = require('angular'),
-  _ = require('./utils')
+  _ = require('../utils/utils')
 ;
 
 module.exports = function(ngWidget){

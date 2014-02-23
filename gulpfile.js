@@ -1,43 +1,34 @@
 'use strict';
 
 var
-  pkg = require('./package.json'),
-  indexFile = require.resolve('./'),
-  bundleFile = './' + pkg.name + '.js',
-  allSources = ['./*.js', './src/**/*.js', '!' + indexFile, '!' + bundleFile],
-  testFiles = ['./test/*.js'],
-
   gulp = require('gulp'),
+  gutil = require('gulp-util'),
   browserify = require('gulp-browserify'),
   concat = require('gulp-concat'),
   spawn = require('child_process').spawn,
   jshint = require('gulp-jshint'),
-  uglify = require('gulp-uglify')
+  uglify = require('gulp-uglify'),
+
+  production = gutil.env.production,
+  pkg = require('./package.json'),
+  bundleFile = './' + pkg.name + '.js',
+  bundleMinFile = './' + pkg.name + '.min.js',
+  allSources = ['./*.js', './src/*/*.js', '!' + pkg.main, '!' + bundleFile],
+  testFiles = ['./test/*.js']
 ;
 
 gulp.task('default', ['build']);
 
-gulp.task('build', ['verify', 'minify', 'doc']);
+gulp.task('build', ['verify', 'compile', 'doc'].concat(production ?'minify' :[]));
 
-gulp.task('watch', ['compile', 'verify'], function(){
-  gulp.watch(allSources.concat(testFiles), ['compile', 'verify']);
-});
-
-gulp.task('minify', function(){
-  //TODO: DRY
-  gulp
-    .src(indexFile)
-    .pipe(browserify())
-    .pipe(concat(bundleFile))
-    .pipe(uglify({mangle: false}))
-    .pipe(gulp.dest('./'))
-  ;
+gulp.task('watch', ['build'], function(){
+  gulp.watch(allSources.concat(testFiles), ['build']);
 });
 
 gulp.task('compile', function(){
   gulp
-    .src(indexFile)
-    .pipe(browserify())
+    .src(pkg.main)
+    .pipe(browserify({debug: ! production}))
     .pipe(concat(bundleFile))
     .pipe(gulp.dest('./'))
   ;
@@ -54,6 +45,15 @@ gulp.task('lint', function(){
     .src(allSources)
     .pipe(jshint('./.jshintrc'))
     .pipe(jshint.reporter('jshint-stylish'))
+  ;
+});
+
+gulp.task('minify', function(){
+  gulp
+    .src(bundleFile)
+    .pipe(concat(bundleMinFile))
+    .pipe(uglify({mangle: false}))
+    .pipe(gulp.dest('./'))
   ;
 });
 

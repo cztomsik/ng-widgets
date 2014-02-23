@@ -1,12 +1,4 @@
     <section class="suite">
-      <h1>content</h1>
-      <dl>
-<example><div> <test-content world="world">{{ hello }}</test-content> </div><pre ng-non-bindable>&lt;test-content world="world"&gt;{{ hello }}&lt;/test-content&gt;</pre> </example>
-        <dt>represents insertion point for widget content</dt>
-        <dd><pre><code>assert.strictEqual($element.text().trim(), 'Hello world');</code></pre></dd>
-      </dl>
-    </section>
-    <section class="suite">
       <h1>ngWidgets</h1>
       <dl>
 <example><div> <nw-panel name="{{ panelName }}">  <nw-field label="Panel name">    <input ng-model=" panelName ">  </nw-field></nw-panel> </div><pre ng-non-bindable>&lt;nw-panel name="{{ panelName }}"&gt;
@@ -24,75 +16,6 @@ assert.strictEqual(panelHeading.text(), $scope.panelName);</code></pre></dd>
       </dl>
     </section>
     <section class="suite">
-      <h1>ngWidget()</h1>
-      <dl>
-        <dt>returns preinitialized directive definition</dt>
-        <dd><pre><code>var definition = ngWidget();
-assert.strictEqual(definition.restrict, 'E');
-assert.strictEqual(definition.template, '');
-assert.strictEqual(definition.transclude, true);
-assert.deepEqual(definition.scope, {});
-assert.deepEqual(definition.defaults, {});
-//do the magic
-assert.strictEqual(definition.controller, undefined);
-assert(definition.compile);</code></pre></dd>
-        <dt>definition defaults can be overridden</dt>
-        <dd><pre><code>var definition = ngWidget({
-  restrict: 'EA'
-});
-assert.strictEqual(definition.restrict, 'EA');</code></pre></dd>
-        <dt>link() is called</dt>
-        <dd><pre><code>$compileProvider.directive('testLink', function(ngWidget){
-  return ngWidget({
-    link: done.bind(null, null)
-  });
-});
-example('&lt;test-link&gt;&lt;/test-link&gt;');</code></pre></dd>
-        <dt>binds text attributes to scope</dt>
-        <dd><pre><code>$compileProvider.directive('testAttrs', function(ngWidget){
-  return ngWidget({
-    template: '{{ hello }} {{ world }}'
-  });
-});
-var
-  $element = example('&lt;test-attrs hello=&quot;Hello&quot; world=&quot;{{ world }}&quot;&gt;&lt;/test-attrs&gt;', {world: 'world'})
-;
-assert.strictEqual($element.text(), 'Hello world');</code></pre></dd>
-        <dt>$scope is initialized with copy of definition.defaults</dt>
-        <dd><pre><code>var
-  arrInstance = [],
-  $innerScope
-;
-$compileProvider.directive('testDefaults', function(ngWidget){
-  return ngWidget({
-    defaults: {
-      items: arrInstance,
-      emptyText: 'No items'
-    },
-    controller: function($scope){
-      $innerScope = $scope;
-    }
-  });
-});
-example('&lt;test-defaults&gt;&lt;/test-defaults&gt;');
-assert.strictEqual($innerScope.emptyText, 'No items');
-assert.deepEqual($innerScope.items, []);
-assert($innerScope.items !== arrInstance, 'array copy expected');</code></pre></dd>
-        <dt>transcluded contents can still require parent controllers</dt>
-        <dd><pre><code>var
-  $element = example(
-    '&lt;form name=&quot; testForm &quot;&gt;' +
-    '  &lt;nw-field&gt;' +
-    '    &lt;input ng-model=&quot;test&quot; required&gt;' +
-    '  &lt;/nw-field&gt;' +
-    '&lt;/form&gt;'
-  ),
-  $scope = $element.scope()
-;
-assert($scope.testForm.$invalid, 'field not registered');</code></pre></dd>
-      </dl>
-    </section>
-    <section class="suite">
       <h1>&lt;nw-btn</h1>
       <dl>
 <example><div> <nw-btn name="Button"></nw-btn><nw-btn type="danger" icon="trash-o"></nw-btn> </div><pre ng-non-bindable>&lt;nw-btn name="Button"&gt;&lt;/nw-btn&gt;&lt;nw-btn type="danger" icon="trash-o"&gt;&lt;/nw-btn&gt;</pre> </example>
@@ -107,60 +30,6 @@ assert.strictEqual(btnDanger.length, 1);</code></pre></dd>
         <dd><pre><code>assert(trashIcon.length);</code></pre></dd>
         <dt>logs an error if no [ng-click] was given</dt>
         <dd><pre><code>//TODO: test</code></pre></dd>
-      </dl>
-    </section>
-    <section class="suite">
-      <h1>nw-delete-btn</h1>
-      <dl>
-<example><div> <nw-delete-btn record=" user "></nw-delete-btn> </div><pre ng-non-bindable>&lt;nw-delete-btn record=" user "&gt;&lt;/nw-delete-btn&gt;</pre> </example>
-        <dt>renders empty btn with trash icon</dt>
-        <dd><pre><code>assert.strictEqual(btn.text().trim(), '');
-assert.strictEqual(btn.attr('icon'), 'trash-o');</code></pre></dd>
-        <dt>calls [record].$delete() on click</dt>
-        <dd><pre><code>btn.triggerHandler('click');
-assert(user.deleted);</code></pre></dd>
-      </dl>
-    </section>
-    <section class="suite">
-      <h1>&lt;nw-field</h1>
-      <dl>
-<example><div> <nw-field label="Email">  <input type="email" ng-model=" email "></nw-field><br><nw-field><textarea></textarea></nw-field><nw-field><select></select></nw-field><nw-field><input type="checkbox"> Checkbox</nw-field><nw-field><input type="radio"> Radio</nw-field> </div><pre ng-non-bindable>&lt;nw-field label="Email"&gt;
-  &lt;input type="email" ng-model=" email "&gt;
-&lt;/nw-field&gt;
-&lt;br&gt;
-&lt;nw-field&gt;
-&lt;textarea&gt;
-&lt;/textarea&gt;
-&lt;/nw-field&gt;
-&lt;nw-field&gt;
-&lt;select&gt;
-&lt;/select&gt;
-&lt;/nw-field&gt;
-&lt;nw-field&gt;
-&lt;input type="checkbox"&gt;
- Checkbox&lt;/nw-field&gt;
-&lt;nw-field&gt;
-&lt;input type="radio"&gt;
- Radio&lt;/nw-field&gt;
-</pre> </example>
-        <dt>renders .form-group</dt>
-        <dd><pre><code>assert.strictEqual(formGroup.length, 5);</code></pre></dd>
-        <dt>shows [label] in .control-label</dt>
-        <dd><pre><code>assert(! emailLabel.hasClass('ng-hide'));
-assert.strictEqual(emailLabel.text(), 'Email');
-assert(textareaLabel.hasClass('ng-hide'));
-assert.strictEqual(textareaLabel.text(), '');</code></pre></dd>
-        <dt>adds .form-control to controls, excluding radios &amp; checkboxes</dt>
-        <dd><pre><code>assert(email.hasClass('form-control'));
-assert(textarea.hasClass('form-control'));
-assert(select.hasClass('form-control'));
-assert( ! radio.hasClass('form-control'));
-assert( ! checkbox.hasClass('form-control'));</code></pre></dd>
-        <dt>at first no error is shown</dt>
-        <dd><pre><code>assert( ! formGroup.hasClass('has-error'));</code></pre></dd>
-        <dt>when dirty, invalid field gets .has-error</dt>
-        <dd><pre><code>email.val('err').triggerHandler('change');
-assert(formGroup.hasClass('has-error'));</code></pre></dd>
       </dl>
     </section>
     <section class="suite">
@@ -187,15 +56,6 @@ assert.strictEqual(cols.length, 2);
 assert.strictEqual(rows.length, 3);</code></pre></dd>
         <dt>TODO: test autosort, sortCol, reverse</dt>
         <dd><pre><code></code></pre></dd>
-      </dl>
-    </section>
-    <section class="suite">
-      <h1>&lt;nw-lipsum</h1>
-      <dl>
-<example><div> <nw-lipsum></nw-lipsum> </div><pre ng-non-bindable>&lt;nw-lipsum&gt;&lt;/nw-lipsum&gt;</pre> </example>
-        <dt>shows paragraph of lorem ipsum</dt>
-        <dd><pre><code>assert.strictEqual(paragraph.length, 1);
-assert.strictEqual($element.text().slice(0, 11), 'Lorem ipsum');</code></pre></dd>
       </dl>
     </section>
     <section class="suite">
@@ -274,37 +134,6 @@ assert.strictEqual(primaryBody.text().trim(), 'Panel body');</code></pre></dd>
       </dl>
     </section>
     <section class="suite">
-      <h1>&lt;nw-row</h1>
-      <dl>
-<example><div> <nw-row item-class="col-sm-4">  <nw-field label="First name">    <input>  </nw-field>  <nw-field label="Last name">    <input>  </nw-field></nw-row> </div><pre ng-non-bindable>&lt;nw-row item-class="col-sm-4"&gt;
-  &lt;nw-field label="First name"&gt;
-    &lt;input&gt;
-  &lt;/nw-field&gt;
-  &lt;nw-field label="Last name"&gt;
-    &lt;input&gt;
-  &lt;/nw-field&gt;
-&lt;/nw-row&gt;
-</pre> </example>
-        <dt>renders .row with transcluded contents</dt>
-        <dd><pre><code>assert.strictEqual(row.length, 1);
-assert.strictEqual(fields.length, 2);</code></pre></dd>
-        <dt>appends itemClass to all children</dt>
-        <dd><pre><code>assert.strictEqual(cols.length, 2);</code></pre></dd>
-      </dl>
-    </section>
-    <section class="suite">
-      <h1>nw-save-btn</h1>
-      <dl>
-<example><div> <nw-save-btn record=" user "></nw-save-btn> </div><pre ng-non-bindable>&lt;nw-save-btn record=" user "&gt;&lt;/nw-save-btn&gt;</pre> </example>
-        <dt>renders empty btn with trash icon</dt>
-        <dd><pre><code>assert.strictEqual(btn.text().trim(), '');
-assert.strictEqual(btn.attr('icon'), 'save');</code></pre></dd>
-        <dt>calls [record].$save() on click</dt>
-        <dd><pre><code>btn.triggerHandler('click');
-assert(user.saved);</code></pre></dd>
-      </dl>
-    </section>
-    <section class="suite">
       <h1>&lt;nw-tabs</h1>
       <dl>
 <example><div> <nw-tabs>  <nw-tab name="General">    <p>General stuff</p>    <nw-lipsum></nw-lipsum>  </nw-tab>  <nw-tab name="Other">    <p>Other stuff</p>  </nw-tab>  <nw-tab ng-repeat=" it in items " name="{{ it.name }}">    {{ it.name }}  </nw-tab></nw-tabs> </div><pre ng-non-bindable>&lt;nw-tabs&gt;
@@ -344,6 +173,158 @@ assert(second.children().hasClass('ng-hide'));</code></pre></dd>
         <dd><pre><code>$scope.items = [{name: 'Test1'}, {name: 'Test2'}];
 $scope.$apply();
 assert.strictEqual(tabs.find('li').length, 4);</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>nw-delete-btn</h1>
+      <dl>
+<example><div> <nw-delete-btn record=" user "></nw-delete-btn> </div><pre ng-non-bindable>&lt;nw-delete-btn record=" user "&gt;&lt;/nw-delete-btn&gt;</pre> </example>
+        <dt>renders empty btn with trash icon</dt>
+        <dd><pre><code>assert.strictEqual(btn.text().trim(), '');
+assert.strictEqual(btn.attr('icon'), 'trash-o');</code></pre></dd>
+        <dt>calls [record].$delete() on click</dt>
+        <dd><pre><code>btn.triggerHandler('click');
+assert(user.deleted);</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>&lt;nw-field</h1>
+      <dl>
+<example><div> <nw-field label="Email">  <input type="email" ng-model=" email "></nw-field><br><nw-field><textarea></textarea></nw-field><nw-field><select></select></nw-field><nw-field><input type="checkbox"> Checkbox</nw-field><nw-field><input type="radio"> Radio</nw-field> </div><pre ng-non-bindable>&lt;nw-field label="Email"&gt;
+  &lt;input type="email" ng-model=" email "&gt;
+&lt;/nw-field&gt;
+&lt;br&gt;
+&lt;nw-field&gt;
+&lt;textarea&gt;
+&lt;/textarea&gt;
+&lt;/nw-field&gt;
+&lt;nw-field&gt;
+&lt;select&gt;
+&lt;/select&gt;
+&lt;/nw-field&gt;
+&lt;nw-field&gt;
+&lt;input type="checkbox"&gt;
+ Checkbox&lt;/nw-field&gt;
+&lt;nw-field&gt;
+&lt;input type="radio"&gt;
+ Radio&lt;/nw-field&gt;
+</pre> </example>
+        <dt>renders .form-group</dt>
+        <dd><pre><code>assert.strictEqual(formGroup.length, 5);</code></pre></dd>
+        <dt>shows [label] in .control-label</dt>
+        <dd><pre><code>assert(! emailLabel.hasClass('ng-hide'));
+assert.strictEqual(emailLabel.text(), 'Email');
+assert(textareaLabel.hasClass('ng-hide'));
+assert.strictEqual(textareaLabel.text(), '');</code></pre></dd>
+        <dt>adds .form-control to controls, excluding radios &amp; checkboxes</dt>
+        <dd><pre><code>assert(email.hasClass('form-control'));
+assert(textarea.hasClass('form-control'));
+assert(select.hasClass('form-control'));
+assert( ! radio.hasClass('form-control'));
+assert( ! checkbox.hasClass('form-control'));</code></pre></dd>
+        <dt>at first no error is shown</dt>
+        <dd><pre><code>assert( ! formGroup.hasClass('has-error'));</code></pre></dd>
+        <dt>when dirty, invalid field gets .has-error</dt>
+        <dd><pre><code>email.val('err').triggerHandler('change');
+assert(formGroup.hasClass('has-error'));</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>nw-save-btn</h1>
+      <dl>
+<example><div> <nw-save-btn record=" user "></nw-save-btn> </div><pre ng-non-bindable>&lt;nw-save-btn record=" user "&gt;&lt;/nw-save-btn&gt;</pre> </example>
+        <dt>renders empty btn with trash icon</dt>
+        <dd><pre><code>assert.strictEqual(btn.text().trim(), '');
+assert.strictEqual(btn.attr('icon'), 'save');</code></pre></dd>
+        <dt>calls [record].$save() on click</dt>
+        <dd><pre><code>btn.triggerHandler('click');
+assert(user.saved);</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>content</h1>
+      <dl>
+<example><div> <test-content world="world">{{ hello }}</test-content> </div><pre ng-non-bindable>&lt;test-content world="world"&gt;{{ hello }}&lt;/test-content&gt;</pre> </example>
+        <dt>represents insertion point for widget content</dt>
+        <dd><pre><code>assert.strictEqual($element.text().trim(), 'Hello world');</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>ngWidget()</h1>
+      <dl>
+        <dt>returns preinitialized directive definition</dt>
+        <dd><pre><code>var definition = ngWidget();
+assert.strictEqual(definition.restrict, 'E');
+assert.strictEqual(definition.template, '');
+assert.strictEqual(definition.transclude, true);
+assert.deepEqual(definition.scope, {});
+assert.deepEqual(definition.defaults, {});
+//do the magic
+assert.strictEqual(definition.controller, undefined);
+assert(definition.compile);</code></pre></dd>
+        <dt>definition defaults can be overridden</dt>
+        <dd><pre><code>var definition = ngWidget({
+  restrict: 'EA'
+});
+assert.strictEqual(definition.restrict, 'EA');</code></pre></dd>
+        <dt>link() is called</dt>
+        <dd><pre><code>$compileProvider.directive('testLink', function(ngWidget){
+  return ngWidget({
+    link: done.bind(null, null)
+  });
+});
+example('&lt;test-link&gt;&lt;/test-link&gt;');</code></pre></dd>
+        <dt>binds text attributes to scope</dt>
+        <dd><pre><code>$compileProvider.directive('testAttrs', function(ngWidget){
+  return ngWidget({
+    template: '{{ hello }} {{ world }}'
+  });
+});
+var
+  $element = example('&lt;test-attrs hello=&quot;Hello&quot; world=&quot;{{ world }}&quot;&gt;&lt;/test-attrs&gt;', {world: 'world'})
+;
+assert.strictEqual($element.text(), 'Hello world');</code></pre></dd>
+        <dt>$scope is initialized with copy of definition.defaults</dt>
+        <dd><pre><code>var
+  arrInstance = [],
+  $innerScope
+;
+$compileProvider.directive('testDefaults', function(ngWidget){
+  return ngWidget({
+    defaults: {
+      items: arrInstance,
+      emptyText: 'No items'
+    },
+    controller: function($scope){
+      $innerScope = $scope;
+    }
+  });
+});
+example('&lt;test-defaults&gt;&lt;/test-defaults&gt;');
+assert.strictEqual($innerScope.emptyText, 'No items');
+assert.deepEqual($innerScope.items, []);
+assert($innerScope.items !== arrInstance, 'array copy expected');</code></pre></dd>
+        <dt>transcluded contents can still require parent controllers</dt>
+        <dd><pre><code>var
+  $element = example(
+    '&lt;form name=&quot; testForm &quot;&gt;' +
+    '  &lt;nw-field&gt;' +
+    '    &lt;input ng-model=&quot;test&quot; required&gt;' +
+    '  &lt;/nw-field&gt;' +
+    '&lt;/form&gt;'
+  ),
+  $scope = $element.scope()
+;
+assert($scope.testForm.$invalid, 'field not registered');</code></pre></dd>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>&lt;nw-lipsum</h1>
+      <dl>
+<example><div> <nw-lipsum></nw-lipsum> </div><pre ng-non-bindable>&lt;nw-lipsum&gt;&lt;/nw-lipsum&gt;</pre> </example>
+        <dt>shows paragraph of lorem ipsum</dt>
+        <dd><pre><code>assert.strictEqual(paragraph.length, 1);
+assert.strictEqual($element.text().slice(0, 11), 'Lorem ipsum');</code></pre></dd>
       </dl>
     </section>
     <section class="suite">

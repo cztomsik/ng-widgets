@@ -2,10 +2,10 @@
 
 var
   assert = require('assert'),
-  $injector = require('./runner/injector'),
+  $injector = require('../../injector'),
   $compileProvider = $injector.get('$compileProvider'),
-  example = require('./runner/example'),
-  ngWidget = require('../src/ng-widget')
+  example = require('../../example'),
+  ngWidget = require('../../utils/ng-widget')
 ;
 
 describe('ngWidget()', function(){

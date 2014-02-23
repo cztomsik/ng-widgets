@@ -1,7 +1,7 @@
 'use strict';
 
 var
-  _ = require('./utils')
+  _ = require('../utils/utils')
 ;
 
 module.exports = function(ngWidget){

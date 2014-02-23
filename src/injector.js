@@ -2,7 +2,7 @@
 
 var
   angular = require('angular'),
-  ngWidgets = require('../..')
+  ngWidgets = require('..')
 ;
 
 module.exports = angular.bootstrap('<div></div>', [ngWidgets.name, saveCompileProvider]);

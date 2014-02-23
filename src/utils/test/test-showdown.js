@@ -2,7 +2,7 @@
 
 var
   assert = require('assert'),
-  example = require('./runner/example')
+  example = require('../../example')
 ;
 
 describe('showdown', function(){

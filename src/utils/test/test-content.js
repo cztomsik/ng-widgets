@@ -2,9 +2,9 @@
 
 var
   assert = require('assert'),
-  $injector = require('./runner/injector'),
+  $injector = require('../../injector'),
   $compileProvider = $injector.get('$compileProvider'),
-  example = require('./runner/example')
+  example = require('../../example')
 ;
 
 describe('content', function(){

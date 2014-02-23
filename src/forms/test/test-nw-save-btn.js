@@ -2,7 +2,7 @@
 
 var
   assert = require('assert'),
-  example = require('./runner/example.js')
+  example = require('../../example.js')
 ;
 
 describe('nw-save-btn', function(){

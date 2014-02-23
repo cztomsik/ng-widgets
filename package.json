@@ -4,10 +4,11 @@
   "description": "Collection of reusable angularjs components",
   "main": "index.js",
   "scripts": {
+    "production": "gulp --production",
     "build": "gulp",
     "watch": "gulp watch",
-    "test": "mocha",
-    "doc": "mocha --reporter doc --require test/runner/example-doc > docs/spec.html"
+    "test": "mocha src/*/test/*.js",
+    "doc": "mocha src/*/test/*.js --reporter doc --require src/example-doc > docs/spec.html"
   },
   "author": "cztomsik",
   "license": "ISC",
@@ -24,7 +25,8 @@
     "gulp-jshint": "~1.4.0",
     "jshint-stylish": "~0.1.5",
     "gulp-uglify": "~0.2.0",
-    "mocha": "~1.17.1"
+    "mocha": "~1.17.1",
+    "gulp-util": "~2.2.14"
   },
   "browser": {
     "angular": "./shims/angular.js",

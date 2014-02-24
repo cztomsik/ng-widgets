@@ -49,6 +49,13 @@ function bindAttributes($scope, $attrs, defaults){
       continue;
     }
 
+    //boolean expressions
+    if (typeof defaults[k] === 'boolean'){
+      $scope[k] = $scope.$parent.$eval($attrs[k]);
+      $scope.$parent.$watch($attrs[k], dotSet($scope, k));
+      continue;
+    }
+
     //string interpolation
     if ($attrs.$$observers && $attrs.$$observers[k]){
       $attrs.$observe(k, dotSet($scope, k));

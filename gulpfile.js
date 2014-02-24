@@ -13,8 +13,8 @@ var
   pkg = require('./package.json'),
   bundleFile = './' + pkg.name + '.js',
   bundleMinFile = './' + pkg.name + '.min.js',
-  allSources = ['./*.js', './src/*/*.js', '!' + pkg.main, '!' + bundleFile],
-  testFiles = ['./test/*.js']
+  allSources = ['./*.js', './src/*/*.js', '!' + pkg.main, '!' + bundleFile, '!' + bundleMinFile],
+  testFiles = ['./src/*/test/*.js']
 ;
 
 gulp.task('default', ['build']);

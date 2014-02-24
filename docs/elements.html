@@ -356,8 +356,10 @@ assert( ! ghost.hasClass('test'));</code></pre></dd>
     <section class="suite">
       <h1>showdown</h1>
       <dl>
-<example><div> <div ng-bind-html=" '**test**' | markdown "></div> </div><pre ng-non-bindable>&lt;div ng-bind-html=" '**test**' | markdown "&gt;&lt;/div&gt;</pre> </example>
+<example><div> <div ng-bind-html=" '**test**' | markdown "></div><div ng-bind-html=" '<test@test.com>' | markdown "></div> </div><pre ng-non-bindable>&lt;div ng-bind-html=" '**test**' | markdown "&gt;&lt;/div&gt;&lt;div ng-bind-html=" '&lt;test@test.com&gt;' | markdown "&gt;&lt;/div&gt;</pre> </example>
         <dt>converts markdown to html</dt>
-        <dd><pre><code>assert.strictEqual($element.html(), '&lt;p&gt;&lt;strong&gt;test&lt;/strong&gt;&lt;/p&gt;');</code></pre></dd>
+        <dd><pre><code>assert.strictEqual(first.html(), '&lt;p&gt;&lt;strong&gt;test&lt;/strong&gt;&lt;/p&gt;');</code></pre></dd>
+        <dt>prevents email obfuscation (because of infinite digest)</dt>
+        <dd><pre><code>assert.strictEqual(second.html(), '&lt;p&gt;&lt;a href=&quot;mailto:test@test.com&quot;&gt;test@test.com&lt;/a&gt;&lt;/p&gt;');</code></pre></dd>
       </dl>
     </section>

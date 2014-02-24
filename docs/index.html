@@ -3,35 +3,19 @@
 <head>
   <title>ng-widgets, collection of reusable angularjs widgets</title>
 
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.css">
-  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-
-  <style>
-    section{background: #fff; padding: 6em 4em}
-    section:nth-child(2n){background: #eef}
-
-    dl, example{display: block; position: relative; padding: 1em 0}
-    pre{opacity: 0; position: absolute; right: 4em; bottom: 0; font-size: 0.8em; padding: 1em; box-shadow: 3px 5px 20px #666}
-    example div{max-width: 40em}
-
-    dt:hover + dd pre, example:hover pre{opacity: 1; transition: opacity 0.3s;}
-
-    dl{list-style: disc inside}
-    dt{display: list-item}
-
-    .list-unstyled .active{font-weight: bold}
-    .doc-link{display: none}
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main ng-bind-html=" readme | markdown "></main>
-  <div class="alert alert-info" ng-cloak ng-hide=" spec ">
-    <h5><i class="fa fa-spin fa-spinner"></i> Loading spec...</h5>
-    If it doesn't show up in seconds, you may need to generate spec using <code>npm run doc</code>.
-  </div>
-  <div ng-include=" 'spec.html' " onload=" spec = true "></div>
+  <nw-navbar name="ng-widgets" navbar-class="navbar-fixed-top">
+    <nw-list ng-model=" page " list-class="nav navbar-nav" autoselect=" true ">
+      <nw-item name="About" href="#/about"></nw-item>
+      <nw-item name="Elements" href="#/elements"></nw-item>
+    </nw-list>
+  </nw-navbar>
 
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular.js"></script>
+  <main ng-include=" page.href.slice(2) + '.html' "></main>
+
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
   <script src="../ng-widgets.js"></script>
   <script>
@@ -39,11 +23,6 @@
       $http.get('../README.md').then(function(res){
         $scope.readme = res.data;
       });
-
-      $scope.users = [
-        {name: 'Admin', email: 'admin@site.com'},
-        {name: 'User', email: 'user@site.com'}
-      ];
     }
 
     angular

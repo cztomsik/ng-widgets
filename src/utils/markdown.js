@@ -18,6 +18,10 @@ module.exports = function($sce, $log){
   }
 
   return function(source){
-    return source && $sce.trustAsHtml(makeHtml(source));
+    return source && $sce.trustAsHtml(makeHtml(fixEmail(source)));
   };
 };
+
+function fixEmail(markdown){
+  return markdown.replace(/<(\w+\@\w+\.\w+)>/g, '<a href="mailto:$1">$1</a>');
+}

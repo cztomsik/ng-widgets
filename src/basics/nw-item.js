@@ -2,8 +2,11 @@
 
 module.exports = function(ngWidget){
   return ngWidget({
+    require: ['^nwList'],
+
     defaults: {
-      name: ''
+      name: '',
+      href: ''
     },
 
     link: function($scope, $element, $attrs, ctrls){

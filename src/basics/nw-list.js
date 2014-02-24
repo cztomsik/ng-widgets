@@ -7,6 +7,7 @@ var
 module.exports = function(ngWidget){
   return ngWidget({
     template:
+      '<content></content>' +
       '<ul ng-show=" items " class="{{ listClass }}">' +
       '  <li ng-repeat=" it in items " ng-class="{ {{ activeClass }}: it == ngModel.$modelValue }">' +
       '    <a href="" ng-click=" ngModel.$setViewValue(it) ">{{ it.name }}</a>' +
@@ -18,7 +19,8 @@ module.exports = function(ngWidget){
       items: [],
       emptyText: 'No items found',
       activeClass: 'active',
-      listClass: ''
+      listClass: '',
+      autoselect: false
     },
 
     controller: function($scope){
@@ -38,9 +40,11 @@ module.exports = function(ngWidget){
     link: function($scope, $element){
       $scope.ngModel = $element.controller('ngModel');
 
-      //if ('autoselect' in $scope){
-      //
-      //}
+      $scope.$watch('ngModel && ( ! ngModel.$modelValue) && autoselect && items', function(items){
+        if (items){
+          $scope.ngModel.$setViewValue(items[Object.keys(items)[0]]);
+        }
+      });
     }
   });
 };

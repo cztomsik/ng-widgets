@@ -16,7 +16,7 @@ section{background: #fff; padding: 4em}
 section:nth-child(2n){background: #eef}
 
 dl, example{display: block; position: relative; padding: 1em 0}
-pre{opacity: 0; position: absolute; right: 4em; bottom: 0; font-size: 0.8em; padding: 1em; box-shadow: 3px 5px 20px #666}
+.suite pre{opacity: 0; position: absolute; right: 4em; bottom: 0; font-size: 0.8em; padding: 1em; box-shadow: 3px 5px 20px #666}
 example div{max-width: 40em}
 
 dt:hover + dd pre, example:hover pre{opacity: 1; transition: opacity 0.3s;}

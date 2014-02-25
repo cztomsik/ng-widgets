@@ -134,9 +134,7 @@ module.exports = function(ngWidget){
       '    </th>' +
       '    </tr>' +
       '  </thead>' +
-      '  <tbody>' +
-      '    <tr><td>Value</td></tr>' +
-      '  </tbody>' +
+      '  <tbody></tbody>' +
       '</table>',
 
     defaults: {
@@ -145,7 +143,7 @@ module.exports = function(ngWidget){
       autosort: true
     },
 
-    controller: function($scope, $compile){
+    controller: function($scope, $element, $compile){
       var
         gridCtrl = this
       ;
@@ -158,32 +156,33 @@ module.exports = function(ngWidget){
         _.pull($scope.cols, col);
       };
 
-      //TODO: injector during
-      $scope.$compile = $compile;
-
-      $scope.$watch('cols', function(){
+      $scope.$watchCollection('cols', function(){
         if ($scope.autosort){
           $scope.sortCol = $scope.cols[0];
         }
-      });
-    },
 
-    link: function($scope, $element){
-      //initialize using elements
-      var
-        tr = $element.find('tbody tr'),
-        trHtml = ''
-      ;
-
-      //init repeater
-      tr.attr('ng-repeat', ' it in items | orderBy:sortCol.index:reverse ');
-
-      $scope.cols.forEach(function(col){
-        trHtml += '<td>' + col.template() + '</td>';
+        updateCols();
       });
 
-      //TODO: find better way to compile new elements in link phase
-      $scope.$compile(tr.html(trHtml))($scope);
+
+      function updateCols(){
+        var
+          tbody = $element.find('tbody'),
+          tr = angular.element('<tr></tr>'),
+          trHtml = ''
+        ;
+
+        //init repeater
+        tr.attr('ng-repeat', ' it in items | orderBy:sortCol.index:reverse ');
+
+        $scope.cols.forEach(function(col){
+          trHtml += '<td>' + col.template() + '</td>';
+        });
+
+        tbody.html('');
+        tbody.append(tr.html(trHtml));
+        $compile(tr)($scope);
+      }
     }
   });
 };

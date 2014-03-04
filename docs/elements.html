@@ -35,8 +35,10 @@ assert.strictEqual(btnDanger.length, 1);</code></pre></dd>
     <section class="suite">
       <h1>&lt;nw-grid</h1>
       <dl>
-<example><div> <nw-grid items=" users " limit="3" offset="1">  <nw-grid-col name="Name" index="name"></nw-grid-col>  <nw-grid-col name="Actions">    <template><a href="">Edit</a></template>  </nw-grid-col></nw-grid> </div><pre ng-non-bindable>&lt;nw-grid items=" users " limit="3" offset="1"&gt;
+<example><div> <nw-grid items=" users " limit="3" offset="1">  <nw-grid-col name="Name" index="name"></nw-grid-col>  <nw-grid-col name="Email" index="email"></nw-grid-col>  <nw-grid-col name="Actions">    <template><a href="">Edit</a></template>  </nw-grid-col></nw-grid> </div><pre ng-non-bindable>&lt;nw-grid items=" users " limit="3" offset="1"&gt;
   &lt;nw-grid-col name="Name" index="name"&gt;
+&lt;/nw-grid-col&gt;
+  &lt;nw-grid-col name="Email" index="email"&gt;
 &lt;/nw-grid-col&gt;
   &lt;nw-grid-col name="Actions"&gt;
     &lt;template&gt;
@@ -48,8 +50,8 @@ Edit&lt;/a&gt;
 </pre> </example>
         <dt>shows .table with defined cols</dt>
         <dd><pre><code>assert.strictEqual(table.length, 1);
-assert.strictEqual(cols.length, 2);</code></pre></dd>
-        <dt>filters rows using limit and offset</dt>
+assert.strictEqual(cols.length, 3);</code></pre></dd>
+        <dt>filters sorted rows using limit and offset</dt>
         <dd><pre><code>assert.strictEqual(rows.length, 3);
 assert.strictEqual(rows.eq(0).text().trim(), 'AdminEdit');</code></pre></dd>
       </dl>

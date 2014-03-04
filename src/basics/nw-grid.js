@@ -21,13 +21,13 @@ module.exports = function(ngWidget){
 
     template:
       '<content></content>' +
-      '<table class="table table-striped table-hover table-bordered">' +
+      '<table class="table table-striped table-hover table-bordered" ng-show=" cols ">' +
       '  <thead>' +
       '    <tr>' +
       '    <th' +
       '      ng-repeat=" col in cols " ' +
-      '      ng-class=" {active: col == sortCol} " ' +
-      '      ng-click=" $parent.reverse = ((col == sortCol) && !reverse); $parent.sortCol = col " ' +
+      '      ng-class=" {active: $index == $parent.sortIndex} " ' +
+      '      ng-click=" $parent.reverse = (($parent.sortIndex == $index) && !reverse); $parent.sortIndex = $index " ' +
       '    >' +
       '      {{ col.name }} ' +
       '      <i class="fa fa-caret-{{ reverse ?\'down\' :\'up\' }} pull-right"></i>' +
@@ -40,13 +40,13 @@ module.exports = function(ngWidget){
     defaults: {
       items: [],
       cols: [],
-      autosort: true,
+      sortIndex: 0,
       reverse: false,
       limit: 0,
       offset: 0
     },
 
-    controller: function($scope, $element, $compile){
+    controller: function($scope, $element, $compile, orderByFilter){
       var
         gridCtrl = this
       ;
@@ -60,16 +60,14 @@ module.exports = function(ngWidget){
       };
 
       $scope.visibleItems = function(){
-        return (this.items || []).slice(this.offset).slice(0, this.limit || undefined);
+        return (
+          orderByFilter(this.items || [], this.cols[this.sortIndex].index, this.reverse)
+            .slice(this.offset)
+            .slice(0, this.limit || undefined)
+        );
       };
 
-      $scope.$watchCollection('cols', function(){
-        if ($scope.autosort){
-          $scope.sortCol = $scope.cols[0];
-        }
-
-        updateCols();
-      });
+      $scope.$watchCollection('cols', updateCols);
 
 
       function updateCols(){
@@ -80,7 +78,7 @@ module.exports = function(ngWidget){
         ;
 
         //init repeater
-        tr.attr('ng-repeat', ' it in visibleItems() | orderBy:sortCol.index:reverse ');
+        tr.attr('ng-repeat', ' it in visibleItems() ');
 
         $scope.cols.forEach(function(col){
           trHtml += '<td>' + col.template() + '</td>';

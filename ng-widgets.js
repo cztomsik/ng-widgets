@@ -140,7 +140,10 @@ module.exports = function(ngWidget){
     defaults: {
       items: [],
       cols: [],
-      autosort: true
+      autosort: true,
+      reverse: false,
+      limit: 0,
+      offset: 0
     },
 
     controller: function($scope, $element, $compile){
@@ -154,6 +157,10 @@ module.exports = function(ngWidget){
 
       gridCtrl.removeCol = function(col){
         _.pull($scope.cols, col);
+      };
+
+      $scope.visibleItems = function(){
+        return (this.items || []).slice(this.offset).slice(0, this.limit || undefined);
       };
 
       $scope.$watchCollection('cols', function(){
@@ -173,7 +180,7 @@ module.exports = function(ngWidget){
         ;
 
         //init repeater
-        tr.attr('ng-repeat', ' it in items | orderBy:sortCol.index:reverse ');
+        tr.attr('ng-repeat', ' it in visibleItems() | orderBy:sortCol.index:reverse ');
 
         $scope.cols.forEach(function(col){
           trHtml += '<td>' + col.template() + '</td>';

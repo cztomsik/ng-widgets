@@ -3,7 +3,7 @@
 module.exports = function(ngWidget){
   return ngWidget({
     template:
-      '<a class="btn btn-{{ type }}">' +
+      '<a class="btn btn-{{ type }}" ng-class=" {disabled: ngDisabled} ">' +
       '  <i class="fa fa-{{ icon }}" ng-show=" icon "></i>' +
       '  {{ name }}' +
       '</a>',
@@ -11,7 +11,16 @@ module.exports = function(ngWidget){
     defaults: {
       name: '',
       icon: '',
-      type: 'default'
+      type: 'default',
+      ngDisabled: false
+    },
+
+    link: function($scope, $element){
+      $element.on('click', function($event){
+        if ($scope.ngDisabled){
+          $event.stopImmediatePropagation();
+        }
+      });
     }
   });
 };

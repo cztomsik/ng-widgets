@@ -9,8 +9,9 @@ describe('<nw-btn', function(){
   var
     $element = example(
       '<nw-btn name="Button"></nw-btn>' +
-      '<nw-btn type="danger" icon="trash-o"></nw-btn>'
+      '<nw-btn type="danger" icon="trash-o" ng-disabled=" true " ng-click=" shouldNotHappen = true "></nw-btn>'
     ),
+    $scope = $element.scope(),
 
     btn = $element.find('.btn'),
 
@@ -34,6 +35,17 @@ describe('<nw-btn', function(){
 
   it('adds fa-* classes based on given [icon]', function(){
     assert(trashIcon.length);
+  });
+
+  it('adds .disabled class to ng-disabled', function(){
+    assert(btnDanger.hasClass('disabled'));
+  });
+
+  it('ng-disabled stops clicks', function(){
+    ///$element.eq(1).triggerHandler('click');
+
+    //untestable - because of triggerHandler
+    //assert( ! $scope.shouldNotHappen);
   });
 
   it('logs an error if no [ng-click] was given', function(){

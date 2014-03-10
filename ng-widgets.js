@@ -1,5 +1,6 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};'use strict';
+(function (global){
+'use strict';
 
 var
   angular = require('angular'),
@@ -38,6 +39,7 @@ ngWidgets
   .directive('nwSaveBtn', require('./src/forms/nw-save-btn'))
   .directive('nwDeleteBtn', require('./src/forms/nw-delete-btn'))
 ;
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./src/basics/nw-btn":4,"./src/basics/nw-grid":6,"./src/basics/nw-grid-col":5,"./src/basics/nw-item":7,"./src/basics/nw-list":8,"./src/basics/nw-modal":9,"./src/basics/nw-navbar":10,"./src/basics/nw-panel":11,"./src/basics/nw-tab":12,"./src/basics/nw-tabs":13,"./src/forms/nw-delete-btn":14,"./src/forms/nw-field":15,"./src/forms/nw-save-btn":16,"./src/utils/content":17,"./src/utils/markdown.js":18,"./src/utils/ng-widget.js":19,"./src/utils/nw-lipsum":20,"./src/utils/qsa.js":21,"angular":2}],2:[function(require,module,exports){
 'use strict';
 
@@ -52,7 +54,7 @@ module.exports = window.Showdown;
 module.exports = function(ngWidget){
   return ngWidget({
     template:
-      '<a class="btn btn-{{ type }}">' +
+      '<a class="btn btn-{{ type }}" ng-class=" {disabled: ngDisabled} ">' +
       '  <i class="fa fa-{{ icon }}" ng-show=" icon "></i>' +
       '  {{ name }}' +
       '</a>',
@@ -60,7 +62,16 @@ module.exports = function(ngWidget){
     defaults: {
       name: '',
       icon: '',
-      type: 'default'
+      type: 'default',
+      ngDisabled: false
+    },
+
+    link: function($scope, $element){
+      $element.on('click', function($event){
+        if ($scope.ngDisabled){
+          $event.stopImmediatePropagation();
+        }
+      });
     }
   });
 };
@@ -487,7 +498,8 @@ function fixEmail(markdown){
   return markdown.replace(/<(\w+\@\w+\.\w+)>/g, '<a href="mailto:$1">$1</a>');
 }
 },{"angular":2,"showdown":3}],19:[function(require,module,exports){
-var global=typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {};'use strict';
+(function (global){
+'use strict';
 
 var
   angular = require('angular')
@@ -557,6 +569,7 @@ function dotSet(obj, prop){
     obj[prop] = val;
   };
 }
+}).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"angular":2}],20:[function(require,module,exports){
 'use strict';
 

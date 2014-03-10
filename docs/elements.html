@@ -18,7 +18,7 @@ assert.strictEqual(panelHeading.text(), $scope.panelName);</code></pre></dd>
     <section class="suite">
       <h1>&lt;nw-btn</h1>
       <dl>
-<example><div> <nw-btn name="Button"></nw-btn><nw-btn type="danger" icon="trash-o"></nw-btn> </div><pre ng-non-bindable>&lt;nw-btn name="Button"&gt;&lt;/nw-btn&gt;&lt;nw-btn type="danger" icon="trash-o"&gt;&lt;/nw-btn&gt;</pre> </example>
+<example><div> <nw-btn name="Button"></nw-btn><nw-btn type="danger" icon="trash-o" ng-disabled=" true " ng-click=" shouldNotHappen = true "></nw-btn> </div><pre ng-non-bindable>&lt;nw-btn name="Button"&gt;&lt;/nw-btn&gt;&lt;nw-btn type="danger" icon="trash-o" ng-disabled=" true " ng-click=" shouldNotHappen = true "&gt;&lt;/nw-btn&gt;</pre> </example>
         <dt>renders .btn</dt>
         <dd><pre><code>assert.strictEqual(btn.length, 2);</code></pre></dd>
         <dt>.btn-default in no [type] was given</dt>
@@ -28,6 +28,12 @@ assert.strictEqual(btnDanger.length, 1);</code></pre></dd>
         <dd><pre><code>assert.strictEqual(btnDefault.text().trim(), 'Button');</code></pre></dd>
         <dt>adds fa-* classes based on given [icon]</dt>
         <dd><pre><code>assert(trashIcon.length);</code></pre></dd>
+        <dt>adds .disabled class to ng-disabled</dt>
+        <dd><pre><code>assert(btnDanger.hasClass('disabled'));</code></pre></dd>
+        <dt>ng-disabled stops clicks</dt>
+        <dd><pre><code>///$element.eq(1).triggerHandler('click');
+//untestable - because of triggerHandler
+//assert( ! $scope.shouldNotHappen);</code></pre></dd>
         <dt>logs an error if no [ng-click] was given</dt>
         <dd><pre><code>//TODO: test</code></pre></dd>
       </dl>

@@ -1,4 +1,6 @@
-<h3 class="doc-link"><a href="http://tomsik.cz/ng-widgets/docs/">Browse full documentation</a></h3>
+# Deprecated
+
+<!--<h3 class="doc-link"><a href="http://tomsik.cz/ng-widgets/docs/">Browse full documentation</a></h3>-->
 
 <iframe src="http://ghbtns.com/github-btn.html?user=cztomsik&amp;repo=ng-widgets&amp;type=watch&amp;size=large&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="170" height="30"></iframe>
 [![Build Status](https://travis-ci.org/cztomsik/ng-widgets.png?branch=master)](https://travis-ci.org/cztomsik/ng-widgets)
